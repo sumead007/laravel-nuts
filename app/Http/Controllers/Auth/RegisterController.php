@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -29,7 +32,9 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    // protected $redirectTo = "/";
+    protected $redirectTo = "{{route('login')}}";
+
 
     /**
      * Create a new controller instance.
@@ -51,23 +56,32 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'username' => ['required', 'string', 'max:255', 'unique:users', 'unique:admins'],
+            'telephone' => ['required', 'numeric',  'digits:10', 'unique:users', 'unique:admins'],
+            'password' => ['required', 'string', 'min:8', 'max:20', 'confirmed'],
         ]);
     }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\Models\User
-     */
+    ///คอมเม้นนี้คือ หลังจากสมัครจะไม่ให้ล็อกอิน
+    // /**
+    //  * Create a new user instance after a valid registration.
+    //  *
+    //  * @param  array  $data
+    //  * @return \App\Models\User
+    //  */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
-            'email' => $data['email'],
+            'username' => $data['username'],
+            'telephone' => $data['telephone'],
+            'money' => 0.0,
             'password' => Hash::make($data['password']),
         ]);
+        // คอมเม้นนี้คือ หลังจากสมัครจะไม่ให้ล็อกอิน **อย่าลืมเอา return ออก
+        event(new Registered($user));
+        session()->flash('success', 'ลงทะเบียนสำเร็จกรุณาล็อกอิน');
+        throw new AuthenticationException();
+        // flash('Registration successful! Awaiting approval from admin.')->success()->important();
     }
 }

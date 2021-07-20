@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -36,5 +38,18 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    public function login(Request $request)
+    {
+        $credential = array("username" => $request->input('username'), 'password' => $request->input('password'),);
+        if (Auth::guard('admin')->attempt($credential)) {
+            // return dd(auth('customer')->user());
+            return redirect('/');
+        } elseif (Auth::guard('user')->attempt($credential)) {
+            return redirect('/');
+        } else {
+            return redirect()->route('login')->with('error', 'รหัสหรือชื่อผู้ใช้ไม่ถูกต้อง');
+        }
     }
 }
