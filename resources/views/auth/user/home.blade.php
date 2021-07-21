@@ -3,6 +3,10 @@
 @section('content')
 
     <style>
+        body {
+            margin: 0;
+        }
+
         .statistics {
             background-image: url('{{ asset('images/background/1.jpg') }}');
             background-size: contain;
@@ -10,14 +14,41 @@
             background-size: 100%;
         }
 
+        .navbar-button {
+            overflow: hidden;
+            /* background-color: #333; */
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-image: linear-gradient(#BC8C64, #C1691B, #615F5D);
+            /* background-attachment: fixed; */
+        }
+
+        .header-bet {
+            background-image: linear-gradient(#925415, #3A1D1D);
+            height: 40px;
+            margin: auto;
+            padding: 10px;
+        }
+
+        .content-bet {
+            background-color: #A27140;
+            height: 15%;
+        }
+
+        .footer-bet {
+            background-image: linear-gradient(#925415, #3A1D1D);
+            height: 40px;
+        }
+
     </style>
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <img src="{{ asset('images/example_video/1.jpg') }}" alt="{{ asset('images/example_video/1.jpg') }}"
-                    width="100%" height="80%">
+                    width="100%" height="100%">
             </div>
-            <div class="col-md-4 statistics p-4">
+            <div class="col-md-4  p-4 statistics">
                 <h3 align="center" class="text-light">สถิติย้อนหลัง</h3>
                 <table class="table table-light table-hover" width="100%">
                     <thead>
@@ -49,7 +80,94 @@
                     </tbody>
                 </table>
             </div>
+        </div>
 
+
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="row pl-3 pr-3 mt-4">
+                    <div class="col-md-12 header-bet">
+                        <p class="text-white">เดิมพัน</p>
+                    </div>
+                </div>
+                <div class="row pl-3 pr-3 ">
+                    <div class="col-md-12 content-bet">
+                        <div class="d-flex justify-content-between">
+                            <img src="{{ asset('images/btn/1.png') }}" alt="{{ asset('images/btn/1.png') }}"
+                                width="15%">
+                            <img src="{{ asset('images/btn/2.png') }}" alt="{{ asset('images/btn/2.png') }}"
+                                width="15%">
+                            <img src="{{ asset('images/btn/3.png') }}" alt="{{ asset('images/btn/3.png') }}"
+                                width="15%">
+                            <img src="{{ asset('images/btn/4.png') }}" alt="{{ asset('images/btn/4.png') }}"
+                                width="15%">
+                        </div>
+                    </div>
+                </div>
+                <div class="row pl-3 pr-3">
+                    <div class="col-md-12 footer-bet">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mt-4">
+                <table class="table table-light table-hover" width="100%">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">First</th>
+                            <th scope="col">Last</th>
+                            <th scope="col">Handle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>@mdo</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>Jacob</td>
+                            <td>Thornton</td>
+                            <td>@fat</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td colspan="2">Larry the Bird</td>
+                            <td>@twitter</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">4</th>
+                            <td colspan="2">Larry the Bird</td>
+                            <td>@twitter</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
+
+    <nav class="navbar navbar-button">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="input-group ">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">ชื่อผู้ใช้</div>
+                    </div>
+                    <input type="text" class="form-control" id="username" name="username"
+                        value="{{ auth()->guard('user')->user()->username }}" disabled>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">จำนวนเงินคงเหลือ</div>
+                    </div>
+                    <input type="text" class="form-control" id="money" name="money"
+                        value="{{ auth()->guard('user')->user()->money }}" disabled>
+                </div>
+            </div>
+        </div>
+    </nav>
 @endsection
