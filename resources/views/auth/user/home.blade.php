@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.user.app')
 
 @section('content')
 
@@ -14,15 +14,7 @@
             background-size: 100%;
         }
 
-        .navbar-button {
-            overflow: hidden;
-            /* background-color: #333; */
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background-image: linear-gradient(#BC8C64, #C1691B, #615F5D);
-            /* background-attachment: fixed; */
-        }
+
 
         .header-bet {
             background-image: linear-gradient(#925415, #3A1D1D);
@@ -147,27 +139,4 @@
             </div>
         </div>
     </div>
-
-    <nav class="navbar navbar-button">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="input-group ">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">ชื่อผู้ใช้</div>
-                    </div>
-                    <input type="text" class="form-control" id="username" name="username"
-                        value="{{ auth()->guard('user')->user()->username }}" disabled>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">จำนวนเงินคงเหลือ</div>
-                    </div>
-                    <input type="text" class="form-control" id="money" name="money"
-                        value="{{ auth()->guard('user')->user()->money }}" disabled>
-                </div>
-            </div>
-        </div>
-    </nav>
 @endsection

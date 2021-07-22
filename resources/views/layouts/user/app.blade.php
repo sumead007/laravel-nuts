@@ -19,6 +19,23 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    {{-- sweetalert2 --}}
+    <script src="{{ asset('sweetalert2/dist/sweetalert2.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('sweetalert2/dist/sweetalert2.min.css') }}">
+
+    <style>
+        .navbar-button {
+            overflow: hidden;
+            /* background-color: #333; */
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-image: linear-gradient(#BC8C64, #C1691B, #615F5D);
+            /* background-attachment: fixed; */
+        }
+
+    </style>
 </head>
 
 <body style="background-image: linear-gradient(#1F6A95, #10354B); background-attachment: fixed;">
@@ -38,7 +55,7 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="#">เติมเงิน</a>
+                            <a class="nav-link" aria-current="page" href="{{ route('user.home') }}">เติมเงิน</a>
                         </li>
                     </ul>
 
@@ -86,6 +103,12 @@
             @yield('content')
         </main>
     </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    {{-- ชื่อผู้ใช้ เงินคงเหลือ --}}
+    @include('layouts.user.nav-bar-button')
 </body>
 
 </html>

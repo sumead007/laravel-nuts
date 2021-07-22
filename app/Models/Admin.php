@@ -38,4 +38,8 @@ class Admin extends Authenticatable
     {
         return $this->password;
     }
+
+    public function bank_organization(){
+        return $this->hasMany(BankOrganization::class,'id');
+    }
 }
