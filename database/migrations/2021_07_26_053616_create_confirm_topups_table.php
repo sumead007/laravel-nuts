@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAgentsTable extends Migration
+class CreateConfirmTopupsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,11 @@ class CreateAgentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('agents', function (Blueprint $table) {
+        Schema::create('confirm_topups', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('username')->unique();
-            $table->string('password');
-            $table->integer('telephone')->length(10)->unsigned();
-            $table->string('wallet');
-            $table->string('share_percentage');
             $table->integer('admin_id');
-            $table->rememberToken();
+            $table->integer('topup_id');
+            $table->string('note');
             $table->timestamps();
         });
     }
@@ -34,6 +29,6 @@ class CreateAgentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('agents');
+        Schema::dropIfExists('confirm_topups');
     }
 }

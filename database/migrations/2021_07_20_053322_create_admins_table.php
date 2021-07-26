@@ -19,6 +19,10 @@ class CreateAdminsTable extends Migration
             $table->string('username')->unique();
             $table->string('password');
             $table->integer('telephone')->length(10)->unsigned();
+            $table->string('credit');
+            $table->string('share_percentage')->comment = 'เปอร์เซนหุ้น';//เปอร์เซนหุ้น
+            $table->integer('position')->nullable()->comment = 'ตำแหน่งงาน 0 = เจ้าของ, 1 = เอเยน';
+            $table->integer('admin_id')->nullable()->comment = 'ถ้าเป็นเอเจน มาจาก เจ้าของคนไหน';
             $table->rememberToken();
             $table->timestamps();
         });

@@ -36,13 +36,17 @@
         }
 
     </style>
+
+    {{-- jquery --}}
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
+
 </head>
 
 <body style="background-image: linear-gradient(#1F6A95, #10354B); background-attachment: fixed;">
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="{{ route('admin.home') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -55,7 +59,8 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="{{ route('user.home') }}">เติมเงิน</a>
+                            <a class="nav-link" aria-current="page"
+                                href="{{ route('admin.accept.top_up.view') }}">ยืนยันการเติมเงิน</a>
                         </li>
                     </ul>
 
@@ -78,7 +83,7 @@
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::guard('user')->user()->name }}
+                                    {{ Auth::guard('admin')->user()->name }}
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">

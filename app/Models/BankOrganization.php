@@ -19,16 +19,12 @@ class BankOrganization extends Model
         'name_account',
         'name_bank',
         'admin_id',
-        'agent_id',
     ];
 
-    public function agent()
+    public function top_up()
     {
-        return $this->belongsTo(Agent::class, 'agent_id');
+        return $this->hasMany(TopUp::class, 'id');
     }
 
-    public function admin()
-    {
-        return $this->belongsTo(Admin::class, 'admin_id');
-    }
+
 }

@@ -45,7 +45,7 @@ class LoginController extends Controller
         $credential = array("username" => $request->input('username'), 'password' => $request->input('password'),);
         if (Auth::guard('admin')->attempt($credential)) {
             // return dd(auth('customer')->user());
-            return redirect('/');
+            return redirect('/admin/home');
         } elseif (Auth::guard('user')->attempt($credential)) {
             return redirect('/');
         } else {

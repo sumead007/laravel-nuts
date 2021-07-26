@@ -12,13 +12,8 @@ class TopupController extends Controller
 {
     public function index()
     {
-        $agent_id = Auth::guard('user')->user()->agent_id;
         $admin_id = Auth::guard('user')->user()->admin_id;
-        if ($agent_id != null) {
-            $bank_organizations = BankOrganization::where('agent_id', $agent_id)->get();
-        } else {
-            $bank_organizations = BankOrganization::where('admin_id', $admin_id)->get();
-        }
+        $bank_organizations = BankOrganization::where('admin_id', $admin_id)->get();
         // return dd($bank_organizations);
         return view('auth.user.top_up.home', compact('bank_organizations'));
     }
