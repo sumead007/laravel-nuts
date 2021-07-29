@@ -46,4 +46,8 @@ class Admin extends Authenticatable
     public function bank_organization(){
         return $this->hasMany(BankOrganization::class,'id');
     }
+
+    public function user(){
+        return $this->hasMany(User::class,'id');
+    }
 }

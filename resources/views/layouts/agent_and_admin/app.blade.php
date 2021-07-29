@@ -40,6 +40,7 @@
     {{-- jquery --}}
     <script src="{{ asset('js/jquery.min.js') }}"></script>
 
+
 </head>
 
 <body style="background-image: linear-gradient(#1F6A95, #10354B); background-attachment: fixed;">
@@ -61,6 +62,20 @@
                         <li class="nav-item">
                             <a class="nav-link" aria-current="page"
                                 href="{{ route('admin.accept.top_up.view') }}">ยืนยันการเติมเงิน</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                สมาชิก
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item"
+                                    href="{{ route('admin.manage_user.view') }}">จัดการสมาชิก</a>
+                                <a class="dropdown-item"
+                                    href="{{ route('admin.manage_user.link_register.view') }}">ลิงค์สมาชิก</a>
+                                {{-- <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" href="#">Something else here</a> --}}
+                            </div>
                         </li>
                     </ul>
 
@@ -85,11 +100,10 @@
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::guard('admin')->user()->name }}
                                 </a>
-
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                        {{ __('ออกจากระบบ') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST"
@@ -108,6 +122,14 @@
             @yield('content')
         </main>
     </div>
+  {{-- select2 --}}
+  <link href="{{ asset('select2/css/select2.min.css') }}" rel="stylesheet" />
+  <script src="{{ asset('select2/js/select2.min.js') }}" defer></script>
+  <script>
+      // In your Javascript (external .js resource or <script> tag)
+      $(document).ready(function() {
+          $('.select2').select2({ width: '100%' });
+      });
+  </script>
 </body>
-
 </html>

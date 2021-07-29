@@ -179,7 +179,7 @@
         function select_delete(event) {
             var arr = [];
             var type = $(event).data("type");
-            var _url = "{{route('admin.top_up.all_accept.store')}}";
+            var _url = "{{ route('admin.top_up.all_accept.store') }}";
             let _token = $('meta[name="csrf-token"]').attr('content');
             $("input:checkbox[name=select]:checked").each(function() {
                 arr.push({
@@ -268,7 +268,7 @@
                                 data-type="0" onclick="select_delete(event.target)">ยืนยันการโอนเงินที่เลือก</a>
                             <a href="javascript:void(0)" class="btn btn-danger" hidden="true" id="cancel_select"
                                 data-type="1" onclick="select_delete(event.target)">ยกเลิกการโอนเงินที่เลือก</a>
-                            <a href="#" class="btn btn-outline-success">ประวัติ</a>
+                            <a href="{{route('admin.top_up.history')}}" class="btn btn-outline-success">ประวัติ</a>
                             {{-- <div class="input-group input-group-sm" style="width: 150px;">
                                 <input type="text" name="table_search" class="form-control float-right"
                                     placeholder="Search">
@@ -302,56 +302,58 @@
                             </thead>
                             <tbody>
                                 @foreach ($top_ups as $top_up)
-                                    <tr align="center" id="row_{{ $top_up->id }}">
-                                        <th id="td_choese" class="align-middle" hidden>
-                                            <div align="center">
-                                                <input type="checkbox" class="form-check" name="select"
-                                                    data-cusm_id="{{ $top_up->user->id }}" id="select_input"
-                                                    value="{{ $top_up->id }}">
-                                            </div>
-                                        </th>
-                                        <td class="align-middle">
-                                            {{ $top_up->user->username }}
-                                        </td>
-                                        <td class="align-middle">
-                                            <a href="#" class="pop">
-                                                <img src="{{ asset($top_up->image) }}" alt="{{ $top_up->image }}"
-                                                    width="100" height="100">
-                                            </a>
-                                        </td>
-                                        <td class="align-middle">{{ $top_up->number_account }}</td>
-                                        <td class="align-middle">{{ $top_up->name_bank }}</td>
-                                        <td class="align-middle">{{ $top_up->name_account }}</td>
-                                        <td class="align-middle">{{ $top_up->money }}</td>
-                                        <td class="align-middle">
-                                            {{ $top_up->bank_organization->name_account }}
-                                            <br>
-                                            {{ $top_up->bank_organization->number_account }}
-                                            <br>
-                                            {{ $top_up->bank_organization->name_bank }}
+                                    @if ($top_up->user->admin_id == Auth::guard('admin')->user()->id)
+                                        <tr align="center" id="row_{{ $top_up->id }}">
+                                            <th id="td_choese" class="align-middle" hidden>
+                                                <div align="center">
+                                                    <input type="checkbox" class="form-check" name="select"
+                                                        data-cusm_id="{{ $top_up->user->id }}" id="select_input"
+                                                        value="{{ $top_up->id }}">
+                                                </div>
+                                            </th>
+                                            <td class="align-middle">
+                                                {{ $top_up->user->username }}
+                                            </td>
+                                            <td class="align-middle">
+                                                <a href="#" class="pop">
+                                                    <img src="{{ asset($top_up->image) }}" alt="{{ $top_up->image }}"
+                                                        width="100" height="100">
+                                                </a>
+                                            </td>
+                                            <td class="align-middle">{{ $top_up->number_account }}</td>
+                                            <td class="align-middle">{{ $top_up->name_bank }}</td>
+                                            <td class="align-middle">{{ $top_up->name_account }}</td>
+                                            <td class="align-middle">{{ $top_up->money }}</td>
+                                            <td class="align-middle">
+                                                {{ $top_up->bank_organization->name_account }}
+                                                <br>
+                                                {{ $top_up->bank_organization->number_account }}
+                                                <br>
+                                                {{ $top_up->bank_organization->name_bank }}
 
-                                        </td>
-                                        <td class="align-middle">
-                                            @if ($top_up->status == 0)
-                                                รอการยืนยัน
-                                            @elseif ($top_up->status == 1)
-                                                สำเร็จ
-                                            @else
-                                                มีข้อผิดพลาด
-                                            @endif
-                                        </td>
-                                        <th scope="row" class="align-middle">
-                                            {{ Carbon\Carbon::parse($top_up->updated_at)->locale('th')->diffForHumans() }}
-                                        </th>
-                                        <td class="align-middle" align="center">
-                                            <a href="javascript:void(0)" class="btn btn-success" data-type="0"
-                                                data-id="{{ $top_up->id }}" data-cusm_id="{{ $top_up->user->id }}"
-                                                id='btn_accept' onclick="processAccetpe(event.target)">ยืนยัน</a>
-                                            <a href="javascript:void(0)" class="btn btn-danger" data-type="1"
-                                                data-cusm_id="{{ $top_up->user->id }}" data-id="{{ $top_up->id }}"
-                                                onclick="processAccetpe(event.target)" id='btn_cancel'>ยกเลิก</a>
-                                        </td>
-                                    </tr>
+                                            </td>
+                                            <td class="align-middle">
+                                                @if ($top_up->status == 0)
+                                                    รอการยืนยัน
+                                                @elseif ($top_up->status == 1)
+                                                    สำเร็จ
+                                                @else
+                                                    มีข้อผิดพลาด
+                                                @endif
+                                            </td>
+                                            <th scope="row" class="align-middle">
+                                                {{ Carbon\Carbon::parse($top_up->updated_at)->locale('th')->diffForHumans() }}
+                                            </th>
+                                            <td class="align-middle" align="center">
+                                                <a href="javascript:void(0)" class="btn btn-success" data-type="0"
+                                                    data-id="{{ $top_up->id }}" data-cusm_id="{{ $top_up->user->id }}"
+                                                    id='btn_accept' onclick="processAccetpe(event.target)">ยืนยัน</a>
+                                                <a href="javascript:void(0)" class="btn btn-danger" data-type="1"
+                                                    data-cusm_id="{{ $top_up->user->id }}" data-id="{{ $top_up->id }}"
+                                                    onclick="processAccetpe(event.target)" id='btn_cancel'>ยกเลิก</a>
+                                            </td>
+                                        </tr>
+                                    @endif
                                 @endforeach
                             </tbody>
                         </table>

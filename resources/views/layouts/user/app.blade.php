@@ -36,6 +36,8 @@
         }
 
     </style>
+    {{-- jquery --}}
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
 </head>
 
 <body style="background-image: linear-gradient(#1F6A95, #10354B); background-attachment: fixed;">
@@ -84,7 +86,7 @@
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                        {{ __('ออกจากระบบ') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST"

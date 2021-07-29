@@ -105,4 +105,10 @@ class AcceptTopupController extends Controller
         }
         return response()->json(["code" => "200", "message" => "ทำรายการสำเร็จ", "data" => $request->pass]);
     }
+
+    public function history()
+    {
+        $confirm_topups = ConfirmTopup::where('admin_id', Auth::guard('admin')->user()->id)->orderByDesc('created_at')->paginate(10);
+        return view('auth.agent_and_admin.accept_topup.history', compact('confirm_topups'));
+    }
 }

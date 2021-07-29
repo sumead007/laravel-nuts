@@ -86,6 +86,9 @@
 
                     <div class="card-body">
                         <p class="text-danger">*กรุณาตรวจสอบให้ดี</p>
+                        <div align="right">
+                            <a href="{{route('user.top_up.history')}}" class="btn btn-success">ประวัติ</a>
+                        </div>
                         @if (session('error'))
                             <div class="alert alert-danger alert-dismissible fade show">
                                 <strong>Error!</strong> {{ session('error') }}

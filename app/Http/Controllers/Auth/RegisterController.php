@@ -59,6 +59,7 @@ class RegisterController extends Controller
             'username' => ['required', 'string', 'max:255', 'unique:users', 'unique:admins'],
             'telephone' => ['required', 'numeric',  'digits:10', 'unique:users', 'unique:admins'],
             'password' => ['required', 'string', 'min:8', 'max:20', 'confirmed'],
+            'admin_id' => ['required', 'numeric'],
         ]);
     }
 
@@ -76,6 +77,7 @@ class RegisterController extends Controller
             'username' => $data['username'],
             'telephone' => $data['telephone'],
             'money' => 0.0,
+            'admin_id' => $data['admin_id'],
             'password' => Hash::make($data['password']),
         ]);
         // คอมเม้นนี้คือ หลังจากสมัครจะไม่ให้ล็อกอิน **อย่าลืมเอา return ออก

@@ -22,6 +22,7 @@ class User extends Authenticatable
         'username',
         'password',
         'money',
+        'admin_id',
     ];
 
     /**
@@ -46,5 +47,9 @@ class User extends Authenticatable
     public function top_up()
     {
         return $this->hasMany(TopUp::class, 'id');
+    }
+
+    public function admin(){
+        return $this->belongsTo(Admin::class,'admin_id');
     }
 }

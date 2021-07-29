@@ -16,14 +16,25 @@ class add_admin extends Seeder
     {
         $users = [
             [
-                "name" => "แดง",
-                "username" => "sumead008",
+                // addmin
+                // "name" => "เขียว",
+                // "username" => "sumead009",
+                // "password" => bcrypt(12345678),
+                // "telephone" => "0689865121",
+                // "credit" => "unlimited",
+                // "share_percentage" => "0",
+                // "position" => "0",
+                // "admin_id" => null,
+
+                // agent
+                "name" => "รุ้ง",
+                "username" => "sumead011",
                 "password" => bcrypt(12345678),
-                "telephone" => "0689865121",
+                "telephone" => "0898465421",
                 "credit" => "0",
                 "share_percentage" => "0",
                 "position" => "1",
-                "admin_id" => "1",
+                "admin_id" => "3",
             ]
         ];
         foreach ($users as $key => $value) {

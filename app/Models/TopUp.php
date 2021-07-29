@@ -34,4 +34,8 @@ class TopUp extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function confirm_topup(){
+        return $this->hasOne(ConfirmTopup::class, 'id');
+    }
 }

@@ -72,4 +72,10 @@ class TopupController extends Controller
 
         return response()->json(['code' => '200', 'message' => 'บันทึกข้อมูลสำเร็จ', 'data' => $user], 200);
     }
+
+    public function history()
+    {
+        $top_ups = TopUp::where('user_id', Auth::guard('user')->user()->id)->orderByDesc('updated_at')->paginate(10);
+        return view('auth.user.top_up.history', compact('top_ups'));
+    }
 }

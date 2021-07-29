@@ -19,4 +19,8 @@ class ConfirmTopup extends Model
         'topup_id',
         'note',
     ];
+
+    public function top_up(){
+        return $this->belongsTo(TopUp::class,'topup_id');
+    }
 }

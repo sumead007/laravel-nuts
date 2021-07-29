@@ -18,9 +18,9 @@ class GoToLoginPage
     public function handle(Request $request, Closure $next)
     {
         if (Auth::guard('user')->check()) {
-            return response()->view('auth.user.home');
+            return abort(403, 'คุณไม่มีสิทธิ์เข้าถึงหน้าดังกล่าว (กรุณาออกจากระบบก่อน)');
         } elseif (Auth::guard('admin')->check()) {
-            return response()->view('auth.agent_and_admin.accept_topup.home');
+            return abort(403, "คุณไม่มีสิทธิ์เข้าถึงหน้าดังกล่าว (กรุณาออกจากระบบก่อน)");
         } else {
             return $next($request);
         }
