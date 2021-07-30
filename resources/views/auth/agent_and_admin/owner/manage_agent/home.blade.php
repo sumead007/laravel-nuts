@@ -394,7 +394,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">จัดการลูกค้า</h3>
+                        <h3 class="card-title">จัดการข้อมูลเอเย่น</h3>
                     </div>
                     <div class="card-body">
 
@@ -425,64 +425,59 @@
                                         <th scope="col">ชื่อ</th>
                                         <th scope="col">ชื่อผู้ใช้</th>
                                         <th scope="col">เบอร์โทร</th>
-                                        <th scope="col">จำนวนเงิน</th>
+                                        <th scope="col">เครดิต</th>
+                                        <th scope="col">เปอร์เซนหุ้น</th>
                                         <th scope="col">วันที่สมัคร</th>
-                                        @if (Auth::guard('admin')->user()->position == 0)
-                                            <th scope="col">ตัวแทน</th>
-                                        @endif
                                         <th scope="col">อื่นๆ</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($users as $user)
+                                    @foreach ($agents as $agent)
 
-                                        {{-- @if (Auth::guard('admin')->user()->id == $user->admin->admin_id) --}}
-                                        <tr align="center" id="row_{{ $user->id }}">
+                                        <tr align="center" id="row_{{ $agent->id }}">
                                             <th id="td_choese" class="align-middle" hidden>
                                                 <div align="center">
                                                     <input type="checkbox" class="form-check" name="select"
-                                                        data-cusm_id="{{ $user->id }}" id="select_input"
-                                                        value="{{ $user->id }}">
+                                                        data-cusm_id="{{ $agent->id }}" id="select_input"
+                                                        value="{{ $agent->id }}">
                                                 </div>
                                             </th>
                                             <td class="align-middle">
-                                                {{ $user->name }}
+                                                {{ $agent->name }}
                                             </td>
                                             <td class="align-middle">
-                                                {{ $user->username }}
+                                                {{ $agent->username }}
 
                                             </td>
                                             <td class="align-middle">
-                                                {{ $user->telephone }}
+                                                {{ $agent->telephone }}
                                             </td>
                                             <td class="align-middle">
-                                                {{ $user->money }}
+                                                {{ $agent->credit }}
                                             </td>
                                             <td class="align-middle">
-                                                {{ Carbon\Carbon::parse($user->created_at)->locale('th')->diffForHumans() }}
+                                                {{ $agent->share_percentage }}
                                             </td>
-                                            @if (Auth::guard('admin')->user()->position == 0)
-                                                <td class="align-middle">
-                                                    {{ $user->admin_username }}
-                                                </td>
-                                            @endif
+                                            <td class="align-middle">
+                                                {{ Carbon\Carbon::parse($agent->created_at)->locale('th')->diffForHumans() }}
+                                            </td>
                                             <td class="align-middle" align="center">
                                                 <a href="javascript:void(0)" class="btn btn-warning"
-                                                    data-id="{{ $user->id }}" onclick="editPost(event.target)"
+                                                    data-id="{{ $agent->id }}" onclick="editPost(event.target)"
                                                     id='btn_edit'>แก้ไข</a>
                                                 <a href="javascript:void(0)" class="btn btn-danger"
-                                                    data-id="{{ $user->id }}" onclick="deletePost(event.target)"
+                                                    data-id="{{ $agent->id }}" onclick="deletePost(event.target)"
                                                     id='btn_delete'>ลบ</a>
                                             </td>
                                         </tr>
-                                        {{-- @endif --}}
+
                                     @endforeach
                                 </tbody>
                             </table>
                         </div>
 
                         <div class="d-flex justify-content-center">
-                            {!! $users->links() !!}
+                            {{-- {!! $users->links() !!} --}}
                         </div>
                     </div>
 

@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AcceptTopup\AcceptTopupController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\ManageUser\LinkRegisterController;
 use App\Http\Controllers\Admin\ManageUser\ManageUserController;
+use App\Http\Controllers\Admin\Owner\ManageAgent\ManageAgentController;
 use App\Http\Controllers\User\TopUp\TopupController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -62,4 +63,13 @@ Route::middleware(['auth:admin'])->group(function () {
     //1.2 จัดการลูกค้า
     Route::get('admin/manage_user/view', [ManageUserController::class, 'index'])->name('admin.manage_user.view');
     Route::post('admin/get_api/get_agent', [ManageUserController::class, 'get_agent'])->name('admin.get_api.get_agent');
+    Route::post('admin/manage_user/store', [ManageUserController::class, 'store'])->name('admin.manage_user.store');
+    Route::post('admin/get_api/get_user/{id}', [ManageUserController::class, 'get_user']);
+    Route::delete('admin/manage_user/delete/{id}', [ManageUserController::class, 'delete_post']);
+    Route::post('admin/manage_user/delete_all', [ManageUserController::class, 'delete_all'])->name('admin.manage_user.delete_all');
+
+    //สิทธ์เจ้าของ
+    Route::middleware(['chk_position'])->group(function () {
+        Route::get('admin/manage_agen/view', [ManageAgentController::class, 'index'])->name('admin.manage_agen.view');
+    });
 });

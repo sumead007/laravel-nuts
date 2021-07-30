@@ -73,8 +73,10 @@
                                     href="{{ route('admin.manage_user.view') }}">จัดการสมาชิก</a>
                                 <a class="dropdown-item"
                                     href="{{ route('admin.manage_user.link_register.view') }}">ลิงค์สมาชิก</a>
-                                {{-- <div class="dropdown-divider"></div>
-                              <a class="dropdown-item" href="#">Something else here</a> --}}
+                                @if (Auth::guard('admin')->user()->position == 0)
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="{{route('admin.manage_agen.view')}}">จัดการข้อมูลเอเย่น</a>
+                                @endif
                             </div>
                         </li>
                     </ul>
@@ -122,14 +124,17 @@
             @yield('content')
         </main>
     </div>
-  {{-- select2 --}}
-  <link href="{{ asset('select2/css/select2.min.css') }}" rel="stylesheet" />
-  <script src="{{ asset('select2/js/select2.min.js') }}" defer></script>
-  <script>
-      // In your Javascript (external .js resource or <script> tag)
-      $(document).ready(function() {
-          $('.select2').select2({ width: '100%' });
-      });
-  </script>
+    {{-- select2 --}}
+    <link href="{{ asset('select2/css/select2.min.css') }}" rel="stylesheet" />
+    <script src="{{ asset('select2/js/select2.min.js') }}" defer></script>
+    <script>
+        // In your Javascript (external .js resource or <script> tag)
+        $(document).ready(function() {
+            $('.select2').select2({
+                width: '100%'
+            });
+        });
+    </script>
 </body>
+
 </html>
