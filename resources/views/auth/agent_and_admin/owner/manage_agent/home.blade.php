@@ -4,43 +4,11 @@
 
     <script>
         function addPost(event) {
-            var position = $(event).data("position");
-
             $("#recommend_password").html("")
             $("#recommend_confirm_password").html("")
             $("#text_addcus").html("เพิ่มรายชื่อ");
             $('#post-modal').modal('show');
             $("#form_first")[0].reset();
-
-            if (position == 0) get_agent();
-        }
-
-        function get_agent() {
-            var id = $(event).data("id");
-            let _url = "{{ route('admin.get_api.get_agent') }}";
-            $.ajax({
-                url: _url,
-                type: "POST",
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function(res) {
-                    //console.log(_url);
-                    if (res) {
-                        // console.log(res);
-                        $("#admin_id option").remove();
-                        $("#admin_id").append('<option value="" disabled selected>' + 'กรุณาเลือกตัวแทน ' +
-                            '</option>');
-                        res.data.forEach(value => {
-                            var o = new Option(value.username, value.id);
-                            $("#admin_id").append(o);
-                            // console.log(value);
-                        });
-
-
-                    }
-                }
-            });
         }
 
         function createPost() {
@@ -60,7 +28,7 @@
                     var id = $("#post_id").val();
 
 
-                    let _url = "{{ route('admin.manage_user.store') }}";
+                    let _url = "{{ route('admin.manage_agen.store') }}";
                     let _token = $('meta[name="csrf-token"]').attr('content');
                     $.ajax({
                         enctype: 'multipart/form-data',
@@ -84,76 +52,43 @@
                                 $("#table_crud #row_" + id + " td:nth-child(4)").html(res.data
                                     .telephone);
 
-                                $("#table_crud #row_" + id + " td:nth-child(5)").html(res.data.money);
-                                if (res.auth_position == 0) $("#table_crud #row_" + id +
-                                    " td:nth-child(7)").html(res.admin_data.username);
+                                $("#table_crud #row_" + id + " td:nth-child(5)").html(res.data.credit);
+                                $("#table_crud #row_" + id + " td:nth-child(6)").html(res.data
+                                    .share_percentage);
                             } else {
                                 console.log(res)
                                 //ถ้าเป็นเจ้าของจะไม่แสดงคอลัมเอเจน
-                                if (res.auth_position == 0) {
-                                    $('#table_crud tbody').prepend("<tr align='center' id='row_" + res
-                                        .data
-                                        .id + "'" +
-                                        ">" +
+                                $('#table_crud tbody').prepend("<tr align='center' id='row_" + res
+                                    .data
+                                    .id + "'" +
+                                    ">" +
 
-                                        "<th id='td_choese" +
-                                        "' class='align-middle' hidden='true'>" +
-                                        "<div align='center'>" +
-                                        "<input type='checkbox' class='form-check' name='select'" +
-                                        "id='select_input' value='" + res.data.id + "'>" +
-                                        "</div>" +
-                                        "</th>" +
+                                    "<th id='td_choese" +
+                                    "' class='align-middle' hidden='true'>" +
+                                    "<div align='center'>" +
+                                    "<input type='checkbox' class='form-check' name='select'" +
+                                    "id='select_input' value='" + res.data.id + "'>" +
+                                    "</div>" +
+                                    "</th>" +
 
-                                        "<td class='align-middle'>" + res.data.name + "</td>" +
-                                        "<td class='align-middle'>" + res.data.username + "</td>" +
-                                        "<td class='align-middle'>" + res.data.telephone + "</td>" +
-                                        "<td class='align-middle'>" + res.data.money + "</td>" +
-                                        "<td class='align-middle'>" + res.data.created_at_2 +
-                                        "</td>" +
-                                        "<td class='align-middle'>" + res.admin_data.username +
-                                        "</td>" +
-                                        "<td class='align-middle' align='center'>" +
-                                        "<a href='javascript:void(0)' class='btn btn-warning'" +
-                                        "data-id='" + res.data.id +
-                                        "' onclick='editPost(event.target)' id='btn_edit'>แก้ไข</a> " +
-                                        " <a href='javascript:void(0)' class='btn btn-danger'" +
-                                        "data-id='" + res.data.id +
-                                        "' onclick='deletePost(event.target)' id='btn_delete'>ลบ</a>" +
-                                        "</td>" +
-                                        "</tr>"
-                                    );
-                                } else {
-                                    $('#table_crud tbody').prepend("<tr align='center' id='row_" + res
-                                        .data
-                                        .id + "'" +
-                                        ">" +
-
-                                        "<th id='td_choese" +
-                                        "' class='align-middle' hidden='true'>" +
-                                        "<div align='center'>" +
-                                        "<input type='checkbox' class='form-check' name='select'" +
-                                        "id='select_input' value='" + res.data.id + "'>" +
-                                        "</div>" +
-                                        "</th>" +
-
-                                        "<td class='align-middle'>" + res.data.name + "</td>" +
-                                        "<td class='align-middle'>" + res.data.username + "</td>" +
-                                        "<td class='align-middle'>" + res.data.telephone + "</td>" +
-                                        "<td class='align-middle'>" + res.data.money + "</td>" +
-                                        "<td class='align-middle'>" + res.data.created_at_2 +
-                                        "</td>" +
-                                        "<td class='align-middle' align='center'>" +
-                                        "<a href='javascript:void(0)' class='btn btn-warning'" +
-                                        "data-id='" + res.data.id +
-                                        "' onclick='editPost(event.target)' id='btn_edit'>แก้ไข</a> " +
-                                        " <a href='javascript:void(0)' class='btn btn-danger'" +
-                                        "data-id='" + res.data.id +
-                                        "' onclick='deletePost(event.target)' id='btn_delete'>ลบ</a>" +
-                                        "</td>" +
-                                        "</tr>"
-                                    );
-                                }
-
+                                    "<td class='align-middle'>" + res.data.name + "</td>" +
+                                    "<td class='align-middle'>" + res.data.username + "</td>" +
+                                    "<td class='align-middle'>" + res.data.telephone + "</td>" +
+                                    "<td class='align-middle'>" + res.data.credit + "</td>" +
+                                    "<td class='align-middle'>" + res.data.share_percentage +
+                                    "</td>" +
+                                    "<td class='align-middle'>" + res.data.created_at_2 +
+                                    "</td>" +
+                                    "<td class='align-middle' align='center'>" +
+                                    "<a href='javascript:void(0)' class='btn btn-warning'" +
+                                    "data-id='" + res.data.id +
+                                    "' onclick='editPost(event.target)' id='btn_edit'>แก้ไข</a> " +
+                                    " <a href='javascript:void(0)' class='btn btn-danger'" +
+                                    "data-id='" + res.data.id +
+                                    "' onclick='deletePost(event.target)' id='btn_delete'>ลบ</a>" +
+                                    "</td>" +
+                                    "</tr>"
+                                );
                             }
                             Swal.fire(
                                 'สำเร็จ!',
@@ -165,12 +100,13 @@
                         },
                         error: function(err) {
                             console.log("ไม่สำเร็จ");
+                            clear_ms_error();
                             $('#nameError').text(err.responseJSON.errors.name);
                             $('#usernameError').text(err.responseJSON.errors.username);
                             $('#passwordError').text(err.responseJSON.errors.password);
                             $('#telephoneError').text(err.responseJSON.errors.telephone);
-                            $('#moneyError').text(err.responseJSON.errors.money);
-                            $('#admin_idError').text(err.responseJSON.errors.admin_id);
+                            $('#creditError').text(err.responseJSON.errors.credit);
+                            $('#share_percentageError').text(err.responseJSON.errors.share_percentage);
                         }
                     });
                 }
@@ -178,15 +114,22 @@
 
         }
 
-        function editPost(event) {
+        function clear_ms_error() {
+            $('#nameError').text("");
+            $('#usernameError').text("");
+            $('#passwordError').text("");
+            $('#telephoneError').text("");
+            $('#creditError').text("");
+            $('#share_percentageError').text("");
+        }
 
+        function editPost(event) {
             var id = $(event).data("id");
-            let _url = "/admin/get_api/get_user/" + id;
+            let _url = "/admin/get_api/get_agent_by_id/" + id;
             $("#text_addcus").html("แก้ไขรายชื่อ");
             $("#form_first")[0].reset();
             $("#recommend_password").html("*ถ้าต้องการที่จะเปลี่ยนรหัสผ่านใหม่กรุณากรอกช่องนี้")
             $("#recommend_confirm_password").html("*ถ้าต้องการที่จะเปลี่ยนรหัสผ่านใหม่กรุณากรอกช่องนี้")
-            get_agent();
             $.ajax({
                 url: _url,
                 type: "POST",
@@ -200,9 +143,8 @@
                         $("#name").val(res.name);
                         $("#telephone").val(res.telephone);
                         $("#username").val(res.username);
-                        $("#money").val(res.money);
-                        // $("#admin_id").val(res.admin_id);
-                        $("#admin_id").val(res.admin_id).trigger('change');
+                        $("#credit").val(res.credit);
+                        $("#share_percentage").val(res.share_percentage);
                         $('#post-modal').modal('show');
                     }
                 }
@@ -222,7 +164,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     var id = $(event).data("id");
-                    let _url = "/admin/manage_user/delete/" + id;
+                    let _url = "/admin/manage_agen/delete/" + id;
                     let _token = $('meta[name="csrf-token"]').attr('content');
 
                     $.ajax({
@@ -313,7 +255,7 @@
 
         function select_delete() {
             var arr = [];
-            var _url = "{{route('admin.manage_user.delete_all')}}";
+            var _url = "{{ route('admin.manage_agen.delete_all') }}";
             let _token = $('meta[name="csrf-token"]').attr('content');
             $("input:checkbox[name=select]:checked").each(function() {
                 arr.push({
@@ -447,7 +389,6 @@
                                             </td>
                                             <td class="align-middle">
                                                 {{ $agent->username }}
-
                                             </td>
                                             <td class="align-middle">
                                                 {{ $agent->telephone }}
@@ -555,27 +496,21 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="money">จำนวนเงิน (ค่าเริ่มต้น)</label>
+                            <label for="credit">เครดิต (ค่าเริ่มต้น)</label>
                             <div class="col-sm-12">
-                                <input type="number" class="form-control" id="money" name="money"
+                                <input type="number" class="form-control" id="credit" name="credit"
                                     placeholder="กรุณากรอกจำนวนเงิน" value="0">
-                                <span id="moneyError" class="alert-message text-danger"></span>
+                                <span id="creditError" class="alert-message text-danger"></span>
                             </div>
                         </div>
-                        @if (Auth::guard('admin')->user()->position == 0)
-                            <div class="form-group">
-                                <label for="admin_id">ตัวแทน</label>
-                                <div class="col-sm-12">
-                                    <select name="admin_id" id="admin_id" class="select2">
-                                        <option value="" disabled selected>กรุณาเลือกตัวแทน</option>
-                                    </select>
-                                    <span id="admin_idError" class="alert-message text-danger"></span>
-                                </div>
+                        <div class="form-group">
+                            <label for="share_percentage">เปอร์เซน (ค่าเริ่มต้น)</label>
+                            <div class="col-sm-12">
+                                <input type="number" class="form-control" id="share_percentage" name="share_percentage"
+                                    placeholder="กรุณากรอกจำนวนเงิน" value="0">
+                                <span id="share_percentageError" class="alert-message text-danger"></span>
                             </div>
-                        @else
-                            <input type="hidden" class="form-control" id="admin_id" name="admin_id"
-                                value="{{ Auth::guard('admin')->user()->id }}">
-                        @endif
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">

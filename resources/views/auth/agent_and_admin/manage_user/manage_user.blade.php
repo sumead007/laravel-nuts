@@ -165,6 +165,7 @@
                         },
                         error: function(err) {
                             console.log("ไม่สำเร็จ");
+                            clear_ms_error();
                             $('#nameError').text(err.responseJSON.errors.name);
                             $('#usernameError').text(err.responseJSON.errors.username);
                             $('#passwordError').text(err.responseJSON.errors.password);
@@ -176,6 +177,15 @@
                 }
             })
 
+        }
+
+        function clear_ms_error() {
+            $('#nameError').text("");
+            $('#usernameError').text("");
+            $('#passwordError').text("");
+            $('#telephoneError').text("");
+            $('#creditError').text("");
+            $('#share_percentageError').text("");
         }
 
         function editPost(event) {

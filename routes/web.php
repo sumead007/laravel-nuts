@@ -71,5 +71,10 @@ Route::middleware(['auth:admin'])->group(function () {
     //สิทธ์เจ้าของ
     Route::middleware(['chk_position'])->group(function () {
         Route::get('admin/manage_agen/view', [ManageAgentController::class, 'index'])->name('admin.manage_agen.view');
+        Route::post('admin/manage_agen/store', [ManageAgentController::class, 'store'])->name('admin.manage_agen.store');
+        Route::post('admin/get_api/get_agent_by_id/{id}', [ManageAgentController::class, 'get_agent']);
+        Route::delete('admin/manage_agen/delete/{id}', [ManageAgentController::class, 'delete_post']);
+        Route::post('admin/manage_agen/delete_all', [ManageAgentController::class, 'delete_all'])->name('admin.manage_agen.delete_all');
+
     });
 });
