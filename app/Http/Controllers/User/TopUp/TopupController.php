@@ -10,6 +10,16 @@ use Illuminate\Support\Facades\Auth;
 
 class TopupController extends Controller
 {
+     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth:user');
+    }
+
     public function index()
     {
         $admin_id = Auth::guard('user')->user()->admin_id;

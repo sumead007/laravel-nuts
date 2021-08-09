@@ -49,7 +49,13 @@ class User extends Authenticatable
         return $this->hasMany(TopUp::class, 'id');
     }
 
-    public function admin(){
-        return $this->belongsTo(Admin::class,'admin_id');
+    public function admin()
+    {
+        return $this->belongsTo(Admin::class, 'admin_id');
+    }
+
+    public function bet_detail()
+    {
+        return $this->hasMany(BetDetail::class, 'id');
     }
 }

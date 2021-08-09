@@ -1,10 +1,12 @@
 <?php
 
+use App\Events\TurnOnTurnOff;
 use App\Http\Controllers\Admin\AcceptTopup\AcceptTopupController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\ManageUser\LinkRegisterController;
 use App\Http\Controllers\Admin\ManageUser\ManageUserController;
 use App\Http\Controllers\Admin\Owner\ManageAgent\ManageAgentController;
+use App\Http\Controllers\User\Bet\BetController;
 use App\Http\Controllers\User\TopUp\TopupController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -40,19 +42,26 @@ Route::middleware(['go_to_login_page'])->group(function () {
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
 
-Route::get('/test/{id}', function ($id) {
+Route::get('/test', function () {
     // return dd(Auth::guard('user')->check());
-    return dd($id);
+    // return dd($id);
+    // event(new TurnOnTurnOff("1"));
 });
 
 Route::middleware(['auth:user'])->group(function () {
     Route::get('user/home', [TopupController::class, 'index'])->name('user.home');
     Route::post('user/top_up/store', [TopupController::class, 'store'])->name('user.top_up.store');
     Route::get('user/top_up/history', [TopupController::class, 'history'])->name('user.top_up.history');
+    Route::post('user/bet', [BetController::class, 'bet'])->name('user.bet');
+
 });
 
 Route::middleware(['auth:admin'])->group(function () {
     Route::get('admin/home', [HomeController::class, 'index'])->name('admin.home');
+    Route::post('admin/home/turn_on_turn_off', [HomeController::class, 'turn_on_turn_off'])->name('admin.home.turn_on_turn_off');
+    Route::post('admin/get/turn_on_turn_off', [HomeController::class, 'get_status'])->name('admin.get.turn_on_turn_off');
+    Route::post('admin/home/result', [HomeController::class, 'result'])->name('admin.home.result');
+
     Route::get('admin/accept/top_up/view', [AcceptTopupController::class, 'index'])->name('admin.accept.top_up.view');
     Route::post('admin/top_up/accept/{id}/{cust_id}/{type}/{note}', [AcceptTopupController::class, 'accept']);
     Route::post('admin/top_up/all_accept/store', [AcceptTopupController::class, 'store_selection'])->name('admin.top_up.all_accept.store');
@@ -77,4 +86,5 @@ Route::middleware(['auth:admin'])->group(function () {
         Route::post('admin/manage_agen/delete_all', [ManageAgentController::class, 'delete_all'])->name('admin.manage_agen.delete_all');
 
     });
+
 });
