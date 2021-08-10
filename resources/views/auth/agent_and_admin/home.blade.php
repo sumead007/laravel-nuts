@@ -193,22 +193,25 @@
                 $("#text_status").attr('class', 'text-danger');
                 $('#btn_close').attr("hidden", "hidden");
                 $('#btn_open').removeAttr('hidden');
-                $("#tb_show_bets_now tbody").empty();
+                // $("#tb_show_bets_now tbody").empty(); ลบแถวทั้งหมด
             } else {
                 $("#text_status").html('เปิดให้เล่น');
                 $("#text_status").attr('class', 'text-success');
                 $('#btn_open').attr("hidden", "hidden");
                 $('#btn_close').removeAttr('hidden');
+                $("#tb_show_bets_now tbody").empty();
+
             }
         });
 
         var channel2 = pusher.subscribe('channel-result');
         channel2.bind('event-result', function(res) {
-            console.log(res);
-            $("#tb_history tbody").prepend(
+            var no_last_tr = parseInt($('#tb_history tr:last td:nth-child(1)').html()) + 1;
+            // console.log(res);
+            $("#tb_history tbody").append(
                 "<tr align='center'>" +
-                "<td>ยังไม่ใส่</td>" +
-                "<td>" + "ยังไม่ใส่" + "</td>" +
+                "<td>" + no_last_tr + "</td>" +
+                "<td>" + "ยังไม่มี" + "</td>" +
                 "<td>" + res.data.result + "</td>" +
                 "</tr>");
         });
@@ -216,8 +219,9 @@
         var channel3 = pusher.subscribe('channel-show-bets-now');
         channel3.bind('event-show-bets-now', function(res) {
             console.log(res);
-            $("#tb_show_bets_now tbody").prepend(
-                "<tr align='center'>" +
+            ///ทำผล
+            $("#tb_show_bets_now tbody").append(
+                "<tr align='center' id='row_" + res.data.id + "'>" +
                 "<td>" + res.data.username + "</td>" +
                 "<td>" + res.data.number + "</td>" +
                 "<td>" + res.data.money + "</td>" +
@@ -330,9 +334,10 @@
                             </tr>
                         </thead>
                         <tbody>
+                            {{ $no_result = 1 }}
                             @foreach ($results as $result)
                                 <tr align="center">
-                                    <td>ยังไม่มี</td>
+                                    <td>{{ $no_result++ }}</td>
                                     <td>{{ $result->pic }}</td>
                                     <td>{{ $result->result }}</td>
                                 </tr>

@@ -23,6 +23,7 @@ class Result implements ShouldBroadcast
     public function __construct($data)
     {
         $this->data = [
+            "bet_id" => $data['bet_id'],
             "result" => $data['result'],
             "created_at" => $data['created_at'],
             "pic" => "ยังไม่มี"

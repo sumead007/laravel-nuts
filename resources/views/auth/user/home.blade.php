@@ -104,6 +104,7 @@
                         },
                         success: function(res) {
                             // console.log("สำเร็จ");
+                            console.log(res);
 
                             // console.log($("#number").val());
                             Swal.fire(
@@ -113,17 +114,55 @@
                             );
                             clear_input();
                             clear_msg_error();
+                            var string_status;
+                            if (res.data.status == 0) {
+                                string_status = "รอผล";
+                            } else if (res.data.status == 1) {
+                                string_status = "ถูกรางวัล";
+                            } else if (res.data.status == 2) {
+                                string_status = "เสีย";
+                            } else {
+                                string_status = "ถูกยกเลิก";
+                            }
+                            $('#tb_history_bet tbody').append("<tr align='center' data-bet_id='" + res
+                                .data
+                                .bet_id + "'" +
+                                ">" +
+                                "<td>" + res.data.number + "</td>" +
+                                "<td>" + res.data.money + "</td>" +
+                                "<td> <b>" + string_status + "</b></td>" +
+                                "</tr>"
+                            );
+                            $("#show_money").val(res.money);
                         },
                         error: function(err) {
-                            console.log("ไม่สำเร็จ");
-                            Swal.fire(
-                                'ไม่สำเร็จ!',
-                                'รายการของท่านไม่สำเร็จ',
-                                'error'
-                            );
 
-                            clear_msg_error();
-                            show_msg_error(err);
+                            if (err.status == 403) {
+                                Swal.fire(
+                                    'ไม่สำเร็จ!',
+                                    'จำนวนเงินของท่านไม่เพียงพอ',
+                                    'error'
+                                );
+                            } else if (err.status == 422) {
+                                console.log("ไม่สำเร็จ");
+                                Swal.fire(
+                                    'ไม่สำเร็จ!',
+                                    'รายการของท่านไม่สำเร็จ',
+                                    'error'
+                                );
+
+                                clear_msg_error();
+                                show_msg_error(err);
+                            } else {
+                                console.log("ไม่สำเร็จ");
+                                Swal.fire(
+                                    'ไม่สำเร็จ!',
+                                    'รายการของท่านไม่สำเร็จ กรุณาลองรีเฟชหน้าเว็บใหม่อีกครั้ง',
+                                    'error'
+                                );
+                            }
+
+
                         }
                     });
                 }
@@ -169,9 +208,10 @@
                             </tr>
                         </thead>
                         <tbody>
+                            {{ $no_result = 1 }}
                             @foreach ($results as $result)
                                 <tr align="center">
-                                    <td>ยังไม่มี</td>
+                                    <td>{{ $no_result++ }}</td>
                                     <td>{{ $result->pic }}</td>
                                     <td>{{ $result->result }}</td>
                                     {{-- <td> {{ Carbon\Carbon::parse($result->created_at)->locale('th')->diffForHumans() }}
@@ -296,7 +336,7 @@
             <div class="col-md-4 mt-4">
                 <h3 align="center" class="text-light">ประวัติ</h3>
                 <div class="table-responsive" style="height: 150px;">
-                    <table class="table table-light table-hover table-bordered">
+                    <table class="table table-light table-hover table-bordered" id="tb_history_bet">
                         <thead>
                             <tr align="center">
                                 <th>แทงเลข</th>
@@ -305,11 +345,26 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr align="center">
-                                <td>5</td>
-                                <td>100</td>
-                                <td>เสีย</td>
-                            </tr>
+                            @foreach ($histories as $historie)
+                                <tr align="center" data-bet_id="{{ $historie->bet_id }}">
+                                    <td>{{ $historie->number }}</td>
+                                    <td>{{ $historie->money }}</td>
+                                    <td>
+                                        @if ($historie->status == 0)
+                                            <b>รอผล</b>
+                                        @elseif ($historie->status == 1)
+                                            <b class="text-success">ถูกรางวัล</b>
+
+                                        @elseif ($historie->status == 2)
+                                            <b class="text-danger">เสีย</b>
+
+                                        @else
+                                            <b class="text-danger">ถูกยกเลิก</b>
+                                        @endif
+
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -345,13 +400,32 @@
 
         var channel2 = pusher.subscribe('channel-result');
         channel2.bind('event-result', function(res) {
-            console.log(res);
-            $("#tb_history tbody").prepend(
+            var no_last_tr = parseInt($('#tb_history tr:last td:nth-child(1)').html()) + 1;
+
+            // console.log(res);
+            $("#tb_history tbody").append(
                 "<tr align='center'>" +
-                "<td>ยังไม่ใส่</td>" +
-                "<td>" + "ยังไม่ใส่" + "</td>" +
+                "<td>" + no_last_tr + "</td>" +
+                "<td>" + "ยังไม่มี" + "</td>" +
                 "<td>" + res.data.result + "</td>" +
                 "</tr>");
+            // if ($("#tb_history_bet tr").attr('data-bet_id') == res.data.result) {
+            //     console.log("มี")
+            //     $("#tb_history_bet tr").attr('data-bet_id').html("awfaw")
+            // }
+
+            $('#tb_history_bet tr').each(function() {
+                var bet_id = $(this).data('bet_id');
+                if (bet_id == res.data.bet_id) {
+                    if (parseInt($(this).find('td:nth-child(1)').html()) == res.data.result) {
+                        $(this).find('td:nth-child(3)').html("<b class='text-success'>ถูกรางวัล</b>")
+                    } else {
+                        $(this).find('td:nth-child(3)').html("<b class='text-danger'>เสีย</b>")
+
+                    }
+                }
+            });
+
         });
     </script>
 

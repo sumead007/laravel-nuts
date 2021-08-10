@@ -14,7 +14,7 @@
                 <div class="input-group-prepend">
                     <div class="input-group-text">จำนวนเงินคงเหลือ</div>
                 </div>
-                <input type="text" class="form-control" id="money" name="money"
+                <input type="text" class="form-control" id="show_money" name="show_money"
                     value="{{ auth()->guard('user')->user()->money }}" disabled>
             </div>
         </div>

@@ -6,8 +6,10 @@ use App\Events\Result;
 use App\Events\TurnOnTurnOff;
 use App\Http\Controllers\Controller;
 use App\Models\Bet;
+use App\Models\BetDetail;
 use App\Models\ConfigTurnOnTurnOff;
 use App\Models\Result as ModelsResult;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -44,6 +46,10 @@ class HomeController extends Controller
 
     public function result(Request $request)
     {
+        if ($request->value == "" || $request->value == null) {
+            return event(new TurnOnTurnOff(1));
+        }
+
         $bet = Bet::orderBy('time_open', 'desc')->first();
         if ($bet->time_off == "" || $bet->time_off == null) {
             $config_turn_on_turn_off = ConfigTurnOnTurnOff::first();
@@ -57,10 +63,22 @@ class HomeController extends Controller
             $result->bet_id =  $bet->id;
             $result->save();
             $data["created_at"] =  Carbon::parse($result->created_at)->locale('th')->diffForHumans();
-            event(new Result($data));
+            event(new Result($result));
+            $bet_details1 = BetDetail::where('bet_id', $bet->id)->where('number', $request->value);
+            $bet_details1->update(['status' => 1]);
+            $bet_details2 = BetDetail::where('bet_id', $bet->id)->where('number', '!=', $request->value);
+            $bet_details2->update(['status' => 2]);
+            // return dd($bet_details1->get());
+            $bet_details1 = $bet_details1->get();
+            $bet_details2 = $bet_details2->get();
+            for ($i = 0; $i < count($bet_details1); $i++) {
+                $user = User::find($bet_details1[$i]->user_id);
+                $user->money += ($bet_details1[$i]->money)*2;
+                $user->update();
+            }
+            event(new TurnOnTurnOff(1));
         } else {
             return response()->json(['error' => 'Error msg'], 403); // Status code here
         }
-        event(new TurnOnTurnOff(1));
     }
 }

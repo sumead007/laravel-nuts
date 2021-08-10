@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User\Bet;
 
+use App\Events\Histories;
 use App\Events\ShowBetsNow;
 use App\Http\Controllers\Controller;
 use App\Models\Bet;
@@ -44,6 +45,8 @@ class BetController extends Controller
                 // "pic.mimes" => "กรุณาอัพโหลดรูปที่มีนามสกุล (png, jpg, jpeg)",
             ],
         );
+        $user = User::find(Auth::guard('user')->user()->id);
+        if ($user->money < $request->money) return response()->json(['error' => 'Error msg'], 403);
         // return dd($request->number);
         $time_trun_on_turn_of = ConfigTurnOnTurnOff::first()->updated_at;
         $data = Bet::updateOrCreate(['time_open' => $time_trun_on_turn_of], [
@@ -58,12 +61,14 @@ class BetController extends Controller
             "money" => $request->money,
             "bet_id" => $data->id,
         ]);
-        $username = User::find($data2->user_id)->username;
         event(new ShowBetsNow([
-            "username" =>  $username,
+            "username" =>  $user->username,
             "number" => $data2->number,
             "money" => $data2->money,
             "status" => $data2->status,
         ]));
+        $user->money -= $request->money;
+        $user->update();
+        return response()->json(["data" => $data2, "money" => $user->money]);
     }
 }
