@@ -200,7 +200,6 @@
                 $('#btn_open').attr("hidden", "hidden");
                 $('#btn_close').removeAttr('hidden');
                 $("#tb_show_bets_now tbody").empty();
-
             }
         });
 
@@ -214,18 +213,27 @@
                 "<td>" + "ยังไม่มี" + "</td>" +
                 "<td>" + res.data.result + "</td>" +
                 "</tr>");
+
+            $('#tb_show_bets_now tr').each(function() {
+                var number = parseInt($(this).find('td:nth-child(2)').html());
+                if (number == res.data.result) {
+                    $(this).find('td:nth-child(4)').html("<b class='text-success'>ถูกรางวัล</b>")
+                } else {
+                    $(this).find('td:nth-child(4)').html("<b class='text-danger'>เสีย</b>")
+                }
+            });
         });
 
         var channel3 = pusher.subscribe('channel-show-bets-now');
         channel3.bind('event-show-bets-now', function(res) {
             console.log(res);
             ///ทำผล
-            $("#tb_show_bets_now tbody").append(
+            $("#tb_show_bets_now tbody").prepend(
                 "<tr align='center' id='row_" + res.data.id + "'>" +
                 "<td>" + res.data.username + "</td>" +
                 "<td>" + res.data.number + "</td>" +
                 "<td>" + res.data.money + "</td>" +
-                // "<td>" + res.data.status + "</td>" +
+                "<td>" + "รอผล" + "</td>" +
                 "</tr>");
         });
     </script>
@@ -247,7 +255,7 @@
                                 <th>ชื่อผู้ใช้</th>
                                 <th>ทายเลข</th>
                                 <th>จำนวนเงิน</th>
-                                {{-- <th>ผลได้เสีย</th> --}}
+                                <th>ผลได้เสีย</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -256,7 +264,19 @@
                                     <td>{{ $bet_detail->username }}</td>
                                     <td>{{ $bet_detail->number }}</td>
                                     <td>{{ $bet_detail->money }}</td>
-                                    {{-- <td>{{ $bet_detail->status }}</td> --}}
+                                    <td>
+                                        @if ($bet_detail->status == 0)
+                                            <b>รอผล</b>
+                                        @elseif ($bet_detail->status == 1)
+                                            <b class="text-success">ถูกรางวัล</b>
+
+                                        @elseif ($bet_detail->status == 2)
+                                            <b class="text-danger">เสีย</b>
+
+                                        @else
+                                            <b class="text-danger">ถูกยกเลิก</b>
+                                        @endif
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

@@ -124,7 +124,7 @@
                             } else {
                                 string_status = "ถูกยกเลิก";
                             }
-                            $('#tb_history_bet tbody').append("<tr align='center' data-bet_id='" + res
+                            $('#tb_history_bet tbody').prepend("<tr align='center' data-bet_id='" + res
                                 .data
                                 .bet_id + "'" +
                                 ">" +

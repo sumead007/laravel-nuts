@@ -25,6 +25,7 @@ class HomeController extends Controller
             ->join('users', 'bet_details.user_id', '=', 'users.id')
             ->select('bet_details.*', 'bets.time_open', 'users.username')
             ->where('time_open', $config_turn_on_turn_off->updated_at)
+            ->orderByDesc('bet_details.created_at')
             ->get();
         // return dd($bet_details);
         return view('auth.agent_and_admin.home', compact('config_turn_on_turn_off', 'results', 'bet_details'));
@@ -32,6 +33,19 @@ class HomeController extends Controller
 
     public function turn_on_turn_off(Request $request)
     {
+        $bet_details = BetDetail::where('status', 0);
+        if (count($bet_details->get())>0 && $request->value==0) {
+            $bet_details1 = $bet_details->get();
+            $bet_details->update(['status' => 3]);
+            // return dd($bet_details1);
+
+            for ($i = 0; $i < count($bet_details1); $i++) {
+                $user = User::find($bet_details1[$i]->user_id);
+                $user->money += $bet_details1[$i]->money;
+                $user->update();
+            }
+            
+        }
         $user = ConfigTurnOnTurnOff::updateOrCreate(['id' => 1], [
             "status" => $request->value,
         ]);
@@ -46,9 +60,7 @@ class HomeController extends Controller
 
     public function result(Request $request)
     {
-        if ($request->value == "" || $request->value == null) {
-            return event(new TurnOnTurnOff(1));
-        }
+
 
         $bet = Bet::orderBy('time_open', 'desc')->first();
         if ($bet->time_off == "" || $bet->time_off == null) {
@@ -70,10 +82,9 @@ class HomeController extends Controller
             $bet_details2->update(['status' => 2]);
             // return dd($bet_details1->get());
             $bet_details1 = $bet_details1->get();
-            $bet_details2 = $bet_details2->get();
             for ($i = 0; $i < count($bet_details1); $i++) {
                 $user = User::find($bet_details1[$i]->user_id);
-                $user->money += ($bet_details1[$i]->money)*2;
+                $user->money += ($bet_details1[$i]->money) * 2;
                 $user->update();
             }
             event(new TurnOnTurnOff(1));
