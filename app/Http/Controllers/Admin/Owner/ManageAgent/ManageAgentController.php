@@ -41,30 +41,38 @@ class ManageAgentController extends Controller
                     "credit" => "required|numeric",
                     "share_percentage" => "required|regex:/^\d+(\.\d{1,2})?$/",
                 ],
-                // [
-                //     //no
-                //     "no.required" => "กรุณากรอกช่องนี้",
-                //     "no.min" => "กรุณากรอกให้ครบ 6 หลัก",
-                //     "no.max" => "กรุณากรอกไม่เกิน 6 หลัก",
-                //     "no.unique" => "ข้อมูลนี้ถูกใช้แล้วไม่สารถมารถใช้ซํ้าได้",
-                //     //num
-                //     "num.required" => "กรุณากรอกช่องนี้",
-                //     "num.min" => "กรุณากรอกระหว่าง 1-6 หลัก",
-                //     "num.max" => "กรุณากรอกระหว่าง 1-6 หลัก",
-                //     //status
-                //     "status.required" => "กรุณากรอกช่องนี้",
-
-                //     //price
-                //     "price.required" => "กรุณากรอกช่องนี้",
-                //     "price.min" => "กรุณากรอกระหว่าง 1-7 หลัก",
-                //     "price.max" => "กรุณากรอกระหว่าง 1-7 หลัก",
-
-                // ],
+                [
+                    //name
+                    "name.required" => "กรุณากรอกช่องนี้",
+                    "name.min" => "กรุณากรอกให้ครบ 2-255 หลัก",
+                    "name.max" => "กรุณากรอกไม่เกิน 2-255 หลัก",
+                    //username
+                    "username.required" => "กรุณากรอกช่องนี้",
+                    "username.min" => "กรุณากรอกระหว่าง 6-20 หลัก",
+                    "username.max" => "กรุณากรอกระหว่าง 6-20 หลัก",
+                    "username.unique" => "ชื่อผู้ใช้นี้มีคนใช้แล้ว",
+                    //password
+                    "password.required" => "กรุณากรอกช่องนี้",
+                    "password.min" => "กรุณากรอกระหว่าง 8-20 หลัก",
+                    "password.max" => "กรุณากรอกระหว่าง 8-20 หลัก",
+                    "password.confirmed" => "กรุณายืนยันรหัสผ่านให้ถูกต้อง",
+                    //telephone
+                    "telephone.required" => "กรุณากรอกช่องนี้",
+                    "telephone.numeric" => "กรุณากรอกเป็นตัวเลข",
+                    "telephone.digits" => "กรุณากรอกให้ครบ 10 หลัก",
+                    "telephone.unique" => "เบอร์โทรนี้มีผู้คนใช้งานแล้ว",
+                    //credit
+                    "credit.required" => "กรุณากรอกช่องนี้",
+                    "credit.numeric" => "กรุณากรอกเป็นตัวเลข",
+                    //share_percentage
+                    "share_percentage.required" => "กรุณาเลือกตัวแทน",
+                    "share_percentage.regex" => "กรุณากรอกให้เป็นในรูปแบบจำนวนเงิน",
+                ],
             );
             $user = Admin::updateOrCreate(['id' => $request->post_id], [
                 "name" => $request->name,
                 "username" => $request->username,
-                "password" => bcrypt($request->password),
+                "password" => $request->password != null || $request->password != "" ? bcrypt($request->password) : $admin->password,
                 "telephone" => $request->telephone,
                 "credit" => $request->credit,
                 "share_percentage" => $request->share_percentage,
@@ -82,23 +90,31 @@ class ManageAgentController extends Controller
                     "share_percentage" => "required|regex:/^\d+(\.\d{1,2})?$/",
                 ],
                 [
-                    // //no
-                    // "no.required" => "กรุณากรอกช่องนี้",
-                    // "no.min" => "กรุณากรอกให้ครบ 6 หลัก",
-                    // "no.max" => "กรุณากรอกไม่เกิน 6 หลัก",
-                    // "no.unique" => "ข้อมูลนี้ถูกใช้แล้วไม่สารถมารถใช้ซํ้าได้",
-                    // //num
-                    // "num.required" => "กรุณากรอกช่องนี้",
-                    // "num.min" => "กรุณากรอกระหว่าง 1-6 หลัก",
-                    // "num.max" => "กรุณากรอกระหว่าง 1-6 หลัก",
-                    // //status
-                    // "status.required" => "กรุณากรอกช่องนี้",
-
-                    // //price
-                    // "price.required" => "กรุณากรอกช่องนี้",
-                    // "price.min" => "กรุณากรอกระหว่าง 1-7 หลัก",
-                    // "price.max" => "กรุณากรอกระหว่าง 1-7 หลัก",
-
+                    //name
+                    "name.required" => "กรุณากรอกช่องนี้",
+                    "name.min" => "กรุณากรอกให้ครบ 2 หลัก",
+                    "name.max" => "กรุณากรอกไม่เกิน 255 หลัก",
+                    //username
+                    "username.required" => "กรุณากรอกช่องนี้",
+                    "username.min" => "กรุณากรอกระหว่าง 6-20 หลัก",
+                    "username.max" => "กรุณากรอกระหว่าง 6-20 หลัก",
+                    "username.unique" => "ชื่อผู้ใช้นี้มีคนใช้แล้ว",
+                    //password
+                    "password.required" => "กรุณากรอกช่องนี้",
+                    "password.min" => "กรุณากรอกระหว่าง 8-20 หลัก",
+                    "password.max" => "กรุณากรอกระหว่าง 8-20 หลัก",
+                    "password.confirmed" => "กรุณายืนยันรหัสผ่านให้ถูกต้อง",
+                    //telephone
+                    "telephone.required" => "กรุณากรอกช่องนี้",
+                    "telephone.numeric" => "กรุณากรอกเป็นตัวเลข",
+                    "telephone.digits" => "กรุณากรอกให้ครบ 10 หลัก",
+                    "telephone.unique" => "เบอร์โทรนี้มีผู้คนใช้งานแล้ว",
+                    //credit
+                    "credit.required" => "กรุณากรอกช่องนี้",
+                    "credit.numeric" => "กรุณากรอกเป็นตัวเลข",
+                    //share_percentage
+                    "share_percentage.required" => "กรุณาเลือกตัวแทน",
+                    "share_percentage.regex" => "กรุณากรอกให้เป็นในรูปแบบจำนวนเงิน",
                 ],
             );
             $user = Admin::updateOrCreate(['id' => $request->post_id], [

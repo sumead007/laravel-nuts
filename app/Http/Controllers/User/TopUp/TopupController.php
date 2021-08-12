@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class TopupController extends Controller
 {
-     /**
+    /**
      * Create a new controller instance.
      *
      * @return void
@@ -41,17 +41,26 @@ class TopupController extends Controller
                 "money" => "required|regex:/^\d+(\.\d{1,2})?$/",
             ],
             [
-                // //bank_cus_id
-                // "bank_cus_id.required" => "กรุณากรอกช่องนี้",
-                // //bank_id
-                // "bank_id.required" => "กรุณาเลือกธนาคารที่จะโอน",
-                // //money
-                // "money.required" => "กรุณากรอกช่องนี้",
-                // "money.min" => "ต้องมีอย่างน้อย2ตัวอักษร",
-                // "money.max" => "ต้องมีไม่เกิน10ตัวอักษร",
-                // //pic
-                // "pic.required" => "กรุณาอัพโหลดสลิปธนาคาร",
-                // "pic.mimes" => "กรุณาอัพโหลดรูปที่มีนามสกุล (png, jpg, jpeg)",
+                //bank_or_id
+                "bank_or_id.required" => "กรุณาเลือกธนาคารที่จะโอน",
+                //number_account
+                "number_account.required" => "กรุณากรอกช่องนี้",
+                "number_account.max" => "ต้องมีไม่เกิน13ตัวอักษร",
+                //name_account
+                "name_account.required" => "กรุณากรอกช่องนี้",
+                "name_account.min" => "ต้องมีอย่างน้อย2ตัวอักษร",
+                "name_account.max" => "ต้องมีไม่เกิน255ตัวอักษร",
+                //name_bank
+                "name_bank.required" => "กรุณากรอกช่องนี้",
+                "name_bank.min" => "ต้องมีอย่างน้อย2ตัวอักษร",
+                "name_bank.max" => "ต้องมีไม่เกิน255ตัวอักษร",
+                //image
+                "image.required" => "กรุณากรอกช่องนี้",
+                "image.mimes" => "ไฟล์ต้องนามสกุล png, jpg, jpeg เท่านั้น",
+                //money
+                "money.required" => "กรุณากรอกช่องนี้",
+                "money.regex" => "กรุณากรอกให้เป็นในรูปแบบจำนวนเงิน",
+
             ],
         );
 

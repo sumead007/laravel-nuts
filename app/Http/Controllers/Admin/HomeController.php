@@ -16,6 +16,16 @@ use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth:admin');
+    }
+
     public function index()
     {
         $config_turn_on_turn_off = ConfigTurnOnTurnOff::first();
@@ -34,7 +44,7 @@ class HomeController extends Controller
     public function turn_on_turn_off(Request $request)
     {
         $bet_details = BetDetail::where('status', 0);
-        if (count($bet_details->get())>0 && $request->value==0) {
+        if (count($bet_details->get()) > 0 && $request->value == 0) {
             $bet_details1 = $bet_details->get();
             $bet_details->update(['status' => 3]);
             // return dd($bet_details1);
@@ -44,7 +54,6 @@ class HomeController extends Controller
                 $user->money += $bet_details1[$i]->money;
                 $user->update();
             }
-            
         }
         $user = ConfigTurnOnTurnOff::updateOrCreate(['id' => 1], [
             "status" => $request->value,

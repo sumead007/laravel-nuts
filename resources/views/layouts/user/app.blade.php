@@ -42,10 +42,11 @@
 
 <body style="background-image: linear-gradient(#1F6A95, #10354B); background-attachment: fixed;">
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-dark shadow-sm"
+            style="background-image: linear-gradient(#BC8C64, #C1691B);">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                    J.Club
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -56,6 +57,9 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="{{ url('/') }}">เดิมพัน</a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" aria-current="page" href="{{ route('user.home') }}">เติมเงิน</a>
                         </li>

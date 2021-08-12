@@ -45,10 +45,10 @@
 
 <body style="background-image: linear-gradient(#1F6A95, #10354B); background-attachment: fixed;">
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-dark shadow-sm"  style="background-image: linear-gradient(#BC8C64, #C1691B);">
             <div class="container">
                 <a class="navbar-brand" href="{{ route('admin.home') }}">
-                    {{ config('app.name', 'Laravel') }}
+                    J.Club
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -59,6 +59,9 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="{{ route('admin.home') }}">หน้าหลัก</a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" aria-current="page"
                                 href="{{ route('admin.accept.top_up.view') }}">ยืนยันการเติมเงิน</a>
@@ -75,7 +78,8 @@
                                     href="{{ route('admin.manage_user.link_register.view') }}">ลิงค์สมาชิก</a>
                                 @if (Auth::guard('admin')->user()->position == 0)
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="{{route('admin.manage_agen.view')}}">จัดการข้อมูลเอเย่น</a>
+                                    <a class="dropdown-item"
+                                        href="{{ route('admin.manage_agen.view') }}">จัดการข้อมูลเอเย่น</a>
                                 @endif
                             </div>
                         </li>

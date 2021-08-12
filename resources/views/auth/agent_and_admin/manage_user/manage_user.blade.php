@@ -5,7 +5,7 @@
     <script>
         function addPost(event) {
             var position = $(event).data("position");
-
+            clear_ms_error();
             $("#recommend_password").html("")
             $("#recommend_confirm_password").html("")
             $("#text_addcus").html("เพิ่มรายชื่อ");
@@ -88,7 +88,7 @@
                                 if (res.auth_position == 0) $("#table_crud #row_" + id +
                                     " td:nth-child(7)").html(res.admin_data.username);
                             } else {
-                                console.log(res)
+                                // console.log(res)
                                 //ถ้าเป็นเจ้าของจะไม่แสดงคอลัมเอเจน
                                 if (res.auth_position == 0) {
                                     $('#table_crud tbody').prepend("<tr align='center' id='row_" + res
@@ -184,12 +184,12 @@
             $('#usernameError').text("");
             $('#passwordError').text("");
             $('#telephoneError').text("");
-            $('#creditError').text("");
-            $('#share_percentageError').text("");
+            $('#moneyError').text("");
+            $('#admin_idError').text("");
         }
 
         function editPost(event) {
-
+            clear_ms_error();
             var id = $(event).data("id");
             let _url = "/admin/get_api/get_user/" + id;
             $("#text_addcus").html("แก้ไขรายชื่อ");

@@ -57,30 +57,38 @@ class ManageUserController extends Controller
                     "money" => "required",
                     "admin_id" => "required",
                 ],
-                // [
-                //     //no
-                //     "no.required" => "กรุณากรอกช่องนี้",
-                //     "no.min" => "กรุณากรอกให้ครบ 6 หลัก",
-                //     "no.max" => "กรุณากรอกไม่เกิน 6 หลัก",
-                //     "no.unique" => "ข้อมูลนี้ถูกใช้แล้วไม่สารถมารถใช้ซํ้าได้",
-                //     //num
-                //     "num.required" => "กรุณากรอกช่องนี้",
-                //     "num.min" => "กรุณากรอกระหว่าง 1-6 หลัก",
-                //     "num.max" => "กรุณากรอกระหว่าง 1-6 หลัก",
-                //     //status
-                //     "status.required" => "กรุณากรอกช่องนี้",
+                [
+                    //name
+                    "name.required" => "กรุณากรอกช่องนี้",
+                    "name.min" => "กรุณากรอกให้ครบ 2 หลัก",
+                    "name.max" => "กรุณากรอกไม่เกิน 255 หลัก",
+                    //username
+                    "username.required" => "กรุณากรอกช่องนี้",
+                    "username.min" => "กรุณากรอกระหว่าง 8-20 หลัก",
+                    "username.max" => "กรุณากรอกระหว่าง 8-20 หลัก",
+                    "username.unique" => "ชื่อผู้ใช้นี้มีคนใช้แล้ว",
+                    //password
+                    "password.required" => "กรุณากรอกช่องนี้",
+                    "password.min" => "กรุณากรอกระหว่าง 8-20 หลัก",
+                    "password.max" => "กรุณากรอกระหว่าง 8-20 หลัก",
+                    "password.confirmed" => "กรุณายืนยันรหัสผ่านให้ถูกต้อง",
+                    //telephone
+                    "telephone.required" => "กรุณากรอกช่องนี้",
+                    "telephone.numeric" => "กรุณากรอกเป็นตัวเลข",
+                    "telephone.digits" => "กรุณากรอกให้ครบ 10 หลัก",
+                    "telephone.unique" => "เบอร์โทรนี้มีผู้คนใช้งานแล้ว",
 
-                //     //price
-                //     "price.required" => "กรุณากรอกช่องนี้",
-                //     "price.min" => "กรุณากรอกระหว่าง 1-7 หลัก",
-                //     "price.max" => "กรุณากรอกระหว่าง 1-7 หลัก",
-
-                // ],
+                    //money
+                    "money.required" => "กรุณากรอกช่องนี้",
+                    "money.regex" => "กรุณากรอกให้เป็นในรูปแบบจำนวนเงิน",
+                    //admin_id
+                    "admin_id.required" => "กรุณาเลือกตัวแทน",
+                ],
             );
             $user = User::updateOrCreate(['id' => $request->post_id], [
                 "name" => $request->name,
                 "username" => $request->username,
-                "password" => bcrypt($request->password),
+                "password" => $request->password != null || $request->password != "" ? bcrypt($request->password) : $user->password,
                 "telephone" => $request->telephone,
                 "money" => $request->money,
                 "admin_id" => $request->admin_id,
@@ -93,26 +101,34 @@ class ManageUserController extends Controller
                     "username" => "required|min:6|max:20|unique:users|unique:admins",
                     "password" => "required|min:8|max:20|confirmed",
                     "telephone" => "required|numeric|digits:10|unique:users|unique:admins",
-                    "money" => "required",
+                    "money" => "required|regex:/^\d+(\.\d{1,2})?$/",
                     "admin_id" => "required",
                 ],
                 [
-                    // //no
-                    // "no.required" => "กรุณากรอกช่องนี้",
-                    // "no.min" => "กรุณากรอกให้ครบ 6 หลัก",
-                    // "no.max" => "กรุณากรอกไม่เกิน 6 หลัก",
-                    // "no.unique" => "ข้อมูลนี้ถูกใช้แล้วไม่สารถมารถใช้ซํ้าได้",
-                    // //num
-                    // "num.required" => "กรุณากรอกช่องนี้",
-                    // "num.min" => "กรุณากรอกระหว่าง 1-6 หลัก",
-                    // "num.max" => "กรุณากรอกระหว่าง 1-6 หลัก",
-                    // //status
-                    // "status.required" => "กรุณากรอกช่องนี้",
-
-                    // //price
-                    // "price.required" => "กรุณากรอกช่องนี้",
-                    // "price.min" => "กรุณากรอกระหว่าง 1-7 หลัก",
-                    // "price.max" => "กรุณากรอกระหว่าง 1-7 หลัก",
+                    //name
+                    "name.required" => "กรุณากรอกช่องนี้",
+                    "name.min" => "กรุณากรอกให้ครบ 2 หลัก",
+                    "name.max" => "กรุณากรอกไม่เกิน 255 หลัก",
+                    //username
+                    "username.required" => "กรุณากรอกช่องนี้",
+                    "username.min" => "กรุณากรอกระหว่าง 8-20 หลัก",
+                    "username.max" => "กรุณากรอกระหว่าง 8-20 หลัก",
+                    "username.unique" => "ชื่อผู้ใช้นี้มีคนใช้แล้ว",
+                    //password
+                    "password.required" => "กรุณากรอกช่องนี้",
+                    "password.min" => "กรุณากรอกระหว่าง 8-20 หลัก",
+                    "password.max" => "กรุณากรอกระหว่าง 8-20 หลัก",
+                    "password.confirmed" => "กรุณายืนยันรหัสผ่านให้ถูกต้อง",
+                    //telephone
+                    "telephone.required" => "กรุณากรอกช่องนี้",
+                    "telephone.numeric" => "กรุณากรอกเป็นตัวเลข",
+                    "telephone.digits" => "กรุณากรอกให้ครบ 10 หลัก",
+                    "telephone.unique" => "เบอร์โทรนี้มีผู้คนใช้งานแล้ว",
+                    //money
+                    "money.required" => "กรุณากรอกช่องนี้",
+                    "money.regex" => "กรุณากรอกให้เป็นในรูปแบบจำนวนเงิน",
+                    //admin_id
+                    "admin_id.required" => "กรุณาเลือกตัวแทน",
 
                 ],
             );

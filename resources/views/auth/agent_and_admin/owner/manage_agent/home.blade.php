@@ -4,11 +4,12 @@
 
     <script>
         function addPost(event) {
+            clear_ms_error();
+            $("#form_first")[0].reset();
             $("#recommend_password").html("")
             $("#recommend_confirm_password").html("")
             $("#text_addcus").html("เพิ่มรายชื่อ");
             $('#post-modal').modal('show');
-            $("#form_first")[0].reset();
         }
 
         function createPost() {
@@ -124,6 +125,7 @@
         }
 
         function editPost(event) {
+            clear_ms_error();
             var id = $(event).data("id");
             let _url = "/admin/get_api/get_agent_by_id/" + id;
             $("#text_addcus").html("แก้ไขรายชื่อ");
@@ -472,8 +474,9 @@
                             <div class="col-sm-12">
                                 <input type="password" class="form-control" id="password" name="password"
                                     placeholder="กรุณากรอกรหัสผ่าน" required>
-                                <span id="passwordError" class="alert-message text-danger"></span>
                             </div>
+                            <span id="passwordError" class="alert-message text-danger"></span>
+
                         </div>
 
                         <div class="form-group">
@@ -482,7 +485,7 @@
                             <div class="col-sm-12">
                                 <input type="password" class="form-control" id="password-confirm"
                                     name="password_confirmation" placeholder="กรุณายืนยันรหัสผ่าน" required>
-                                <span id="usernameError" class="alert-message text-danger"></span>
+                                <span id="password_confirmation" class="alert-message text-danger"></span>
                             </div>
                         </div>
 
