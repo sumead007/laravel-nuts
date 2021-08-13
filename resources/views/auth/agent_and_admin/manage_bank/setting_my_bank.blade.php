@@ -6,9 +6,7 @@
         function addPost(event) {
             clear_ms_error();
             $("#form_first")[0].reset();
-            $("#recommend_password").html("")
-            $("#recommend_confirm_password").html("")
-            $("#text_addcus").html("เพิ่มรายชื่อ");
+            $("#text_addcus").html("เพิ่มธนาคารของฉัน");
             $('#post-modal').modal('show');
         }
 
@@ -27,9 +25,7 @@
                     var form = $('#form_first')[0];
                     var data = new FormData(form);
                     var id = $("#post_id").val();
-
-
-                    let _url = "{{ route('admin.manage_agen.store') }}";
+                    let _url = "{{ route('admin.manage_bank.setting_my_bank.store') }}";
                     let _token = $('meta[name="csrf-token"]').attr('content');
                     $.ajax({
                         enctype: 'multipart/form-data',
@@ -45,25 +41,19 @@
                         },
                         success: function(res) {
                             // console.log("สำเร็จ");
-
                             if (id != "") {
-                                $("#table_crud #row_" + id + " td:nth-child(2)").html(res.data.name);
+                                $("#table_crud #row_" + id + " td:nth-child(2)").html(res.data
+                                    .number_account);
                                 $("#table_crud #row_" + id + " td:nth-child(3)").html(res.data
-                                    .username);
+                                    .name_account);
                                 $("#table_crud #row_" + id + " td:nth-child(4)").html(res.data
-                                    .telephone);
-
-                                $("#table_crud #row_" + id + " td:nth-child(5)").html(res.data.credit);
-                                $("#table_crud #row_" + id + " td:nth-child(6)").html(res.data
-                                    .share_percentage);
+                                    .name_bank);
                             } else {
                                 console.log(res)
-                                //ถ้าเป็นเจ้าของจะไม่แสดงคอลัมเอเจน
                                 $('#table_crud tbody').prepend("<tr align='center' id='row_" + res
                                     .data
                                     .id + "'" +
                                     ">" +
-
                                     "<th id='td_choese" +
                                     "' class='align-middle' hidden='true'>" +
                                     "<div align='center'>" +
@@ -72,12 +62,10 @@
                                     "</div>" +
                                     "</th>" +
 
-                                    "<td class='align-middle'>" + res.data.name + "</td>" +
-                                    "<td class='align-middle'>" + res.data.username + "</td>" +
-                                    "<td class='align-middle'>" + res.data.telephone + "</td>" +
-                                    "<td class='align-middle'>" + res.data.credit + "</td>" +
-                                    "<td class='align-middle'>" + res.data.share_percentage +
+                                    "<td class='align-middle'>" + res.data.number_account +
                                     "</td>" +
+                                    "<td class='align-middle'>" + res.data.name_account + "</td>" +
+                                    "<td class='align-middle'>" + res.data.name_bank + "</td>" +
                                     "<td class='align-middle'>" + res.data.created_at_2 +
                                     "</td>" +
                                     "<td class='align-middle' align='center'>" +
@@ -101,13 +89,15 @@
                         },
                         error: function(err) {
                             console.log("ไม่สำเร็จ");
+                            Swal.fire(
+                                'ไม่สำเร็จ!',
+                                'กรุณาลองใหม่อีกครั้ง หรือรีเฟชหน้าเว็บนี้ใหม่อีกครั้ง',
+                                'error'
+                            )
                             clear_ms_error();
-                            $('#nameError').text(err.responseJSON.errors.name);
-                            $('#usernameError').text(err.responseJSON.errors.username);
-                            $('#passwordError').text(err.responseJSON.errors.password);
-                            $('#telephoneError').text(err.responseJSON.errors.telephone);
-                            $('#creditError').text(err.responseJSON.errors.credit);
-                            $('#share_percentageError').text(err.responseJSON.errors.share_percentage);
+                            $('#number_accountError').text(err.responseJSON.errors.number_account);
+                            $('#name_accountError').text(err.responseJSON.errors.name_account);
+                            $('#name_bankError').text(err.responseJSON.errors.name_bank);
                         }
                     });
                 }
@@ -116,22 +106,18 @@
         }
 
         function clear_ms_error() {
-            $('#nameError').text("");
-            $('#usernameError').text("");
-            $('#passwordError').text("");
-            $('#telephoneError').text("");
-            $('#creditError').text("");
-            $('#share_percentageError').text("");
+            $('#number_accountError').text("");
+            $('#name_accountError').text("");
+            $('#name_bankError').text("");
         }
 
         function editPost(event) {
+            $('#post-modal').modal('show');
             clear_ms_error();
             var id = $(event).data("id");
-            let _url = "/admin/get_api/get_agent_by_id/" + id;
-            $("#text_addcus").html("แก้ไขรายชื่อ");
+            let _url = "/admin/get_api/bank_organizations/" + id;
+            $("#text_addcus").html("แก้ไขธนาคารของฉัน");
             $("#form_first")[0].reset();
-            $("#recommend_password").html("*ถ้าต้องการที่จะเปลี่ยนรหัสผ่านใหม่กรุณากรอกช่องนี้")
-            $("#recommend_confirm_password").html("*ถ้าต้องการที่จะเปลี่ยนรหัสผ่านใหม่กรุณากรอกช่องนี้")
             $.ajax({
                 url: _url,
                 type: "POST",
@@ -142,12 +128,9 @@
                     //console.log(_url);
                     if (res) {
                         $("#post_id").val(res.id);
-                        $("#name").val(res.name);
-                        $("#telephone").val(res.telephone);
-                        $("#username").val(res.username);
-                        $("#credit").val(res.credit);
-                        $("#share_percentage").val(res.share_percentage);
-                        $('#post-modal').modal('show');
+                        $("#number_account").val(res.number_account);
+                        $("#name_account").val(res.name_account);
+                        $("#name_bank").val(res.name_bank);
                     }
                 }
             });
@@ -166,7 +149,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     var id = $(event).data("id");
-                    let _url = "/admin/manage_agen/delete/" + id;
+                    let _url = "/admin/manage_bank/delete/" + id;
                     let _token = $('meta[name="csrf-token"]').attr('content');
 
                     $.ajax({
@@ -257,7 +240,7 @@
 
         function select_delete() {
             var arr = [];
-            var _url = "{{ route('admin.manage_agen.delete_all') }}";
+            var _url = "{{ route('admin.manage_bank.delete_all') }}";
             let _token = $('meta[name="csrf-token"]').attr('content');
             $("input:checkbox[name=select]:checked").each(function() {
                 arr.push({
@@ -338,7 +321,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">จัดการข้อมูลเอเย่น</h3>
+                        <h3 class="card-title">ตั้งค่าธนาคารของฉัน</h3>
                     </div>
                     <div class="card-body">
 
@@ -366,51 +349,42 @@
                                 <thead>
                                     <tr align="center">
                                         <th id="th_choese" hidden>เลือก</th>
-                                        <th scope="col">ชื่อ</th>
-                                        <th scope="col">ชื่อผู้ใช้</th>
-                                        <th scope="col">เบอร์โทร</th>
-                                        <th scope="col">เครดิต</th>
-                                        <th scope="col">เปอร์เซนหุ้น</th>
-                                        <th scope="col">วันที่สมัคร</th>
-                                        <th scope="col">อื่นๆ</th>
+                                        <th scope="col">เลขที่บัญชี</th>
+                                        <th scope="col">ชื่อบัญชี</th>
+                                        <th scope="col">ชื่อธนาคาร</th>
+                                        <th scope="col">เพิ่มข้อมูลเมื่อ</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($agents as $agent)
+                                    @foreach ($bank_organizations as $bank_organization)
 
-                                        <tr align="center" id="row_{{ $agent->id }}">
+                                        <tr align="center" id="row_{{ $bank_organization->id }}">
                                             <th id="td_choese" class="align-middle" hidden>
                                                 <div align="center">
                                                     <input type="checkbox" class="form-check" name="select"
-                                                        data-cusm_id="{{ $agent->id }}" id="select_input"
-                                                        value="{{ $agent->id }}">
+                                                        data-cusm_id="{{ $bank_organization->id }}" id="select_input"
+                                                        value="{{ $bank_organization->id }}">
                                                 </div>
                                             </th>
                                             <td class="align-middle">
-                                                {{ $agent->name }}
+                                                {{ $bank_organization->number_account }}
                                             </td>
                                             <td class="align-middle">
-                                                {{ $agent->username }}
+                                                {{ $bank_organization->name_account }}
                                             </td>
                                             <td class="align-middle">
-                                                {{ $agent->telephone }}
+                                                {{ $bank_organization->name_bank }}
                                             </td>
                                             <td class="align-middle">
-                                                {{ $agent->credit }}
-                                            </td>
-                                            <td class="align-middle">
-                                                {{ $agent->share_percentage }}
-                                            </td>
-                                            <td class="align-middle">
-                                                {{ Carbon\Carbon::parse($agent->created_at)->locale('th')->diffForHumans() }}
+                                                {{ Carbon\Carbon::parse($bank_organization->created_at)->locale('th')->diffForHumans() }}
                                             </td>
                                             <td class="align-middle" align="center">
                                                 <a href="javascript:void(0)" class="btn btn-warning"
-                                                    data-id="{{ $agent->id }}" onclick="editPost(event.target)"
-                                                    id='btn_edit'>แก้ไข</a>
+                                                    data-id="{{ $bank_organization->id }}"
+                                                    onclick="editPost(event.target)" id='btn_edit'>แก้ไข</a>
                                                 <a href="javascript:void(0)" class="btn btn-danger"
-                                                    data-id="{{ $agent->id }}" onclick="deletePost(event.target)"
-                                                    id='btn_delete'>ลบ</a>
+                                                    data-id="{{ $bank_organization->id }}"
+                                                    onclick="deletePost(event.target)" id='btn_delete'>ลบ</a>
                                             </td>
                                         </tr>
 
@@ -418,24 +392,11 @@
                                 </tbody>
                             </table>
                         </div>
-
                         <div class="d-flex justify-content-center">
-                            {!! $agents->links() !!}
+                            {!! $bank_organizations->links() !!}
                         </div>
                     </div>
 
-                </div>
-            </div>
-        </div>
-    </div>
-    {{-- modal image preview --}}
-    <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
-                            class="sr-only">Close</span></button>
-                    <img src="" class="imagepreview" style="width: 100%;">
                 </div>
             </div>
         </div>
@@ -451,67 +412,29 @@
                     <form name="form_first" id="form_first" class="form-horizontal">
                         <input type="hidden" name="post_id" id="post_id">
                         <div class="form-group">
-                            <label for="name">ชื่อ</label>
+                            <label for="number_account">เลขที่บัญชี</label>
                             <div class="col-sm-12">
-                                <input type="text" class="form-control" id="name" name="name" required
-                                    placeholder="กรุณากรอกชื่อ">
-                                <span id="nameError" class="alert-message text-danger"></span>
+                                <input type="text" class="form-control" id="number_account" name="number_account" required
+                                    placeholder="กรุณากรอกเลขที่บัญชี">
+                                <span id="number_accountError" class="alert-message text-danger"></span>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="username">ชื่อผู้ใช้</label>
+                            <label for="name_account">ชื่อบัญชี</label>
                             <div class="col-sm-12">
-                                <input type="text" class="form-control" id="username" name="username"
-                                    placeholder="กรุณากรอกชื่อผู้ใช้" required>
-                                <span id="usernameError" class="alert-message text-danger"></span>
+                                <input type="text" class="form-control" id="name_account" name="name_account"
+                                    placeholder="กรุณากรอกชื่อบัญชี" required>
+                                <span id="name_accountError" class="alert-message text-danger"></span>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="password">รหัสผ่าน <span id="recommend_password"
-                                    class="alert-message text-danger"></span></label>
+                            <label for="name_bank">ชื่อธนาคาร</label>
                             <div class="col-sm-12">
-                                <input type="password" class="form-control" id="password" name="password"
-                                    placeholder="กรุณากรอกรหัสผ่าน" required>
-                            </div>
-                            <span id="passwordError" class="alert-message text-danger"></span>
-
-                        </div>
-
-                        <div class="form-group">
-                            <label for="password-confirm">ยืนยันรหัสผ่าน <span id="recommend_confirm_password"
-                                    class="alert-message text-danger"></span></label>
-                            <div class="col-sm-12">
-                                <input type="password" class="form-control" id="password-confirm"
-                                    name="password_confirmation" placeholder="กรุณายืนยันรหัสผ่าน" required>
-                                <span id="password_confirmation" class="alert-message text-danger"></span>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="telephone">เบอร์โทรศัพท์</label>
-                            <div class="col-sm-12">
-                                <input type="text" class="form-control" id="telephone" name="telephone"
-                                    placeholder="กรุณากรอกเบอร์โทร" required>
-                                <span id="telephoneError" class="alert-message text-danger"></span>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="credit">เครดิต (ค่าเริ่มต้น)</label>
-                            <div class="col-sm-12">
-                                <input type="number" class="form-control" id="credit" name="credit"
-                                    placeholder="กรุณากรอกจำนวนเงิน" value="0">
-                                <span id="creditError" class="alert-message text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="share_percentage">เปอร์เซน (ค่าเริ่มต้น)</label>
-                            <div class="col-sm-12">
-                                <input type="number" class="form-control" id="share_percentage" name="share_percentage"
-                                    placeholder="กรุณากรอกจำนวนเงิน" value="0">
-                                <span id="share_percentageError" class="alert-message text-danger"></span>
+                                <input type="text" class="form-control" id="name_bank" name="name_bank"
+                                    placeholder="กรุณากรอกชื่อธนาคาร" required>
+                                <span id="name_bankError" class="alert-message text-danger"></span>
                             </div>
                         </div>
                     </form>
@@ -522,17 +445,4 @@
             </div>
         </div>
     </div>
-
-
-
-
-    <script>
-        $(function() {
-            $('.pop').on('click', function() {
-                $('.imagepreview').attr('src', $(this).find('img').attr('src'));
-                $('#imagemodal').modal('show');
-            });
-        });
-    </script>
-
 @endsection

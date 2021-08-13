@@ -338,54 +338,24 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">จัดการข้อมูลเอเย่น</h3>
+                        <h3 class="card-title">เคลียร์ยอด</h3>
                     </div>
                     <div class="card-body">
 
-                        <div class="mb-3 d-flex justify-content-between">
-                            <div>
-                                <a href="javascript:void(0)" class="btn btn-success" hidden="true" id="select_all"
-                                    onclick="select_all()">เลือกทั้งหมด</a>
-                                <a href="javascript:void(0)" class="btn btn-info" hidden="true" id="reset_select"
-                                    onclick="reset_select()">รีเซต</a>
-                            </div>
-                            <div align="right">
-                                <button class="btn btn-info" status="0" onclick="showInputChouse(event)"
-                                    id="btn_chouse">เลือก</button>
-                                <a href="javascript:void(0)" class="btn btn-danger" hidden="true" id="delete_select"
-                                    onclick="select_delete()">ลบข้อมูลที่เลือก</a>
-
-                                <a href="javascript:void(0)" class="btn btn-success " id="create-new-post"
-                                    data-position="{{ Auth::guard('admin')->user()->position }}"
-                                    onclick="addPost(event.target)">เพิ่มรายชื่อ</a>
-                            </div>
-
-                        </div>
                         <div class="table-responsive">
                             <table class="table text-nowrap p-0" id="table_crud">
                                 <thead>
                                     <tr align="center">
-                                        <th id="th_choese" hidden>เลือก</th>
                                         <th scope="col">ชื่อ</th>
                                         <th scope="col">ชื่อผู้ใช้</th>
                                         <th scope="col">เบอร์โทร</th>
-                                        <th scope="col">เครดิต</th>
                                         <th scope="col">เปอร์เซนหุ้น</th>
-                                        <th scope="col">วันที่สมัคร</th>
-                                        <th scope="col">อื่นๆ</th>
+                                        <th scope="col">ยอด (ผู้เล่นเสีย)</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($agents as $agent)
-
                                         <tr align="center" id="row_{{ $agent->id }}">
-                                            <th id="td_choese" class="align-middle" hidden>
-                                                <div align="center">
-                                                    <input type="checkbox" class="form-check" name="select"
-                                                        data-cusm_id="{{ $agent->id }}" id="select_input"
-                                                        value="{{ $agent->id }}">
-                                                </div>
-                                            </th>
                                             <td class="align-middle">
                                                 {{ $agent->name }}
                                             </td>
@@ -396,22 +366,15 @@
                                                 {{ $agent->telephone }}
                                             </td>
                                             <td class="align-middle">
-                                                {{ $agent->credit }}
-                                            </td>
-                                            <td class="align-middle">
                                                 {{ $agent->share_percentage }}
                                             </td>
                                             <td class="align-middle">
-                                                {{ Carbon\Carbon::parse($agent->created_at)->locale('th')->diffForHumans() }}
+                                             <b class="text-danger">
+                                                 {{ $agent->sum }}
+                                                </b>
+
                                             </td>
-                                            <td class="align-middle" align="center">
-                                                <a href="javascript:void(0)" class="btn btn-warning"
-                                                    data-id="{{ $agent->id }}" onclick="editPost(event.target)"
-                                                    id='btn_edit'>แก้ไข</a>
-                                                <a href="javascript:void(0)" class="btn btn-danger"
-                                                    data-id="{{ $agent->id }}" onclick="deletePost(event.target)"
-                                                    id='btn_delete'>ลบ</a>
-                                            </td>
+
                                         </tr>
 
                                     @endforeach
@@ -522,17 +485,4 @@
             </div>
         </div>
     </div>
-
-
-
-
-    <script>
-        $(function() {
-            $('.pop').on('click', function() {
-                $('.imagepreview').attr('src', $(this).find('img').attr('src'));
-                $('#imagemodal').modal('show');
-            });
-        });
-    </script>
-
 @endsection

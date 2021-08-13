@@ -3,8 +3,10 @@
 use App\Events\TurnOnTurnOff;
 use App\Http\Controllers\Admin\AcceptTopup\AcceptTopupController;
 use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Admin\ManageBank\SettingBankController;
 use App\Http\Controllers\Admin\ManageUser\LinkRegisterController;
 use App\Http\Controllers\Admin\ManageUser\ManageUserController;
+use App\Http\Controllers\Admin\Owner\ClearPercent\ClearPercentController;
 use App\Http\Controllers\Admin\Owner\ManageAgent\ManageAgentController;
 use App\Http\Controllers\User\Bet\BetController;
 use App\Http\Controllers\User\TopUp\TopupController;
@@ -77,13 +79,24 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::delete('admin/manage_user/delete/{id}', [ManageUserController::class, 'delete_post']);
     Route::post('admin/manage_user/delete_all', [ManageUserController::class, 'delete_all'])->name('admin.manage_user.delete_all');
 
+    //จัดการธนาคารของฉัน
+    Route::get('admin/manage_bank/setting_my_bank/view', [SettingBankController::class, 'index'])->name('admin.manage_bank.setting_my_bank.view');
+    Route::post('admin/manage_bank/setting_my_bank/store', [SettingBankController::class, 'store'])->name('admin.manage_bank.setting_my_bank.store');
+    Route::post('admin/get_api/bank_organizations/{id}', [SettingBankController::class, 'get_bank_organizations']);
+    Route::delete('admin/manage_bank/delete/{id}', [SettingBankController::class, 'delete_post']);
+    Route::post('admin/manage_bank/delete_all', [SettingBankController::class, 'delete_all'])->name('admin.manage_bank.delete_all');
+
     //สิทธ์เจ้าของ
     Route::middleware(['chk_position'])->group(function () {
+        //จัดการข้อมูลเอเย่น
         Route::get('admin/manage_agen/view', [ManageAgentController::class, 'index'])->name('admin.manage_agen.view');
         Route::post('admin/manage_agen/store', [ManageAgentController::class, 'store'])->name('admin.manage_agen.store');
         Route::post('admin/get_api/get_agent_by_id/{id}', [ManageAgentController::class, 'get_agent']);
         Route::delete('admin/manage_agen/delete/{id}', [ManageAgentController::class, 'delete_post']);
         Route::post('admin/manage_agen/delete_all', [ManageAgentController::class, 'delete_all'])->name('admin.manage_agen.delete_all');
+
+        //เคลียยอด
+        Route::get('admin/clear_percent/view', [ClearPercentController::class, 'index'])->name('admin.clear_percent.view');
 
     });
 

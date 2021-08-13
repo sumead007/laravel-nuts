@@ -45,7 +45,8 @@
 
 <body style="background-image: linear-gradient(#1F6A95, #10354B); background-attachment: fixed;">
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-dark shadow-sm"  style="background-image: linear-gradient(#BC8C64, #C1691B);">
+        <nav class="navbar navbar-expand-md navbar-dark shadow-sm"
+            style="background-image: linear-gradient(#BC8C64, #C1691B);">
             <div class="container">
                 <a class="navbar-brand" href="{{ route('admin.home') }}">
                     J.Club
@@ -83,6 +84,22 @@
                                 @endif
                             </div>
                         </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                ธนาคาร
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item"
+                                    href="{{ route('admin.manage_bank.setting_my_bank.view') }}">ตั้งค่าธนาคารของฉัน</a>
+                            </div>
+                        </li>
+                        @if (Auth::guard('admin')->user()->position == 0)
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page"
+                                    href="{{ route('admin.clear_percent.view') }}">เคลียร์ยอด</a>
+                            </li>
+                        @endif
                     </ul>
 
                     <!-- Right Side Of Navbar -->
