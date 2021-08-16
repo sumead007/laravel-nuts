@@ -56,6 +56,6 @@ class User extends Authenticatable
 
     public function bet_detail()
     {
-        return $this->hasMany(BetDetail::class, 'id');
+        return $this->hasMany(BetDetail::class, 'user_id');
     }
 }

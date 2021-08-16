@@ -54,7 +54,7 @@ class ManageUserController extends Controller
                     "username" => $user->username != $request->username ? "required|min:6|max:20|unique:users|unique:admins" : "required|min:6|max:20|unique:admins",
                     "password" =>  $request->password != null || $request->password != "" ? "required|min:8|max:20|confirmed" : "",
                     "telephone" => $user->telephone != $request->telephone ? "required|numeric|digits:10|unique:users|unique:admins" : "required|numeric|digits:10|unique:admins",
-                    "money" => "required",
+                    "money" => "required|regex:/^\d+(\.\d{1,2})?$/",
                     "admin_id" => "required",
                 ],
                 [

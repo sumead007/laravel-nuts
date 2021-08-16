@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ManageBank\SettingBankController;
 use App\Http\Controllers\Admin\ManageUser\LinkRegisterController;
 use App\Http\Controllers\Admin\ManageUser\ManageUserController;
 use App\Http\Controllers\Admin\Owner\ClearPercent\ClearPercentController;
+use App\Http\Controllers\Admin\Owner\ClearPercent\ClearPercentDetailController;
 use App\Http\Controllers\Admin\Owner\ManageAgent\ManageAgentController;
 use App\Http\Controllers\User\Bet\BetController;
 use App\Http\Controllers\User\TopUp\TopupController;
@@ -97,6 +98,8 @@ Route::middleware(['auth:admin'])->group(function () {
 
         //เคลียยอด
         Route::get('admin/clear_percent/view', [ClearPercentController::class, 'index'])->name('admin.clear_percent.view');
+        Route::get('admin/clear_percent_detail/view/{id}', [ClearPercentDetailController::class, 'index'])->name('admin.clear_percent_detail.view');
+        Route::post('admin/clear_percent_detail/store', [ClearPercentDetailController::class, 'store'])->name('admin.clear_percent_detail.store');
 
     });
 

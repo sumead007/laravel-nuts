@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class BetDetail extends Model
+class ClearPercentDetail extends Model
 {
     use HasFactory;
 
@@ -15,15 +15,8 @@ class BetDetail extends Model
      * @var array
      */
     protected $fillable = [
-        'status',
-        'user_id',
-        'number',
-        'money',
-        'bet_id',
+        'clear_id',
+        'bet_detail_id',
     ];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'id');
-    }
+    public $timestamps = false;
 }
