@@ -18,5 +18,15 @@ class ClearPercentDetail extends Model
         'clear_id',
         'bet_detail_id',
     ];
+
+    public function clear_percents()
+    {
+        return $this->belongsTo(ClearPercent::class, 'id');
+    }
+
+    public function bet_details()
+    {
+        return $this->belongsTo(BetDetail::class, 'id');
+    }
     public $timestamps = false;
 }

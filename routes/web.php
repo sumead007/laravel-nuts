@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ManageUser\LinkRegisterController;
 use App\Http\Controllers\Admin\ManageUser\ManageUserController;
 use App\Http\Controllers\Admin\Owner\ClearPercent\ClearPercentController;
 use App\Http\Controllers\Admin\Owner\ClearPercent\ClearPercentDetailController;
+use App\Http\Controllers\Admin\Owner\ClearPercent\HistoryController;
 use App\Http\Controllers\Admin\Owner\ManageAgent\ManageAgentController;
 use App\Http\Controllers\User\Bet\BetController;
 use App\Http\Controllers\User\TopUp\TopupController;
@@ -100,6 +101,9 @@ Route::middleware(['auth:admin'])->group(function () {
         Route::get('admin/clear_percent/view', [ClearPercentController::class, 'index'])->name('admin.clear_percent.view');
         Route::get('admin/clear_percent_detail/view/{id}', [ClearPercentDetailController::class, 'index'])->name('admin.clear_percent_detail.view');
         Route::post('admin/clear_percent_detail/store', [ClearPercentDetailController::class, 'store'])->name('admin.clear_percent_detail.store');
+        Route::get('admin/clear_percent/history/view', [HistoryController::class, 'index'])->name('admin.clear_percent.history.view');
+        Route::post('admin/get_api/clear_percents', [HistoryController::class, 'get_clear_percents'])->name('admin.get_api.clear_percents');
+        Route::get('admin/clear_percent_detail/history/view/{id}', [HistoryController::class, 'history']);
 
     });
 

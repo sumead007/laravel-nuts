@@ -40,35 +40,74 @@
                                             </div>
                                         </th>
                                         <td class="align-middle">
-                                            {{ $confirm_topup->top_up->user->username }}
-                                        </td>
-                                        <td class="align-middle">
-                                            @if ($confirm_topup->top_up->status == 0)
-                                                รอการยืนยัน
-                                            @elseif ($confirm_topup->top_up->status == 1)
-                                                สำเร็จ
+                                            @if ($confirm_topup->top_up != null)
+                                                {{ $confirm_topup->top_up->user->username }}
                                             @else
-                                                มีข้อผิดพลาด
+                                                ไม่มีข้อมูล
                                             @endif
                                         </td>
-                                        <td class="align-middle"><a href="#" class="pop">
-                                                <img src="{{ asset($confirm_topup->top_up->image) }}"
-                                                    alt="{{ $confirm_topup->top_up->image }}" width="100" height="100">
-                                            </a></td>
-                                        <td class="align-middle">{{ $confirm_topup->top_up->number_account }}</td>
-                                        <td class="align-middle">{{ $confirm_topup->top_up->name_bank }}</td>
-                                        <td class="align-middle">{{ $confirm_topup->top_up->name_account }}</td>
                                         <td class="align-middle">
-                                            {{ $confirm_topup->top_up->money }}
+                                            @if ($confirm_topup->top_up != null)
+                                                @if ($confirm_topup->top_up->status == 0)
+                                                    รอการยืนยัน
+                                                @elseif ($confirm_topup->top_up->status == 1)
+                                                    สำเร็จ
+                                                @else
+                                                    มีข้อผิดพลาด
+                                                @endif
+                                            @else
+                                                ไม่มีข้อมูล
+                                            @endif
                                         </td>
                                         <td class="align-middle">
-
-                                            {{ $confirm_topup->top_up->bank_organization->name_account }}
-                                            <br>
-                                            {{ $confirm_topup->top_up->bank_organization->number_account }}
-                                            <br>
-                                            {{ $confirm_topup->top_up->bank_organization->name_bank }}
-
+                                            @if ($confirm_topup->top_up != null)
+                                                <a href="#" class="pop">
+                                                    <img src="{{ asset($confirm_topup->top_up->image) }}"
+                                                        alt="{{ $confirm_topup->top_up->image }}" width="100"
+                                                        height="100">
+                                                </a>
+                                            @else
+                                                ไม่มีข้อมูล
+                                            @endif
+                                        </td>
+                                        <td class="align-middle">
+                                            @if ($confirm_topup->top_up != null)
+                                                {{ $confirm_topup->top_up->number_account }}
+                                            @else
+                                                ไม่มีข้อมูล
+                                            @endif
+                                        </td>
+                                        <td class="align-middle">
+                                            @if ($confirm_topup->top_up != null)
+                                                {{ $confirm_topup->top_up->name_bank }}
+                                            @else
+                                                ไม่มีข้อมูล
+                                            @endif
+                                        </td>
+                                        <td class="align-middle">
+                                            @if ($confirm_topup->top_up != null)
+                                                {{ $confirm_topup->top_up->name_account }}
+                                            @else
+                                                ไม่มีข้อมูล
+                                            @endif
+                                        </td>
+                                        <td class="align-middle">
+                                            @if ($confirm_topup->top_up != null)
+                                                {{ $confirm_topup->top_up->money }}
+                                            @else
+                                                ไม่มีข้อมูล
+                                            @endif
+                                        </td>
+                                        <td class="align-middle">
+                                            @if ($confirm_topup->top_up != null)
+                                                {{ $confirm_topup->top_up->bank_organization->name_account }}
+                                                <br>
+                                                {{ $confirm_topup->top_up->bank_organization->number_account }}
+                                                <br>
+                                                {{ $confirm_topup->top_up->bank_organization->name_bank }}
+                                            @else
+                                                ไม่มีข้อมูล
+                                            @endif
                                         </td>
                                         <th scope="row" class="align-middle">
                                             {{ Carbon\Carbon::parse($confirm_topup->updated_at)->locale('th')->diffForHumans() }}

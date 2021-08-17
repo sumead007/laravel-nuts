@@ -9,7 +9,7 @@ class ClearPercent extends Model
 {
     use HasFactory;
 
-       /**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -17,4 +17,9 @@ class ClearPercent extends Model
     protected $fillable = [
         'admin_id',
     ];
+
+    public function clear_percent_details()
+    {
+        return $this->hasMany(ClearPercentDetail::class, 'clear_id');
+    }
 }

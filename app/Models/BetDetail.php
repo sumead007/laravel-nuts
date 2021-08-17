@@ -26,4 +26,8 @@ class BetDetail extends Model
     {
         return $this->belongsTo(User::class, 'id');
     }
+
+    public function clear_percent_details(){
+        return $this->hasOne(ClearPercentDetail::class, 'bet_detail_id');
+    }
 }

@@ -7,7 +7,14 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">เคลียร์ยอด</h3>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h3 class="card-title">เคลียร์ยอด</h3>
+                            </div>
+                            <div class="col-md-6" align="right">
+                                <a href="{{route('admin.clear_percent.history.view')}}" class="btn btn-success">ประวัติ</a>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-body">
 
@@ -23,9 +30,10 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($agents as $agent)
-                                        <tr align="center" id="row_{{ $agent->id }}" role="button" data-href="{{route('admin.clear_percent_detail.view', $agent->id)}}">
+                                        <tr align="center" id="row_{{ $agent->id }}" role="button"
+                                            data-href="{{ route('admin.clear_percent_detail.view', $agent->id) }}">
                                             <td class="align-middle">
-                                               {{ $agent->name }}
+                                                {{ $agent->name }}
                                             </td>
                                             <td class="align-middle">
                                                 {{ $agent->username }}
@@ -55,9 +63,9 @@
 
     <script>
         jQuery(document).ready(function($) {
-            $(".table").on("click", "tr[role=\"button\"]", function (e) {
-          window.location = $(this).data("href");
-     });
+            $(".table").on("click", "tr[role=\"button\"]", function(e) {
+                window.location = $(this).data("href");
+            });
         });
     </script>
 
