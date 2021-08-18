@@ -28,10 +28,16 @@ class HistoryController extends Controller
 
     public function get_clear_percents(Request $request)
     {
-        $request->validate([
-            "date_start" => "required",
-            "date_end" => "required",
-        ]);
+        $request->validate(
+            [
+                "date_start" => "required",
+                "date_end" => "required",
+            ],
+            [
+                "date_start.required"=>"กรุณาเลือกวันที่เริ่ม",
+                "date_end.required"=>"กรุณาเลือกวันที่สิ้นสุด"
+            ]
+        );
 
         $clear_percent = DB::table('clear_percents')
             ->join('clear_percent_details', 'clear_percents.id', '=', 'clear_percent_details.clear_id')
@@ -62,6 +68,24 @@ class HistoryController extends Controller
     public function history($id)
     {
         $clear_percent = ClearPercent::find($id);
-        return view('auth.agent_and_admin.owner.clear_percent.history_detail', compact('clear_percent'));
+        $users = DB::table('clear_percents')
+            ->join('clear_percent_details', 'clear_percents.id', '=', 'clear_percent_details.clear_id')
+            ->join('bet_details', 'bet_details.id', '=', 'clear_percent_details.bet_detail_id')
+            ->join('users', 'users.id', '=', 'bet_details.user_id')
+            ->join('admins', 'admins.id', '=', 'users.admin_id')
+            ->select(
+                // 'clear_percents.*',
+                // 'clear_percents.created_at',
+                'clear_percents.id',
+                'users.id',
+                'users.name',
+                'users.username',
+                'users.telephone',
+            )
+            ->where('clear_percents.id', $id)
+            ->groupBy('users.id')
+            ->get();
+        // return dd($clear_percent2);
+        return view('auth.agent_and_admin.owner.clear_percent.history_detail', compact('clear_percent', 'users'));
     }
 }

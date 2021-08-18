@@ -20,14 +20,16 @@ class BetDetail extends Model
         'number',
         'money',
         'bet_id',
+        'clear_percent'
     ];
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function clear_percent_details(){
-        return $this->hasOne(ClearPercentDetail::class, 'bet_detail_id');
+    public function clear_percent_details()
+    {
+        return $this->hasOne(ClearPercentDetail::class, 'id');
     }
 }

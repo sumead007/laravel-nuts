@@ -20,6 +20,6 @@ class ClearPercent extends Model
 
     public function clear_percent_details()
     {
-        return $this->hasMany(ClearPercentDetail::class, 'clear_id');
+        return $this->hasMany(ClearPercentDetail::class, 'clear_id', 'id');
     }
 }

@@ -206,6 +206,7 @@
         var channel2 = pusher.subscribe('channel-result');
         channel2.bind('event-result', function(res) {
             var no_last_tr = parseInt($('#tb_history tr:last td:nth-child(1)').html()) + 1;
+            no_last_tr = no_last_tr || 1;
             // console.log(res);
             $("#tb_history tbody").append(
                 "<tr align='center'>" +

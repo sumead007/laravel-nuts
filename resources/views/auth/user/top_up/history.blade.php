@@ -70,6 +70,7 @@
                                             {{ Carbon\Carbon::parse($top_up->updated_at)->locale('th')->diffForHumans() }}
                                         </td>
                                         <td class="align-middle">
+                                         {{-- {{$top_up}} --}}
                                             @if ($top_up->confirm_topup == null)
                                                 -
                                             @else

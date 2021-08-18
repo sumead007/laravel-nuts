@@ -1,6 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
+    <script>
+        function forgot_password() {
+            Swal.fire(
+                'ไม่สำเร็จ!',
+                'กรุณาติดต่อแอตมิน หรือเอเจ่นของท่าน',
+                'error'
+            );
+        }
+    </script>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -57,18 +66,18 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row">
+                            {{-- <div class="form-group row">
                                 <div class="col-md-6 offset-md-4">
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="remember" id="remember"
                                             {{ old('remember') ? 'checked' : '' }}>
 
                                         <label class="form-check-label" for="remember">
-                                            {{ __('Remember Me') }}
+                                            {{ __('จดจำฉัน') }}
                                         </label>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
 
                             <div class="form-group row mb-0">
                                 <div class="col-md-8 offset-md-4">
@@ -77,9 +86,10 @@
                                     </button>
 
                                     @if (Route::has('password.request'))
-                                        <a class="btn btn-link" href="{{ route('password.request') }}">
+                                        {{-- <a class="btn btn-link" href="{{ route('password.request') }}">
                                             {{ __('Forgot Your Password?') }}
-                                        </a>
+                                        </a> --}}
+                                        <a class="btn btn-link" href="javascript:void(0)" onclick="forgot_password()">ลืมรหัสผ่าน</a>
                                     @endif
                                 </div>
                             </div>

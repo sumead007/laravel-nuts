@@ -17,6 +17,7 @@ class ClearPercentDetail extends Model
     protected $fillable = [
         'clear_id',
         'bet_detail_id',
+        "status",
     ];
 
     public function clear_percents()
@@ -26,7 +27,7 @@ class ClearPercentDetail extends Model
 
     public function bet_details()
     {
-        return $this->belongsTo(BetDetail::class, 'id');
+        return $this->belongsTo(BetDetail::class, 'bet_detail_id');
     }
     public $timestamps = false;
 }

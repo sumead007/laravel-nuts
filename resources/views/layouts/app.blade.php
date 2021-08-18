@@ -19,14 +19,20 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    {{-- sweetalert2 --}}
+    <script src="{{ asset('sweetalert2/dist/sweetalert2.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('sweetalert2/dist/sweetalert2.min.css') }}">
+
 </head>
 
 <body style="background-image: linear-gradient(#1F6A95, #10354B); background-attachment: fixed;">
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-dark shadow-sm"
+        style="background-image: linear-gradient(#BC8C64, #C1691B);">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                    J.Club
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -45,7 +51,7 @@
                         @if (!(Auth::guard('user')->check() || Auth::guard('admin')->check()))
                             @if (Route::has('login'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                    <a class="nav-link" href="{{ route('login') }}">{{ __('ล็อกอิน') }}</a>
                                 </li>
                             @endif
                         @else

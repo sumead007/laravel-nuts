@@ -9,7 +9,7 @@ class ConfirmTopup extends Model
 {
     use HasFactory;
 
-     /**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -20,7 +20,8 @@ class ConfirmTopup extends Model
         'note',
     ];
 
-    public function top_up(){
-        return $this->belongsTo(TopUp::class,'topup_id');
+    public function top_up()
+    {
+        return $this->belongsTo(TopUp::class, 'topup_id', 'id');
     }
 }

@@ -27,7 +27,7 @@
                         data: {
                             data: data_arr,
                             money: data_money,
-                            agent_id: data_agentID,
+                            agent_id: data_agentID
                         },
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -113,7 +113,7 @@
                                                     $bet_win = 0;
                                                 @endphp
                                                 @foreach ($user->bet_detail as $bet_detail)
-                                                    @if ($bet_detail->status == 1)
+                                                    @if ($bet_detail->status == 1 && $bet_detail->clear_percent== null)
                                                         {{-- {{ $bet_detail->money }} --}}
                                                         @php
                                                             $bet_win += $bet_detail->money;
@@ -131,11 +131,12 @@
                                                     $bet_lose = 0;
                                                 @endphp
                                                 @foreach ($user->bet_detail as $bet_detail)
-                                                    @if ($bet_detail->status == 2)
+                                                    @if ($bet_detail->status == 2 && $bet_detail->clear_percent== null)
                                                         {{-- {{ $bet_detail->money }} --}}
                                                         @php
                                                             $bet_lose += $bet_detail->money;
                                                             $bets_id[] = $bet_detail->id;
+
                                                         @endphp
                                                     @endif
                                                 @endforeach

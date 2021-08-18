@@ -36,6 +36,6 @@ class TopUp extends Model
     }
 
     public function confirm_topup(){
-        return $this->hasOne(ConfirmTopup::class, 'id');
+        return $this->hasOne(ConfirmTopup::class, 'topup_id', 'id');
     }
 }

@@ -47,6 +47,7 @@ class ClearPercentDetailController extends Controller
     }
     public function store(Request $request)
     {
+        // return dd($request->stat);
         $data_pass = $request->data;
         $agent_id_pass =  $request->agent_id;
         $money_pass = abs($request->money);
@@ -56,16 +57,16 @@ class ClearPercentDetailController extends Controller
         $clear_percent->save();
         for ($i = 0; $i < count($data_pass); $i++) {
             BetDetail::find($data_pass[$i])->update([
-                "status" => 3
+                "clear_percent" => 1
             ]);
             ClearPercentDetail::create([
                 "clear_id" => $clear_percent->id,
-                "bet_detail_id" => $data_pass[$i]
+                "bet_detail_id" => $data_pass[$i],
             ]);
         }
-        Admin::find($agent_id_pass)->update([
-            "credit" => $money_pass
-        ]);
+        $admin = Admin::find($agent_id_pass);
+        $admin->credit = $admin->credit + $money_pass;
+        $admin->update();
         return response()->json(["msg" => "เคลียบินนี้สำเร็จ"], 200);
     }
 }
