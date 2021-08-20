@@ -342,17 +342,17 @@
                                     data-position="{{ Auth::guard('admin')->user()->position }}"
                                     onclick="addPost(event.target)">เพิ่มรายชื่อ</a>
                             </div>
-
                         </div>
                         <div class="table-responsive">
                             <table class="table text-nowrap p-0" id="table_crud">
-                                <thead>
+                                <thead class="thead-dark">
                                     <tr align="center">
                                         <th id="th_choese" hidden>เลือก</th>
                                         <th scope="col">เลขที่บัญชี</th>
                                         <th scope="col">ชื่อบัญชี</th>
                                         <th scope="col">ชื่อธนาคาร</th>
                                         <th scope="col">เพิ่มข้อมูลเมื่อ</th>
+                                        <th scope="col">อื่นๆ</th>
                                     </tr>
                                 </thead>
                                 <tbody>

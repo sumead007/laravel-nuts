@@ -13,7 +13,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <div class="card">
+                <div class="card border-dark mb-3">
                     <div class="card-header">{{ __('เข้าสู่ระบบ') }}</div>
 
                     <div class="card-body">
@@ -81,15 +81,15 @@
 
                             <div class="form-group row mb-0">
                                 <div class="col-md-8 offset-md-4">
-                                    <button type="submit" class="btn btn-primary">
-                                        {{ __('Login') }}
+                                    <button type="submit" class="btn btn-secondary">
+                                        {{ __('เข้าสู่ระบบ') }}
                                     </button>
 
                                     @if (Route::has('password.request'))
                                         {{-- <a class="btn btn-link" href="{{ route('password.request') }}">
                                             {{ __('Forgot Your Password?') }}
                                         </a> --}}
-                                        <a class="btn btn-link" href="javascript:void(0)" onclick="forgot_password()">ลืมรหัสผ่าน</a>
+                                        <a class="btn btn-outline-dark" href="javascript:void(0)" onclick="forgot_password()">ลืมรหัสผ่าน</a>
                                     @endif
                                 </div>
                             </div>

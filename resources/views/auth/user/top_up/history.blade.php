@@ -23,7 +23,7 @@
                         @endif
                         <h3>ประวัติการเติมเงิน</h3>
                         <table class="table table-head-fixed text-nowrap table-responsive p-0">
-                            <thead>
+                            <thead class="thead-dark">
                                 <tr align="center">
                                     <th scope="col">รูปสลิป</th>
                                     <th scope="col">สถานะ</th>

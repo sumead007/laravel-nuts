@@ -106,7 +106,7 @@
                             @csrf
                             <h3>โอนไปยัง</h3>
                             <table class="table table-hover">
-                                <thead>
+                                <thead class="thead-dark">
                                     <tr align="center">
                                         <th scope="col">เลขที่</th>
                                         <th scope="col">ชื่อบัญชี</th>

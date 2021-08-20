@@ -45,6 +45,11 @@
             height: 40px;
         }
 
+        .vertical-align {
+            display: flex;
+            align-items: center;
+        }
+
     </style>
 
     <style>
@@ -199,7 +204,7 @@
                 <h3 align="center" class="text-light">สถิติย้อนหลัง</h3>
                 <div class="table-responsive" style="height: 300px;">
                     <table class="table table-light table-hover table-bordered" id="tb_history">
-                        <thead>
+                        <thead class="thead-dark">
                             <tr align="center">
                                 <th>เปิดที่</th>
                                 <th>หน้าเต๋า</th>
@@ -232,7 +237,7 @@
                         <p class="text-white">เดิมพัน</p>
                     </div>
                 </div>
-                <div class="row pl-3 pr-3 content-bet">
+                <div class="row pl-3 pr-3 content-bet vertical-align" style="height:80%;border:1px solid #925415">
                     @if ($config_turn_on_turn_off->status == 0)
                         <div class="col-md-8" id="content-left">
                             <div class="d-flex justify-content-between" id="img-content-bet">
@@ -332,12 +337,15 @@
                     <div class="col-md-12 footer-bet">
                     </div>
                 </div>
+                <br>
+                <br>
+                <br>
             </div>
             <div class="col-md-4 mt-4">
                 <h3 align="center" class="text-light">ประวัติ</h3>
-                <div class="table-responsive" style="height: 150px;">
+                <div class="table-responsive" style="height: 200px;">
                     <table class="table table-light table-hover table-bordered" id="tb_history_bet">
-                        <thead>
+                        <thead class="thead-dark">
                             <tr align="center">
                                 <th>แทงเลข</th>
                                 <th>ราคา</th>
@@ -360,7 +368,6 @@
                                         @else
                                             <b class="text-danger">ถูกยกเลิก</b>
                                         @endif
-
                                     </td>
                                 </tr>
                             @endforeach

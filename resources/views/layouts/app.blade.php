@@ -20,16 +20,47 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
+    {{-- jquery --}}
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
+
     {{-- sweetalert2 --}}
     <script src="{{ asset('sweetalert2/dist/sweetalert2.min.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('sweetalert2/dist/sweetalert2.min.css') }}">
+    <style>
+        body {
+            background: url("{{ asset('images/background/2.jpg') }}") no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+
+        .box {
+            position: relative;
+            display: inline-block;
+            /* Make the width of box same as image */
+        }
+
+        .box .text {
+            position: absolute;
+            z-index: 999;
+            margin: 0 auto;
+            left: 0;
+            right: 0;
+            top: 30%;
+            /* Adjust this value to move the positioned div up and down */
+            text-align: center;
+            width: 60%;
+            /* Set the width of the positioned div */
+        }
+
+    </style>
 
 </head>
 
-<body style="background-image: linear-gradient(#1F6A95, #10354B); background-attachment: fixed;">
+<body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-dark shadow-sm"
-        style="background-image: linear-gradient(#BC8C64, #C1691B);">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-transparent">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     J.Club
@@ -39,19 +70,23 @@
                     aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-
-
-
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @if (!(Auth::guard('user')->check() || Auth::guard('admin')->check()))
                             @if (Route::has('login'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('ล็อกอิน') }}</a>
+                                    <a class="nav-link" href="{{ route('login') }}">
+                                        <div class="box">
+                                            <img src="{{ asset('images/btn/5.png') }}" width="150px"
+                                                alt="{{ asset('images/btn/5.png') }}">
+                                            <div class="text">
+                                                 <span style="color:black; font-weight: bold">{{ __('เข้าสู่ระบบ') }}</span>
+                                            </div>
+                                        </div>
+                                    </a>
                                 </li>
                             @endif
                         @else
@@ -79,10 +114,24 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="py-4 d-flex flex-column min-vh-100 justify-content-center align-items-center">
             @yield('content')
         </main>
     </div>
+    <script>
+        $(function() {
+            //caches a jQuery object containing the header element
+            var header = $('nav');
+            $(window).scroll(function() {
+                var scroll = $(window).scrollTop();
+                if (scroll >= header.height()) {
+                    header.fadeOut();
+                } else {
+                    header.fadeIn();
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

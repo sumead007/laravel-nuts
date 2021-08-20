@@ -35,15 +35,40 @@
             /* background-attachment: fixed; */
         }
 
+        body {
+            background: url("{{ asset('images/background/6.jpg') }}") no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+
+        .box {
+            position: relative;
+            display: inline-block;
+            /* Make the width of box same as image */
+        }
+
+        .box .text {
+            position: absolute;
+            z-index: 999;
+            margin: 0 auto;
+            left: 0;
+            right: 0;
+            top: 30%;
+            /* Adjust this value to move the positioned div up and down */
+            text-align: center;
+            width: 60%;
+            /* Set the width of the positioned div */
+        }
     </style>
     {{-- jquery --}}
     <script src="{{ asset('js/jquery.min.js') }}"></script>
 </head>
 
-<body style="background-image: linear-gradient(#1F6A95, #10354B); background-attachment: fixed;">
+<body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-dark shadow-sm"
-            style="background-image: linear-gradient(#BC8C64, #C1691B);">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-transparent" id="nav">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     J.Club
@@ -58,10 +83,26 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="{{ url('/') }}">เดิมพัน</a>
+                            <a class="nav-link" aria-current="page" href="{{ url('/') }}">
+                                <div class="box">
+                                    <img src="{{ asset('images/btn/5.png') }}" width="150px"
+                                        alt="{{ asset('images/btn/5.png') }}">
+                                    <div class="text">
+                                         <span style="color:black; font-weight: bold">{{ __('เดิมพัน') }}</span>
+                                    </div>
+                                </div>
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="{{ route('user.home') }}">เติมเงิน</a>
+                            <a class="nav-link" aria-current="page" href="{{ route('user.home') }}">
+                                <div class="box">
+                                    <img src="{{ asset('images/btn/5.png') }}" width="150px"
+                                        alt="{{ asset('images/btn/5.png') }}">
+                                    <div class="text">
+                                         <span style="color:black; font-weight: bold">{{ __('เติมเงิน') }}</span>
+                                    </div>
+                                </div>
+                            </a>
                         </li>
                     </ul>
 
@@ -84,7 +125,13 @@
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::guard('user')->user()->name }}
+                                    <div class="box">
+                                        <img src="{{ asset('images/btn/6.png') }}" width="150px"
+                                            alt="{{ asset('images/btn/6.png') }}">
+                                        <div class="text">
+                                             <span style="color:black; font-weight: bold">{{ Auth::guard('user')->user()->name }}</span>
+                                        </div>
+                                    </div>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
@@ -115,6 +162,21 @@
     <br>
     {{-- ชื่อผู้ใช้ เงินคงเหลือ --}}
     @include('layouts.user.nav-bar-button')
+
+    <script>
+        $(function() {
+            //caches a jQuery object containing the header element
+            var header = $('#nav');
+            $(window).scroll(function() {
+                var scroll = $(window).scrollTop();
+                if (scroll >= header.height()) {
+                    header.fadeOut();
+                } else {
+                    header.fadeIn();
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

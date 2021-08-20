@@ -127,7 +127,7 @@
                         <div class="table-responsive">
                             <div class="table-responsive">
                                 <table class="table table-striped table-hover" id="table_crud">
-                                    <thead>
+                                    <thead class="thead-dark">
                                         <tr align="center">
                                             <th scope="col">ชื่อ</th>
                                             <th scope="col">ชื่อผู้ใช้</th>

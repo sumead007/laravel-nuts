@@ -35,6 +35,33 @@
             /* background-attachment: fixed; */
         }
 
+        body {
+            background: url("{{ asset('images/background/6.jpg') }}") no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+
+        .box {
+            position: relative;
+            display: inline-block;
+            /* Make the width of box same as image */
+        }
+
+        .box .text {
+            position: absolute;
+            z-index: 999;
+            margin: 0 auto;
+            left: 0;
+            right: 0;
+            top: 20%;
+            /* Adjust this value to move the positioned div up and down */
+            text-align: center;
+            width: 60%;
+            /* Set the width of the positioned div */
+        }
+
     </style>
 
     {{-- jquery --}}
@@ -43,10 +70,9 @@
 
 </head>
 
-<body style="background-image: linear-gradient(#1F6A95, #10354B); background-attachment: fixed;">
+<body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-dark shadow-sm"
-            style="background-image: linear-gradient(#BC8C64, #C1691B);">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-transparent" id="nav">
             <div class="container">
                 <a class="navbar-brand" href="{{ route('admin.home') }}">
                     J.Club
@@ -61,16 +87,40 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="{{ route('admin.home') }}">หน้าหลัก</a>
+                            <a class="nav-link" aria-current="page" href="{{ route('admin.home') }}">
+                                <div class="box">
+                                    <img src="{{ asset('images/btn/5.png') }}" width="120px"
+                                        alt="{{ asset('images/btn/5.png') }}">
+                                    <div class="text">
+                                        <span style="color:black; font-weight: bold">{{ __('หน้าหลัก') }}</span>
+                                    </div>
+                                </div>
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page"
-                                href="{{ route('admin.accept.top_up.view') }}">ยืนยันการเติมเงิน</a>
+                            <a class="nav-link" aria-current="page" href="{{ route('admin.accept.top_up.view') }}">
+                                <div class="box">
+                                    <img src="{{ asset('images/btn/5.png') }}" width="120px"
+                                        alt="{{ asset('images/btn/5.png') }}">
+                                    <div class="text">
+                                        <span
+                                            style="color:black; font-weight: bold; font-size:11.7px;">{{ __('ยืนยันเติมเงิน') }}</span>
+                                    </div>
+                                </div>
+                            </a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                สมาชิก
+                                <div class="box">
+                                    <img src="{{ asset('images/btn/5.png') }}" width="120px"
+                                        alt="{{ asset('images/btn/5.png') }}">
+                                    <div class="text">
+                                        <span
+                                            style="color:black; font-weight: bold; font-size:11.7px;">{{ __('สมาชิก') }}</span>
+                                    </div>
+                                </div>
+
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item"
@@ -87,7 +137,13 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                ธนาคาร
+                                <div class="box">
+                                    <img src="{{ asset('images/btn/5.png') }}" width="120px"
+                                        alt="{{ asset('images/btn/5.png') }}">
+                                    <div class="text">
+                                        <span style="color:black; font-weight: bold">{{ __('ธนาคาร') }}</span>
+                                    </div>
+                                </div>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item"
@@ -97,7 +153,16 @@
                         @if (Auth::guard('admin')->user()->position == 0)
                             <li class="nav-item">
                                 <a class="nav-link" aria-current="page"
-                                    href="{{ route('admin.clear_percent.view') }}">เคลียร์ยอด</a>
+                                    href="{{ route('admin.clear_percent.view') }}">
+                                    <div class="box">
+                                        <img src="{{ asset('images/btn/5.png') }}" width="120px"
+                                            alt="{{ asset('images/btn/5.png') }}">
+                                        <div class="text">
+                                            <span
+                                                style="color:black; font-weight: bold">{{ __('เคลียร์ยอด') }}</span>
+                                        </div>
+                                    </div>
+                                </a>
                             </li>
                         @endif
                     </ul>
@@ -121,7 +186,15 @@
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::guard('admin')->user()->name }}
+                                    <div class="box">
+                                        <img src="{{ asset('images/btn/6.png') }}" width="120px"
+                                            alt="{{ asset('images/btn/6.png') }}">
+                                        <div class="text">
+                                            <span style="color:black; font-weight: bold">
+                                                {{ Auth::guard('admin')->user()->name }}
+                                            </span>
+                                        </div>
+                                    </div>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
@@ -153,6 +226,20 @@
         $(document).ready(function() {
             $('.select2').select2({
                 width: '100%'
+            });
+        });
+    </script>
+    <script>
+        $(function() {
+            //caches a jQuery object containing the header element
+            var header = $('nav');
+            $(window).scroll(function() {
+                var scroll = $(window).scrollTop();
+                if (scroll >= header.height()) {
+                    header.fadeOut();
+                } else {
+                    header.fadeIn();
+                }
             });
         });
     </script>

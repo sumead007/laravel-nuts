@@ -363,7 +363,7 @@
                         </div>
                         <div class="table-responsive">
                             <table class="table text-nowrap p-0" id="table_crud">
-                                <thead>
+                                <thead class="thead-dark">
                                     <tr align="center">
                                         <th id="th_choese" hidden>เลือก</th>
                                         <th scope="col">ชื่อ</th>

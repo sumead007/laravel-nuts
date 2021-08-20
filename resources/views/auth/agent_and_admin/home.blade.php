@@ -35,15 +35,23 @@
         }
 
         .content-bet {
-            background-color: #A27140;
+            background-image: url("{{ asset('images/background/7.png') }}");
             margin: auto;
             padding: 10px;
-            /* height: 100%; */
+            height: 100%;
+            width: 100%;
+            background-repeat: no-repeat;
+            /* background-size: 100%; */
         }
 
         .footer-bet {
             background-image: linear-gradient(#925415, #3A1D1D);
             height: 40px;
+        }
+
+        .vertical-align {
+            display: flex;
+            align-items: center;
         }
 
     </style>
@@ -251,7 +259,7 @@
                 <h3 align="center" class="text-light">รายชื่อคนแทง (รอบนี้)</h3>
                 <div class="table-responsive" style="height: 300px;">
                     <table class="table table-light table-hover table-bordered" id="tb_show_bets_now">
-                        <thead>
+                        <thead class="thead-dark">
                             <tr align="center">
                                 <th>ชื่อผู้ใช้</th>
                                 <th>ทายเลข</th>
@@ -294,7 +302,7 @@
                         <p class="text-white">ผล</p>
                     </div>
                 </div>
-                <div class="row pl-3 pr-3 content-bet">
+                <div class="row pl-3 pr-3 content-bet vertical-align" style="height:100%;border:1px solid #925415">
                     <div class="col-md-8">
                         <div class="d-flex justify-content-between">
                             <img src="{{ asset('images/btn/1.png') }}" alt="{{ asset('images/btn/1.png') }}"
@@ -308,8 +316,8 @@
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-header">สถานะ:
+                        <div class="card border-success mb-3" style="max-width: 18rem;">
+                            <div class="card-header bg-transparent border-success">สถานะ:
                                 @if ($config_turn_on_turn_off->status == 0)
                                     <span class="text-success" id="text_status">เปิดให้เล่น</span>
                                 @else
@@ -338,16 +346,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="row pl-3 pr-3">
-                    <div class="col-md-12 footer-bet">
-                    </div>
+                <div class="row pl-3 pr-3 mt-5">
+                    {{-- <div class="col-md-12 footer-bet">
+                    </div> --}}
                 </div>
             </div>
             <div class="col-md-4 mt-4">
                 <h3 align="center" class="text-light">ประวัติ</h3>
-                <div class="table-responsive" style="height: 150px;">
+                <div class="table-responsive" style="height: 200px;">
                     <table class="table table-light table-hover table-bordered" id="tb_history">
-                        <thead>
+                        <thead class="thead-dark">
                             <tr align="center">
                                 <th>เปิดที่</th>
                                 <th>หน้าเต๋า</th>
@@ -369,5 +377,7 @@
             </div>
         </div>
     </div>
-
+<br>
+<br>
+<br>
 @endsection

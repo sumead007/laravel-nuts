@@ -285,7 +285,7 @@
                     <div class="card-body">
 
                         <table class="table table-head-fixed text-nowrap table-responsive p-0" id="table_crud">
-                            <thead>
+                            <thead class="thead-dark">
                                 <tr align="center">
                                     <th id="th_choese" hidden>เลือก</th>
                                     <th scope="col">เจ้าของบัญชี</th>
