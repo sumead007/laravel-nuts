@@ -419,7 +419,7 @@
         function user_status(user_id, status_old) {
             Swal.fire({
                 title: 'คูณแน่ใจใช่หรือไม่?',
-                text: "คุณต้องการลบข้อมูลใช่หรือไม่?",
+                text: "คุณต้องการทำรายการนี้ใช่หรือไม่?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
