@@ -57,7 +57,6 @@ Route::middleware(['auth:user'])->group(function () {
     Route::post('user/top_up/store', [TopupController::class, 'store'])->name('user.top_up.store');
     Route::get('user/top_up/history', [TopupController::class, 'history'])->name('user.top_up.history');
     Route::post('user/bet', [BetController::class, 'bet'])->name('user.bet');
-
 });
 
 Route::middleware(['auth:admin'])->group(function () {
@@ -80,6 +79,8 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::post('admin/get_api/get_user/{id}', [ManageUserController::class, 'get_user']);
     Route::delete('admin/manage_user/delete/{id}', [ManageUserController::class, 'delete_post']);
     Route::post('admin/manage_user/delete_all', [ManageUserController::class, 'delete_all'])->name('admin.manage_user.delete_all');
+    Route::post('admin/status_user', [ManageUserController::class, 'status_user'])->name('admin.status_user');
+
 
     //จัดการธนาคารของฉัน
     Route::get('admin/manage_bank/setting_my_bank/view', [SettingBankController::class, 'index'])->name('admin.manage_bank.setting_my_bank.view');
@@ -96,6 +97,7 @@ Route::middleware(['auth:admin'])->group(function () {
         Route::post('admin/get_api/get_agent_by_id/{id}', [ManageAgentController::class, 'get_agent']);
         Route::delete('admin/manage_agen/delete/{id}', [ManageAgentController::class, 'delete_post']);
         Route::post('admin/manage_agen/delete_all', [ManageAgentController::class, 'delete_all'])->name('admin.manage_agen.delete_all');
+        Route::post('admin/owner/status_admin', [ManageAgentController::class, 'status_user'])->name('admin.owner.status_user');
 
         //เคลียยอด
         Route::get('admin/clear_percent/view', [ClearPercentController::class, 'index'])->name('admin.clear_percent.view');
@@ -104,7 +106,5 @@ Route::middleware(['auth:admin'])->group(function () {
         Route::get('admin/clear_percent/history/view', [HistoryController::class, 'index'])->name('admin.clear_percent.history.view');
         Route::post('admin/get_api/clear_percents', [HistoryController::class, 'get_clear_percents'])->name('admin.get_api.clear_percents');
         Route::get('admin/clear_percent_detail/history/view/{id}', [HistoryController::class, 'history']);
-
     });
-
 });

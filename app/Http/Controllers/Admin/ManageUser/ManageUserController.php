@@ -9,6 +9,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+
 
 class ManageUserController extends Controller
 {
@@ -20,6 +22,9 @@ class ManageUserController extends Controller
     public function __construct()
     {
         $this->middleware('auth:admin');
+        Validator::extend('without_spaces', function($attr, $value){
+            return preg_match('/^\S*$/u', $value);
+        });
     }
 
     public function index()
@@ -51,7 +56,7 @@ class ManageUserController extends Controller
             $request->validate(
                 [
                     "name" => "required|min:2|max:255",
-                    "username" => $user->username != $request->username ? "required|min:6|max:20|unique:users|unique:admins" : "required|min:6|max:20|unique:admins",
+                    "username" => $user->username != $request->username ? "required|string|without_spaces|min:6|max:20|unique:users|unique:admins|regex:/(^([a-zA-Z]+)(\d+)?$)/u" : "required|string|without_spaces|min:6|max:20|unique:admins|regex:/(^([a-zA-Z]+)(\d+)?$)/u",
                     "password" =>  $request->password != null || $request->password != "" ? "required|min:8|max:20|confirmed" : "",
                     "telephone" => $user->telephone != $request->telephone ? "required|numeric|digits:10|unique:users|unique:admins" : "required|numeric|digits:10|unique:admins",
                     "money" => "required|regex:/^\d+(\.\d{1,2})?$/",
@@ -67,6 +72,8 @@ class ManageUserController extends Controller
                     "username.min" => "กรุณากรอกระหว่าง 8-20 หลัก",
                     "username.max" => "กรุณากรอกระหว่าง 8-20 หลัก",
                     "username.unique" => "ชื่อผู้ใช้นี้มีคนใช้แล้ว",
+                    "username.without_spaces" => "ระหว่างตัวอักษรห้ามมีช่องว่าง",
+                    "username.regex" => "กรุณากรอกให้อยู่ในรูปแบบ (a-z)(0-9)",
                     //password
                     "password.required" => "กรุณากรอกช่องนี้",
                     "password.min" => "กรุณากรอกระหว่าง 8-20 หลัก",
@@ -98,7 +105,7 @@ class ManageUserController extends Controller
             $request->validate(
                 [
                     "name" => "required|min:2|max:255",
-                    "username" => "required|min:6|max:20|unique:users|unique:admins",
+                    "username" => "required|string|without_spaces|min:6|max:20|unique:users|unique:admins|regex:/(^([a-zA-Z]+)(\d+)?$)/u",
                     "password" => "required|min:8|max:20|confirmed",
                     "telephone" => "required|numeric|digits:10|unique:users|unique:admins",
                     "money" => "required|regex:/^\d+(\.\d{1,2})?$/",
@@ -111,9 +118,11 @@ class ManageUserController extends Controller
                     "name.max" => "กรุณากรอกไม่เกิน 255 หลัก",
                     //username
                     "username.required" => "กรุณากรอกช่องนี้",
-                    "username.min" => "กรุณากรอกระหว่าง 8-20 หลัก",
-                    "username.max" => "กรุณากรอกระหว่าง 8-20 หลัก",
+                    "username.min" => "กรุณากรอกระหว่าง 6-20 หลัก",
+                    "username.max" => "กรุณากรอกระหว่าง 6-20 หลัก",
                     "username.unique" => "ชื่อผู้ใช้นี้มีคนใช้แล้ว",
+                    "username.without_spaces" => "ระหว่างตัวอักษรห้ามมีช่องว่าง",
+                    "username.regex" => "กรุณากรอกให้อยู่ในรูปแบบ (a-z)(0-9)",
                     //password
                     "password.required" => "กรุณากรอกช่องนี้",
                     "password.min" => "กรุณากรอกระหว่าง 8-20 หลัก",
@@ -168,4 +177,14 @@ class ManageUserController extends Controller
         }
         return response()->json(["code" => "200", "message" => "ลบข้อมูลสำเร็จ", "data" => $data]);
     }
+
+    public function status_user(Request $request)
+    {
+        // return dd("test");
+        $user = User::find($request->user_id)->update([
+            "status" => $request->status_old == 0 ? 1 : 0
+        ]);
+        return response()->json(200);
+    }
+
 }

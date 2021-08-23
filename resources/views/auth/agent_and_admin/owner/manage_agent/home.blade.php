@@ -148,6 +148,22 @@
                         $("#credit").val(res.credit);
                         $("#share_percentage").val(res.share_percentage);
                         $('#post-modal').modal('show');
+
+                        //ปุ่มแบน
+                        $("#btn_user_status").remove();
+                        if (res.status == 0) {
+                            var r = $(
+                                "<button type='button' class='btn btn-outline-danger mr-auto' id='btn_user_status' onclick='user_status(" +
+                                res.id + "," + '0' + ")'>แบน</button>"
+                            );
+                            $(".modal-footer").prepend(r);
+                        } else {
+                            var r = $(
+                                "<button type='button' class='btn btn-outline-danger mr-auto' id='btn_user_status' onclick='user_status(" +
+                                res.id + "," + '1' + ")'>ปลดแบน</button>"
+                            );
+                            $(".modal-footer").prepend(r);
+                        }
                     }
                 }
             });
@@ -332,6 +348,57 @@
             $("[id='select_input']").prop('checked', false);
         }
     </script>
+
+<script>
+    function user_status(user_id, status_old) {
+        Swal.fire({
+            title: 'คูณแน่ใจใช่หรือไม่?',
+            text: "คุณต้องการลบข้อมูลใช่หรือไม่?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'ตกลง',
+            cancelButtonText: 'ยกเลิก'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                console.log(user_id, status_old);
+                let _url = "{{ route('admin.owner.status_user') }}";
+                let _token = $('meta[name="csrf-token"]').attr('content');
+
+                $.ajax({
+                    url: _url,
+                    type: "POST",
+                    data: {
+                        user_id: user_id,
+                        status_old: status_old,
+                        _token: _token,
+                    },
+                    success: function(res) {
+                        console.log(res);
+                        Swal.fire(
+                            'สำเร็จ!',
+                            'ข้อมูลอัพเดทเรียบร้อยแล้ว',
+                            'success'
+                        )
+                        $('#post-modal').modal('hide');
+
+                    },
+                    error: function(res) {
+                        Swal.fire(
+                            'ไม่สำเร็ค!',
+                            'กรุณาลองรีเฟชหน้าเว็บใหม่อีกครั้ง',
+                            'error'
+                        )
+                        $('#post-modal').modal('hide');
+
+                    }
+
+                });
+            }
+        })
+    }
+</script>
 
     <div class="container">
         <div class="row justify-content-center">

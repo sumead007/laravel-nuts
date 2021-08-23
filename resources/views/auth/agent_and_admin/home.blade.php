@@ -297,59 +297,63 @@
 
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <div class="row pl-3 pr-3 mt-4 header-bet">
-                    <div class="col-md-12">
-                        <p class="text-white">ผล</p>
-                    </div>
-                </div>
-                <div class="row pl-3 pr-3 content-bet vertical-align" style="height:100%;border:1px solid #925415">
-                    <div class="col-md-8">
-                        <div class="d-flex justify-content-between">
-                            <img src="{{ asset('images/btn/1.png') }}" alt="{{ asset('images/btn/1.png') }}"
-                                onclick="click_select(1)" role="button" class="imgBox align-middle-center">
-                            <img src="{{ asset('images/btn/2.png') }}" alt="{{ asset('images/btn/2.png') }}"
-                                onclick="click_select(2)" role="button" class="imgBox align-middle-center">
-                            <img src="{{ asset('images/btn/3.png') }}" alt="{{ asset('images/btn/3.png') }}"
-                                onclick="click_select(3)" role="button" class="imgBox align-middle-center">
-                            <img src="{{ asset('images/btn/4.png') }}" alt="{{ asset('images/btn/4.png') }}"
-                                onclick="click_select(4)" role="button" class="imgBox align-middle-center">
+                @if (Auth::guard('admin')->user()->position == 0)
+
+                    <div class="row pl-3 pr-3 mt-4 header-bet">
+                        <div class="col-md-12">
+                            <p class="text-white">ผล</p>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="card border-success mb-3" style="max-width: 18rem;">
-                            <div class="card-header bg-transparent border-success">สถานะ:
-                                @if ($config_turn_on_turn_off->status == 0)
-                                    <span class="text-success" id="text_status">เปิดให้เล่น</span>
-                                @else
-                                    <span class="text-danger" id="text_status">ปิดให้เล่น</span>
-                                @endif
+                    <div class="row pl-3 pr-3 content-bet vertical-align" style="height:100%;border:1px solid #925415">
+                        <div class="col-md-8">
+                            <div class="d-flex justify-content-between">
+                                <img src="{{ asset('images/btn/1.png') }}" alt="{{ asset('images/btn/1.png') }}"
+                                    onclick="click_select(1)" role="button" class="imgBox align-middle-center">
+                                <img src="{{ asset('images/btn/2.png') }}" alt="{{ asset('images/btn/2.png') }}"
+                                    onclick="click_select(2)" role="button" class="imgBox align-middle-center">
+                                <img src="{{ asset('images/btn/3.png') }}" alt="{{ asset('images/btn/3.png') }}"
+                                    onclick="click_select(3)" role="button" class="imgBox align-middle-center">
+                                <img src="{{ asset('images/btn/4.png') }}" alt="{{ asset('images/btn/4.png') }}"
+                                    onclick="click_select(4)" role="button" class="imgBox align-middle-center">
                             </div>
-                            <div class="card-body">
-                                <div align="center">
-                                    @if ($config_turn_on_turn_off->status == 1)
-                                        <button type="button" class="btn btn-success" id="btn_open"
-                                            onclick="turn_on_turn_off(0)">เปิดให้เล่น</button>
-                                    @else
-                                        <button type="button" class="btn btn-success" id="btn_open" hidden
-                                            onclick="turn_on_turn_off(0)">เปิดให้เล่น</button>
-                                    @endif
-
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card border-success mb-3" style="max-width: 18rem;">
+                                <div class="card-header bg-transparent border-success">สถานะ:
                                     @if ($config_turn_on_turn_off->status == 0)
-                                        <button type="button" class="btn btn-danger" id="btn_close"
-                                            onclick="turn_on_turn_off(1)">ปิดให้เล่น</button>
+                                        <span class="text-success" id="text_status">เปิดให้เล่น</span>
                                     @else
-                                        <button type="button" class="btn btn-danger" id="btn_close" hidden
-                                            onclick="turn_on_turn_off(1)">ปิดให้เล่น</button>
+                                        <span class="text-danger" id="text_status">ปิดให้เล่น</span>
                                     @endif
+                                </div>
+                                <div class="card-body">
+                                    <div align="center">
+                                        @if ($config_turn_on_turn_off->status == 1)
+                                            <button type="button" class="btn btn-success" id="btn_open"
+                                                onclick="turn_on_turn_off(0)">เปิดให้เล่น</button>
+                                        @else
+                                            <button type="button" class="btn btn-success" id="btn_open" hidden
+                                                onclick="turn_on_turn_off(0)">เปิดให้เล่น</button>
+                                        @endif
+
+                                        @if ($config_turn_on_turn_off->status == 0)
+                                            <button type="button" class="btn btn-danger" id="btn_close"
+                                                onclick="turn_on_turn_off(1)">ปิดให้เล่น</button>
+                                        @else
+                                            <button type="button" class="btn btn-danger" id="btn_close" hidden
+                                                onclick="turn_on_turn_off(1)">ปิดให้เล่น</button>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row pl-3 pr-3 mt-5">
-                    {{-- <div class="col-md-12 footer-bet">
+                    <div class="row pl-3 pr-3 mt-5">
+                        {{-- <div class="col-md-12 footer-bet">
                     </div> --}}
-                </div>
+                    </div>
+                @endif
+
             </div>
             <div class="col-md-4 mt-4">
                 <h3 align="center" class="text-light">ประวัติ</h3>
@@ -377,7 +381,7 @@
             </div>
         </div>
     </div>
-<br>
-<br>
-<br>
+    <br>
+    <br>
+    <br>
 @endsection

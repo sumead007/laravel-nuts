@@ -54,13 +54,22 @@
             /* Set the width of the positioned div */
         }
 
+        .box:hover {
+            -ms-transform: scale(1.1);
+            /* IE 9 */
+            -webkit-transform: scale(1.1);
+            /* Safari 3-8 */
+            transform: scale(1.1);
+        }
+        
+
     </style>
 
 </head>
 
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-transparent">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-transparent" id="nav">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     J.Club
@@ -83,7 +92,8 @@
                                             <img src="{{ asset('images/btn/5.png') }}" width="150px"
                                                 alt="{{ asset('images/btn/5.png') }}">
                                             <div class="text">
-                                                 <span style="color:black; font-weight: bold">{{ __('เข้าสู่ระบบ') }}</span>
+                                                <span
+                                                    style="color:black; font-weight: bold">{{ __('เข้าสู่ระบบ') }}</span>
                                             </div>
                                         </div>
                                     </a>
@@ -121,7 +131,7 @@
     <script>
         $(function() {
             //caches a jQuery object containing the header element
-            var header = $('nav');
+            var header = $('#nav');
             $(window).scroll(function() {
                 var scroll = $(window).scrollTop();
                 if (scroll >= header.height()) {

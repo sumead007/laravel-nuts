@@ -26,6 +26,7 @@ class Admin extends Authenticatable
         'share_percentage',
         'position',
         'admin_id',
+        'status',
     ];
 
     /**

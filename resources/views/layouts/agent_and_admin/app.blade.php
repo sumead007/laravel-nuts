@@ -62,6 +62,14 @@
             /* Set the width of the positioned div */
         }
 
+        .box:hover {
+            -ms-transform: scale(1.1);
+            /* IE 9 */
+            -webkit-transform: scale(1.1);
+            /* Safari 3-8 */
+            transform: scale(1.1);
+        }
+
     </style>
 
     {{-- jquery --}}
@@ -232,7 +240,7 @@
     <script>
         $(function() {
             //caches a jQuery object containing the header element
-            var header = $('nav');
+            var header = $('#nav');
             $(window).scroll(function() {
                 var scroll = $(window).scrollTop();
                 if (scroll >= header.height()) {

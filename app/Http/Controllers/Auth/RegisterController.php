@@ -44,6 +44,9 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+        Validator::extend('without_spaces', function ($attr, $value) {
+            return preg_match('/^\S*$/u', $value);
+        });
     }
 
     /**
@@ -56,10 +59,32 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'min:2', 'max:255'],
-            'username' => ['required', 'string', 'min:6', 'max:20', 'unique:users', 'unique:admins'],
+            'username' => ['required', 'string', 'min:6', 'max:20', 'without_spaces', 'regex:/(^([a-zA-Z]+)(\d+)?$)/u', 'unique:users', 'unique:admins'],
             'telephone' => ['required', 'numeric',  'digits:10', 'unique:users', 'unique:admins'],
             'password' => ['required', 'string', 'min:8', 'max:20', 'confirmed'],
             'admin_id' => ['required', 'numeric'],
+        ], $messages = [
+            //name
+            "name.required" => "กรุณากรอกช่องนี้",
+            "name.min" => "กรุณากรอกให้ครบ 2 หลัก",
+            "name.max" => "กรุณากรอกไม่เกิน 255 หลัก",
+            //username
+            "username.required" => "กรุณากรอกช่องนี้",
+            "username.min" => "กรุณากรอกระหว่าง 6-20 หลัก",
+            "username.max" => "กรุณากรอกระหว่าง 6-20 หลัก",
+            "username.unique" => "ชื่อผู้ใช้นี้มีคนใช้แล้ว",
+            "username.without_spaces" => "ระหว่างตัวอักษรห้ามมีช่องว่าง",
+            "username.regex" => "กรุณากรอกให้อยู่ในรูปแบบ (a-z)(0-9)",
+            //password
+            "password.required" => "กรุณากรอกช่องนี้",
+            "password.min" => "กรุณากรอกระหว่าง 8-20 หลัก",
+            "password.max" => "กรุณากรอกระหว่าง 8-20 หลัก",
+            "password.confirmed" => "กรุณายืนยันรหัสผ่านให้ถูกต้อง",
+            //telephone
+            "telephone.required" => "กรุณากรอกช่องนี้",
+            "telephone.numeric" => "กรุณากรอกเป็นตัวเลข",
+            "telephone.digits" => "กรุณากรอกให้ครบ 10 หลัก",
+            "telephone.unique" => "เบอร์โทรนี้มีผู้คนใช้งานแล้ว",
         ]);
     }
 

@@ -45,9 +45,21 @@ class LoginController extends Controller
         $credential = array("username" => $request->input('username'), 'password' => $request->input('password'),);
         if (Auth::guard('admin')->attempt($credential)) {
             // return dd(auth('customer')->user());
-            return redirect('/admin/home');
+            if (Auth::guard('admin')->user()->status == 0) {
+                return redirect('/admin/home');
+            } else {
+                Auth::logout();
+                $request->session()->flush();
+                return redirect()->route('login')->with('error', 'ชื่อผู้ใช้นี้ถูกระงับการใช้งานกรุณาติดต่อเจ้าของ');
+            }
         } elseif (Auth::guard('user')->attempt($credential)) {
-            return redirect('/');
+            if (Auth::guard('user')->user()->status == 0) {
+                return redirect('/');
+            } else {
+                Auth::logout();
+                $request->session()->flush();
+                return redirect()->route('login')->with('error', 'ชื่อผู้ใช้นี้ถูกระงับการใช้งานกรุณาติดต่อเจ้าของ');
+            }
         } else {
             return redirect()->route('login')->with('error', 'รหัสหรือชื่อผู้ใช้ไม่ถูกต้อง');
         }

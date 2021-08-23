@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Admin\Owner\ManageAgent;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+
 
 class ManageAgentController extends Controller
 {
@@ -18,6 +21,9 @@ class ManageAgentController extends Controller
     public function __construct()
     {
         $this->middleware('chk_position');
+        Validator::extend('without_spaces', function ($attr, $value) {
+            return preg_match('/^\S*$/u', $value);
+        });
     }
 
     public function index()
@@ -35,7 +41,7 @@ class ManageAgentController extends Controller
             $request->validate(
                 [
                     "name" => "required|min:2|max:255",
-                    "username" => $admin->username != $request->username ? "required|min:6|max:20|unique:users|unique:admins" : "required|min:6|max:20|unique:users",
+                    "username" => $admin->username != $request->username ? "required|string|without_spaces|min:6|max:20|unique:users|unique:admins|regex:/(^([a-zA-Z]+)(\d+)?$)/u" : "required|string|without_spaces|min:6|max:20|unique:users|regex:/(^([a-zA-Z]+)(\d+)?$)/u",
                     "password" =>  $request->password != null || $request->password != "" ? "required|min:8|max:20|confirmed" : "",
                     "telephone" => $admin->telephone != $request->telephone ? "required|numeric|digits:10|unique:users|unique:admins" : "required|numeric|digits:10|unique:users",
                     "credit" => "required|numeric",
@@ -51,6 +57,8 @@ class ManageAgentController extends Controller
                     "username.min" => "กรุณากรอกระหว่าง 6-20 หลัก",
                     "username.max" => "กรุณากรอกระหว่าง 6-20 หลัก",
                     "username.unique" => "ชื่อผู้ใช้นี้มีคนใช้แล้ว",
+                    "username.without_spaces" => "ระหว่างตัวอักษรห้ามมีช่องว่าง",
+                    "username.regex" => "กรุณากรอกให้อยู่ในรูปแบบ (a-z)(0-9)",
                     //password
                     "password.required" => "กรุณากรอกช่องนี้",
                     "password.min" => "กรุณากรอกระหว่าง 8-20 หลัก",
@@ -83,7 +91,7 @@ class ManageAgentController extends Controller
             $request->validate(
                 [
                     "name" => "required|min:2|max:255",
-                    "username" => "required|min:6|max:20|unique:users|unique:admins",
+                    "username" => "required|string|without_spaces|min:6|max:20|unique:users|unique:admins|regex:/(^([a-zA-Z]+)(\d+)?$)/u",
                     "password" => "required|min:8|max:20|confirmed",
                     "telephone" => "required|numeric|digits:10|unique:users|unique:admins",
                     "credit" => "required|numeric",
@@ -99,6 +107,8 @@ class ManageAgentController extends Controller
                     "username.min" => "กรุณากรอกระหว่าง 6-20 หลัก",
                     "username.max" => "กรุณากรอกระหว่าง 6-20 หลัก",
                     "username.unique" => "ชื่อผู้ใช้นี้มีคนใช้แล้ว",
+                    "username.without_spaces" => "ระหว่างตัวอักษรห้ามมีช่องว่าง",
+                    "username.regex" => "กรุณากรอกให้อยู่ในรูปแบบ (a-z)(0-9)",
                     //password
                     "password.required" => "กรุณากรอกช่องนี้",
                     "password.min" => "กรุณากรอกระหว่าง 8-20 หลัก",
@@ -153,5 +163,14 @@ class ManageAgentController extends Controller
             Admin::find($data[$i]['id'])->delete();
         }
         return response()->json(["code" => "200", "message" => "ลบข้อมูลสำเร็จ", "data" => $data]);
+    }
+
+    public function status_user(Request $request)
+    {
+        // return dd("test");
+        $user = Admin::find($request->user_id)->update([
+            "status" => $request->status_old == 0 ? 1 : 0
+        ]);
+        return response()->json(200);
     }
 }

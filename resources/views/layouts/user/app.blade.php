@@ -61,6 +61,14 @@
             width: 60%;
             /* Set the width of the positioned div */
         }
+
+        .box:hover {
+            -ms-transform: scale(1.1);
+            /* IE 9 */
+            -webkit-transform: scale(1.1);
+            /* Safari 3-8 */
+            transform: scale(1.1);
+        }
     </style>
     {{-- jquery --}}
     <script src="{{ asset('js/jquery.min.js') }}"></script>
