@@ -75,7 +75,7 @@
     </style>
 
     <script>
-        function click_select(value) {
+        async function click_select(value) {
             $("#show_number_selected").html(value);
             $.ajax({
                 url: "{{ route('admin.get.turn_on_turn_off') }}",
@@ -93,46 +93,110 @@
                         );
                     } else {
                         Swal.fire({
-                            title: 'คุณแน่ใจใช่หรือไม่?',
-                            text: "ยืนยันตัวเลข " + value + " ใช่หรือไม่?",
-                            icon: 'question',
-                            showCancelButton: true,
-                            confirmButtonColor: '#3085d6',
-                            cancelButtonColor: '#d33',
-                            confirmButtonText: 'ตกลง',
-                            cancelButtonText: "ยกเลิก"
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                var _url = "{{ route('admin.home.result') }}";
-                                $.ajax({
-                                    url: _url,
-                                    type: "POST",
-                                    data: {
-                                        value: value
-                                    },
-                                    headers: {
-                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                                            'content')
-                                    },
-                                    success: function(res) {
-                                        // console.log("สำเร็จ");
-                                        Swal.fire(
-                                            'สำเร็จ!',
-                                            'รายการของท่านสำเร็จ',
-                                            'success'
-                                        );
-                                    },
-                                    error: function(err) {
-                                        console.log("ไม่สำเร็จ");
-                                        Swal.fire(
-                                            'ไม่สำเร็จ!',
-                                            'รายการของท่านไม่สำเร็จ ต้องมีลูกค้าอย่างน้อย1เล่นเข้ามาก่อน',
-                                            'error'
-                                        );
+                            title: 'ทายเต๋า',
+                            html: 'หน้าเต๋าที่1<input type="number" id="swal-input1" class="swal2-input" placeholder="กรอกตัวเลข 1-6"><br>' +
+                                'หน้าเต๋าที่2<input type="number" id="swal-input2" class="swal2-input" placeholder="กรอกตัวเลข 1-6"><br>' +
+                                'หน้าเต๋าที่3<input type="number" id="swal-input3" class="swal2-input" placeholder="กรอกตัวเลข 1-6">',
+                            // allowOutsideClick: false,
+
+                            preConfirm: () => {
+                                return new Promise(function(resolve) {
+                                    // Validate input
+                                    if ($('#swal-input1').val() == '' || $(
+                                            '#swal-input2').val() == '' || $(
+                                            '#swal-input3').val() == '') {
+                                        swal.showValidationMessage(
+                                            "กรุณากรอกให้ครบ หรือกรอกตัวเลขที่มีค่า 1-6"
+                                        ); // Show error when validation fails.
+                                        // swal.enableConfirmButton() // Enable the confirm button again.
+                                    } else {
+                                        var floor = Math.floor;
+                                        var swal_input1 = $('#swal-input1').val();
+                                        var swal_input2 = $('#swal-input2').val();
+                                        var swal_input3 = $('#swal-input3').val();
+                                        var input1 = floor(swal_input1);
+                                        var input2 = floor(swal_input2);
+                                        var input3 = floor(swal_input3);
+                                        // console.log(input1, input2, input3);
+                                        if ((input1 > 0 && input1 <= 6) && (input2 >
+                                                0 && input2 <= 6) && (input3 > 0 &&
+                                                input3 <= 6)
+
+                                        ) {
+                                            swal
+                                                .resetValidationMessage(); // Reset the validation message.
+                                            resolve({
+                                                input1: input1,
+                                                input2: input2,
+                                                input3: input3,
+                                            });
+                                        } else {
+                                            swal.showValidationMessage(
+                                                "กรุณากรอกตัวเลขที่มีค่า 1-6"
+                                            );
+                                            return;
+                                        }
                                     }
-                                });
+                                })
+                            },
+                        }).then(function(result) {
+                            var input1 = result.value.input1;
+                            var input2 = result.value.input2;
+                            var input3 = result.value.input3;
+                            // If validation fails, the value is undefined. Break out here.
+                            if (typeof(result.value) == 'undefined') {
+                                return false;
                             }
-                        })
+                            console.log(result);
+                            Swal.fire({
+                                title: 'คุณแน่ใจใช่หรือไม่?',
+                                text: "ยืนยันตัวเลข " + value +
+                                    " ใช่หรือไม่? หน้าเต๋าที่มีคือ" + result.value.input1 +
+                                    ", " + result.value.input2 + ", " + result.value.input3,
+                                icon: 'question',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'ตกลง',
+                                cancelButtonText: "ยกเลิก"
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    var _url = "{{ route('admin.home.result') }}";
+                                    $.ajax({
+                                        url: _url,
+                                        type: "POST",
+                                        data: {
+                                            value: value,
+                                            input1: input1,
+                                            input2: input2,
+                                            input3: input3,
+                                        },
+                                        headers: {
+                                            'X-CSRF-TOKEN': $(
+                                                    'meta[name="csrf-token"]')
+                                                .attr(
+                                                    'content')
+                                        },
+                                        success: function(res) {
+                                            // console.log("สำเร็จ");
+                                            Swal.fire(
+                                                'สำเร็จ!',
+                                                'รายการของท่านสำเร็จ',
+                                                'success'
+                                            );
+                                        },
+                                        error: function(err) {
+                                            console.log("ไม่สำเร็จ");
+                                            Swal.fire(
+                                                'ไม่สำเร็จ!',
+                                                'รายการของท่านไม่สำเร็จ ต้องมีลูกค้าอย่างน้อย1เล่นเข้ามาก่อน',
+                                                'error'
+                                            );
+                                        }
+                                    });
+                                }
+                            })
+                        }).catch(swal.noop)
                     }
                 },
                 error: function(err) {
@@ -353,7 +417,6 @@
                     </div> --}}
                     </div>
                 @endif
-
             </div>
             <div class="col-md-4 mt-4">
                 <h3 align="center" class="text-light">ประวัติ</h3>
@@ -371,7 +434,14 @@
                             @foreach ($results as $result)
                                 <tr align="center">
                                     <td>{{ $no_result++ }}</td>
-                                    <td>{{ $result->pic }}</td>
+                                    <td>
+                                        <img src="{{ asset($result->path1) }}" alt="{{ asset($result->path1) }}"
+                                            height="50px" width="50px">
+                                        <img src="{{ asset($result->path2) }}" alt="{{ asset($result->path2) }}"
+                                            height="50px" width="50px">
+                                        <img src="{{ asset($result->path3) }}" alt="{{ asset($result->path3) }}"
+                                            height="50px" width="50px">
+                                    </td>
                                     <td>{{ $result->result }}</td>
                                 </tr>
                             @endforeach

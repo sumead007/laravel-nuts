@@ -29,12 +29,76 @@ class HomeController extends Controller
     public function index()
     {
         $config_turn_on_turn_off = ConfigTurnOnTurnOff::first();
-        $results = Result::where('created_at', '>', Carbon::now()->subHours(1)->toDateTimeString())->orderBy('created_at', 'Asc')->get();
+        $results = Result::where('created_at', '>', Carbon::now()->subHours(1)->toDateTimeString())
+            ->orderBy('created_at', 'Asc')
+            ->get();
         $histories = BetDetail::where('created_at', '>', Carbon::now()->subHours(1)->toDateTimeString())
             ->orderByDesc('created_at')
             ->where('user_id', Auth::guard('user')->user()->id)
             ->get();
+        for ($i = 0; $i < count($results); $i++) {
+            $results[$i]->path1 = $this->getpath1($results[$i]->pic1);
+            $results[$i]->path2 = $this->getpath2($results[$i]->pic2);
+            $results[$i]->path3 = $this->getpath3($results[$i]->pic3);
+        }
         // return   dd($config_turn_on_turn_off);
         return view('auth.user.home', compact('config_turn_on_turn_off', 'results', 'histories'));
+    }
+
+    public function getpath1($data)
+    {
+        $path = null;
+        if ($data == 1) {
+            $path = "images/dice/1.jpg";
+        } else if ($data == 2) {
+            $path = "images/dice/2.jpg";
+        } else if ($data == 3) {
+            $path = "images/dice/3.jpg";
+        } else if ($data == 4) {
+            $path = "images/dice/4.jpg";
+        } else if ($data == 5) {
+            $path = "images/dice/5.jpg";
+        } else {
+            $path = "images/dice/6.jpg";
+        }
+        return $path;
+    }
+
+    public function getpath2($data)
+    {
+        $path = null;
+        if ($data == 1) {
+            $path = "images/dice/1.jpg";
+        } else if ($data == 2) {
+            $path = "images/dice/2.jpg";
+        } else if ($data == 3) {
+            $path = "images/dice/3.jpg";
+        } else if ($data == 4) {
+            $path = "images/dice/4.jpg";
+        } else if ($data == 5) {
+            $path = "images/dice/5.jpg";
+        } else {
+            $path = "images/dice/6.jpg";
+        }
+        return $path;
+    }
+
+    public function getpath3($data)
+    {
+        $path = null;
+        if ($data == 1) {
+            $path = "images/dice/1.jpg";
+        } else if ($data == 2) {
+            $path = "images/dice/2.jpg";
+        } else if ($data == 3) {
+            $path = "images/dice/3.jpg";
+        } else if ($data == 4) {
+            $path = "images/dice/4.jpg";
+        } else if ($data == 5) {
+            $path = "images/dice/5.jpg";
+        } else {
+            $path = "images/dice/6.jpg";
+        }
+        return $path;
     }
 }

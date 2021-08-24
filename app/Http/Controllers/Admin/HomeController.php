@@ -29,7 +29,9 @@ class HomeController extends Controller
     public function index()
     {
         $config_turn_on_turn_off = ConfigTurnOnTurnOff::first();
-        $results = ModelsResult::where('created_at', '>', Carbon::now()->subHours(1)->toDateTimeString())->orderByDesc('created_at')->get();
+        $results = ModelsResult::where('created_at', '>', Carbon::now()->subHours(1)->toDateTimeString())
+        ->orderBy('created_at', 'asc')
+        ->get();
         $bet_details = DB::table('bets')
             ->join('bet_details', 'bets.id', '=', 'bet_details.bet_id')
             ->join('users', 'bet_details.user_id', '=', 'users.id')
@@ -38,7 +40,71 @@ class HomeController extends Controller
             ->orderByDesc('bet_details.created_at')
             ->get();
         // return dd($bet_details);
+        for ($i = 0; $i < count($results); $i++) {
+            $results[$i]->path1 = $this->getpath1($results[$i]->pic1);
+            $results[$i]->path2 = $this->getpath2($results[$i]->pic2);
+            $results[$i]->path3 = $this->getpath3($results[$i]->pic3);
+        }
+
+        // return dd($results);
         return view('auth.agent_and_admin.home', compact('config_turn_on_turn_off', 'results', 'bet_details'));
+    }
+
+    public function getpath1($data)
+    {
+        $path = null;
+        if ($data == 1) {
+            $path = "images/dice/1.jpg";
+        } else if ($data == 2) {
+            $path = "images/dice/2.jpg";
+        } else if ($data == 3) {
+            $path = "images/dice/3.jpg";
+        } else if ($data == 4) {
+            $path = "images/dice/4.jpg";
+        } else if ($data == 5) {
+            $path = "images/dice/5.jpg";
+        } else {
+            $path = "images/dice/6.jpg";
+        }
+        return $path;
+    }
+
+    public function getpath2($data)
+    {
+        $path = null;
+        if ($data == 1) {
+            $path = "images/dice/1.jpg";
+        } else if ($data == 2) {
+            $path = "images/dice/2.jpg";
+        } else if ($data == 3) {
+            $path = "images/dice/3.jpg";
+        } else if ($data == 4) {
+            $path = "images/dice/4.jpg";
+        } else if ($data == 5) {
+            $path = "images/dice/5.jpg";
+        } else {
+            $path = "images/dice/6.jpg";
+        }
+        return $path;
+    }
+
+    public function getpath3($data)
+    {
+        $path = null;
+        if ($data == 1) {
+            $path = "images/dice/1.jpg";
+        } else if ($data == 2) {
+            $path = "images/dice/2.jpg";
+        } else if ($data == 3) {
+            $path = "images/dice/3.jpg";
+        } else if ($data == 4) {
+            $path = "images/dice/4.jpg";
+        } else if ($data == 5) {
+            $path = "images/dice/5.jpg";
+        } else {
+            $path = "images/dice/6.jpg";
+        }
+        return $path;
     }
 
     public function turn_on_turn_off(Request $request)
@@ -69,8 +135,6 @@ class HomeController extends Controller
 
     public function result(Request $request)
     {
-
-
         $bet = Bet::orderBy('time_open', 'desc')->first();
         if ($bet->time_off == "" || $bet->time_off == null) {
             $config_turn_on_turn_off = ConfigTurnOnTurnOff::first();
@@ -80,7 +144,9 @@ class HomeController extends Controller
             $data = ["result" => $request->value];
             $result = new ModelsResult();
             $result->result =  $request->value;
-            $result->pic =  "ยังไม่มี";
+            $result->pic1 =  $request->input1;
+            $result->pic2 =  $request->input2;
+            $result->pic3 =  $request->input3;
             $result->bet_id =  $bet->id;
             $result->save();
             $data["created_at"] =  Carbon::parse($result->created_at)->locale('th')->diffForHumans();

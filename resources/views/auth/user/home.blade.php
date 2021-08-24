@@ -217,7 +217,14 @@
                             @foreach ($results as $result)
                                 <tr align="center">
                                     <td>{{ $no_result++ }}</td>
-                                    <td>{{ $result->pic }}</td>
+                                    <td>
+                                        <img src="{{ asset($result->path1) }}" alt="{{ asset($result->path1) }}"
+                                            height="50px" width="50px">
+                                        <img src="{{ asset($result->path2) }}" alt="{{ asset($result->path2) }}"
+                                            height="50px" width="50px">
+                                        <img src="{{ asset($result->path3) }}" alt="{{ asset($result->path3) }}"
+                                            height="50px" width="50px">
+                                    </td>
                                     <td>{{ $result->result }}</td>
                                     {{-- <td> {{ Carbon\Carbon::parse($result->created_at)->locale('th')->diffForHumans() }}
                                     </td> --}}

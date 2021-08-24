@@ -15,7 +15,9 @@ class Result extends Model
      * @var array
      */
     protected $fillable = [
-        'pic',
+        'pic1',
+        'pic2',
+        'pic3',
         'result',
         'bet_id'
     ];
