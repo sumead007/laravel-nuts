@@ -283,7 +283,11 @@
             $("#tb_history tbody").append(
                 "<tr align='center'>" +
                 "<td>" + no_last_tr + "</td>" +
-                "<td>" + "ยังไม่มี" + "</td>" +
+                "<td>" +
+                "<img src='" + res.data.path1 + "' alt='" + res.data.path1 + "' height='50px' width='50px'>" +
+                "<img src='" + res.data.path2 + "' alt='" + res.data.path2 + "' height='50px' width='50px'>" +
+                "<img src='" + res.data.path3 + "' alt='" + res.data.path3 + "' height='50px' width='50px'>" +
+                "</td>" +
                 "<td>" + res.data.result + "</td>" +
                 "</tr>");
 
@@ -430,7 +434,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{ $no_result = 1 }}
+                            @php
+                                $no_result = 1;
+                            @endphp
                             @foreach ($results as $result)
                                 <tr align="center">
                                     <td>{{ $no_result++ }}</td>

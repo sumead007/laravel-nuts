@@ -32,17 +32,12 @@ class BetController extends Controller
                 "money" => "required|regex:/^\d+(\.\d{1,2})?$/",
             ],
             [
-                // //bank_cus_id
-                // "bank_cus_id.required" => "กรุณากรอกช่องนี้",
-                // //bank_id
-                // "bank_id.required" => "กรุณาเลือกธนาคารที่จะโอน",
-                // //money
-                // "money.required" => "กรุณากรอกช่องนี้",
-                // "money.min" => "ต้องมีอย่างน้อย2ตัวอักษร",
-                // "money.max" => "ต้องมีไม่เกิน10ตัวอักษร",
-                // //pic
-                // "pic.required" => "กรุณาอัพโหลดสลิปธนาคาร",
-                // "pic.mimes" => "กรุณาอัพโหลดรูปที่มีนามสกุล (png, jpg, jpeg)",
+                //bank_cus_id
+                "number.required" => "กรุณาเลือกตัวเลข",
+                "number.numeric" => "ต้องเป็นเฉพาะตัวเลข",
+                //bank_id
+                "money.required" => "กรุณากรอกช่องนี้",
+                "money.regex" => "กรุณากรอกในรูปแบบจำนวนเงินห้ามติดลบ เช่น 200, 2000, 50000",
             ],
         );
         $user = User::find(Auth::guard('user')->user()->id);

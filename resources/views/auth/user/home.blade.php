@@ -213,7 +213,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{ $no_result = 1 }}
+                            @php
+                                $no_result = 1;
+                            @endphp
                             @foreach ($results as $result)
                                 <tr align="center">
                                     <td>{{ $no_result++ }}</td>
@@ -413,19 +415,21 @@
 
         var channel2 = pusher.subscribe('channel-result');
         channel2.bind('event-result', function(res) {
+            console.log(res);
             var no_last_tr = parseInt($('#tb_history tr:last td:nth-child(1)').html()) + 1;
             no_last_tr = no_last_tr || 1;
-            // console.log(res);
+
             $("#tb_history tbody").append(
                 "<tr align='center'>" +
                 "<td>" + no_last_tr + "</td>" +
-                "<td>" + "ยังไม่มี" + "</td>" +
+                "<td>" +
+                "<img src='" + res.data.path1 + "' alt='" + res.data.path1 + "' height='50px' width='50px'>" +
+                "<img src='" + res.data.path2 + "' alt='" + res.data.path2 + "' height='50px' width='50px'>" +
+                "<img src='" + res.data.path3 + "' alt='" + res.data.path3 + "' height='50px' width='50px'>" +
+                "</td>" +
                 "<td>" + res.data.result + "</td>" +
                 "</tr>");
-            // if ($("#tb_history_bet tr").attr('data-bet_id') == res.data.result) {
-            //     console.log("มี")
-            //     $("#tb_history_bet tr").attr('data-bet_id').html("awfaw")
-            // }
+
 
             $('#tb_history_bet tr').each(function() {
                 var bet_id = $(this).data('bet_id');

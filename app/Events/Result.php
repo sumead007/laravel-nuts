@@ -26,9 +26,9 @@ class Result implements ShouldBroadcast
             "bet_id" => $data['bet_id'],
             "result" => $data['result'],
             "created_at" => $data['created_at'],
-            "pic1" => $data['pic1'],
-            "pic2" => $data['pic2'],
-            "pic3" => $data['pic3'],
+            "path1" => $data['path1'],
+            "path2" => $data['path2'],
+            "path3" => $data['path3'],
         ];
     }
 

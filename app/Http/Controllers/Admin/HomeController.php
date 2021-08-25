@@ -30,8 +30,8 @@ class HomeController extends Controller
     {
         $config_turn_on_turn_off = ConfigTurnOnTurnOff::first();
         $results = ModelsResult::where('created_at', '>', Carbon::now()->subHours(1)->toDateTimeString())
-        ->orderBy('created_at', 'asc')
-        ->get();
+            ->orderBy('created_at', 'asc')
+            ->get();
         $bet_details = DB::table('bets')
             ->join('bet_details', 'bets.id', '=', 'bet_details.bet_id')
             ->join('users', 'bet_details.user_id', '=', 'users.id')
@@ -135,6 +135,7 @@ class HomeController extends Controller
 
     public function result(Request $request)
     {
+        // return dd(asset('images/dice/1.jpg'));
         $bet = Bet::orderBy('time_open', 'desc')->first();
         if ($bet->time_off == "" || $bet->time_off == null) {
             $config_turn_on_turn_off = ConfigTurnOnTurnOff::first();
@@ -150,6 +151,10 @@ class HomeController extends Controller
             $result->bet_id =  $bet->id;
             $result->save();
             $data["created_at"] =  Carbon::parse($result->created_at)->locale('th')->diffForHumans();
+            $result->path1 = asset($this->getpath1($result->pic1));
+            $result->path2 = asset($this->getpath2($result->pic2));
+            $result->path3 = asset($this->getpath3($result->pic3));
+
             event(new Result($result));
             $bet_details1 = BetDetail::where('bet_id', $bet->id)->where('number', $request->value);
             $bet_details1->update(['status' => 1]);
