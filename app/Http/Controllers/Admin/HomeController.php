@@ -114,6 +114,10 @@ class HomeController extends Controller
             $bet_details1 = $bet_details->get();
             $bet_details->update(['status' => 3]);
             // return dd($bet_details1);
+            $config_turn_on_turn_off = ConfigTurnOnTurnOff::first();
+            $bet = Bet::find($bet_details1[0]->bet_id)->update([
+                "time_off" => $config_turn_on_turn_off->updated_at
+            ]);
 
             for ($i = 0; $i < count($bet_details1); $i++) {
                 $user = User::find($bet_details1[$i]->user_id);
