@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin\Owner\ClearPercent;
 
 use App\Http\Controllers\Controller;
+use App\Models\BetDetail;
 use App\Models\ClearPercent;
+use App\Models\ClearPercentDetail;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -28,14 +30,18 @@ class HistoryController extends Controller
 
     public function get_clear_percents(Request $request)
     {
+        $bet_detail_win = 0;
+        $bet_detail_lose = 0;
+        $agent = 0;
+        $owner = 0;
         $request->validate(
             [
                 "date_start" => "required",
                 "date_end" => "required",
             ],
             [
-                "date_start.required"=>"กรุณาเลือกวันที่เริ่ม",
-                "date_end.required"=>"กรุณาเลือกวันที่สิ้นสุด"
+                "date_start.required" => "กรุณาเลือกวันที่เริ่ม",
+                "date_end.required" => "กรุณาเลือกวันที่สิ้นสุด"
             ]
         );
 
@@ -52,6 +58,7 @@ class HistoryController extends Controller
                 'admins.username',
                 'admins.share_percentage',
                 'admins.telephone',
+                // 'clear_percent.id'
             )
             ->where('clear_percents.admin_id', Auth::guard('admin')->user()->id)
             ->where('clear_percents.created_at', '>=', $request->date_start)
@@ -61,7 +68,29 @@ class HistoryController extends Controller
             ->get();
         for ($i = 0; $i < count($clear_percent); $i++) {
             $clear_percent[$i]->created_at2 = Carbon::parse($clear_percent[$i]->created_at)->locale('th')->diffForHumans();
+
+            $clear_percent_details = ClearPercentDetail::where('clear_id', $clear_percent[$i]->id)->get();
+
+            for ($y = 0; $y < count($clear_percent_details); $y++) {
+                $bet_detail = Betdetail::find($clear_percent_details[$y]->bet_detail_id);
+                // return dd($bet_detail);
+                if ($bet_detail->status == 1) {
+                    $bet_detail_win += $bet_detail->money;
+                } else if ($bet_detail->status == 2) {
+                    $bet_detail_lose += $bet_detail->money;
+                }
+            }
+            $total_wl =  $bet_detail_lose - $bet_detail_win;
+            $agent =  $total_wl * ($clear_percent[$i]->share_percentage / 100);
+            $owner = $total_wl - $agent;
+            $clear_percent[$i]->agent = $agent;
+            $clear_percent[$i]->owner = $owner;
+            $bet_detail_win = 0;
+            $bet_detail_lose = 0;
+            $agent = 0;
+            $owner = 0;
         }
+        // return dd($clear_percent);
         return response()->json(["data" => $clear_percent]);
     }
 

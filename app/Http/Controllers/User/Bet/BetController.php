@@ -29,7 +29,7 @@ class BetController extends Controller
         $request->validate(
             [
                 "number" => "required|numeric",
-                "money" => "required|regex:/^\d+(\.\d{1,2})?$/",
+                "money" => "required|regex:/^\d+(\.\d{1,2})?$/|numeric|min:0|not_in:0",
             ],
             [
                 //bank_cus_id
@@ -38,6 +38,9 @@ class BetController extends Controller
                 //bank_id
                 "money.required" => "กรุณากรอกช่องนี้",
                 "money.regex" => "กรุณากรอกในรูปแบบจำนวนเงินห้ามติดลบ เช่น 200, 2000, 50000",
+                "money.min" => "ห้ามเป็นเลข0",
+                "money.not_in" => "ห้ามเป็นเลข0",
+
             ],
         );
         $user = User::find(Auth::guard('user')->user()->id);

@@ -38,7 +38,7 @@ class TopupController extends Controller
                 "name_account" => "required|min:2|max:255",
                 "name_bank" => "required|min:2|max:255",
                 "image" => "required|mimes:png,jpg,jpeg",
-                "money" => "required|regex:/^\d+(\.\d{1,2})?$/",
+                "money" => "required|regex:/^\d+(\.\d{1,2})?$/|numeric|min:0|not_in:0",
             ],
             [
                 //bank_or_id
@@ -60,7 +60,8 @@ class TopupController extends Controller
                 //money
                 "money.required" => "กรุณากรอกช่องนี้",
                 "money.regex" => "กรุณากรอกให้เป็นในรูปแบบจำนวนเงิน",
-
+                "money.min" => "ห้ามเป็นเลข0",
+                "money.not_in" => "ห้ามเป็นเลข0",
             ],
         );
 

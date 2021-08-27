@@ -39,6 +39,7 @@
                                     @php
                                         $all_total = 0;
                                         $percent_money = 0;
+                                        $percent_money_owner = 0;
                                     @endphp
                                     @foreach ($users as $user)
                                         <tr align="center">
@@ -103,7 +104,7 @@
                                         <th id="total_bet_total"></th>
                                     </tr>
                                     <tr align="center" id="tf_total">
-                                        <th colspan="3">รวมแบ่งเปอร์เซน</th>
+                                        <th colspan="3">รวมแบ่งเปอร์เซนเอเย่น</th>
                                         <th colspan="2" class="text-danger">เปอร์เซนที่ได้ :
                                             {{ $clear_percent->clear_percent_details[0]->bet_details->user->admin->share_percentage }}%
                                         </th>
@@ -113,11 +114,26 @@
                                             @else
                                                 @php
                                                     $percent_money = ($clear_percent->clear_percent_details[0]->bet_details->user->admin->share_percentage / 100) * $all_total;
+                                                    $percent_money_owner = $all_total - $percent_money;
                                                 @endphp
                                                 <b class="text-success">{{ $percent_money }}</b>
                                             @endif
                                         </th>
                                     </tr>
+                                    <tr align="center">
+                                        <th colspan="3">รวมแบ่งเปอร์เซนเจ้าของ</th>
+                                        <th colspan="2" class="text-danger">เปอร์เซนที่ได้ :
+                                            {{ 100-$clear_percent->clear_percent_details[0]->bet_details->user->admin->share_percentage }}%
+                                        </th>
+                                        <th>
+                                            @if ($percent_money_owner >= 0)
+                                                <b class="text-danger">{{ $percent_money_owner }}</b>
+                                            @else
+                                                <b class="text-success">{{ $percent_money_owner }}</b>
+                                            @endif
+                                        </th>
+                                    </tr>
+
                                 </tfoot>
                             </table>
                         </div>

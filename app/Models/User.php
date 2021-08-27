@@ -52,7 +52,7 @@ class User extends Authenticatable
 
     public function admin()
     {
-        return $this->belongsTo(Admin::class, 'admin_id');
+        return $this->belongsTo(Admin::class, 'admin_id', 'id');
     }
 
     public function bet_detail()

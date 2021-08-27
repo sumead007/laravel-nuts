@@ -147,12 +147,29 @@
                             </div>
                             <div class="mb-3">
                                 <label for="name_bank" class="form-label">ชื่อธนาคาร</label>
-                                <input type="text" class="form-control" id="name_bank" name="name_bank">
+                                {{-- <input type="text" class="form-control" id="name_bank" name="name_bank"> --}}
+                                <select class="form-control" id="name_bank" name="name_bank" required>
+                                    <option value="" selected disabled>กรุณาเลือกธนาคารของท่าน</option>
+                                    <option value="ธนาคารกรุงเทพ">ธนาคารกรุงเทพ</option>
+                                    <option value="ธนาคารกรุงไทย">ธนาคารกรุงไทย</option>
+                                    <option value="ธนาคารกรุงศรีอยุธยา">ธนาคารกรุงศรีอยุธยา</option>
+                                    <option value="ธนาคารกสิกรไทย">ธนาคารกสิกรไทย</option>
+                                    <option value="ธนาคารเกียรตินาคินภัทร">ธนาคารเกียรตินาคินภัทร</option>
+                                    <option value="ธนาคารซีไอเอ็มบี">ธนาคารซีไอเอ็มบี</option>
+                                    <option value="ธนาคารทหารไทยธนชาต">ธนาคารทหารไทยธนชาต</option>
+                                    <option value="ธนาคารทิสโก้">ธนาคารทิสโก้</option>
+                                    <option value="ธนาคารไทยพาณิชย์">ธนาคารไทยพาณิชย์</option>
+                                    <option value="ธนาคารธนชาต">ธนาคารธนชาต</option>
+                                    <option value="ธนาคารยูโอบี">ธนาคารยูโอบี</option>
+                                    <option value="ธนาคารแลนด์ แอนด์ เฮ้าส์">ธนาคารแลนด์ แอนด์ เฮ้าส์</option>
+                                    <option value="ธนาคารสแตนดาร์ดชาร์เตอร์ด (ไทย)">ธนาคารสแตนดาร์ดชาร์เตอร์ด (ไทย)</option>
+                                    <option value="ธนาคารไอซีบีซี (ไทย)">ธนาคารไอซีบีซี (ไทย)</option>
+                                </select>
                                 <span id="name_bankError" class="alert-message text-danger"></span>
                             </div>
                             <div class="mb-3">
                                 <label for="money" class="form-label">จำนวนเงิน</label>
-                                <input type="number" class="form-control" id="money" name="money">
+                                <input type="number" class="form-control" id="money" name="money" min="0">
                                 <span id="moneyError" class="alert-message text-danger"></span>
                             </div>
                             <div class="mb-3">
@@ -184,6 +201,19 @@
             }
         }
 
+    </script>
+    <script>
+        // Select your input element.
+        var number = document.getElementById('money');
+
+        // Listen for input event on numInput.
+        number.onkeydown = function(e) {
+            if (!((e.keyCode > 95 && e.keyCode < 106) ||
+                    (e.keyCode > 47 && e.keyCode < 58) ||
+                    e.keyCode == 8)) {
+                return false;
+            }
+        }
     </script>
 
 @endsection

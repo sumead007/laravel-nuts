@@ -45,7 +45,7 @@ class ManageAgentController extends Controller
                     "password" =>  $request->password != null || $request->password != "" ? "required|min:8|max:20|confirmed" : "",
                     "telephone" => $admin->telephone != $request->telephone ? "required|numeric|digits:10|unique:users|unique:admins" : "required|numeric|digits:10|unique:users",
                     "credit" => "required|numeric",
-                    "share_percentage" => "required||between:0,99.99",
+                    "share_percentage" => 'required|numeric|between:0,99.99',
                 ],
                 [
                     //name
@@ -74,7 +74,8 @@ class ManageAgentController extends Controller
                     "credit.numeric" => "กรุณากรอกเป็นตัวเลข",
                     //share_percentage
                     "share_percentage.required" => "กรุณาเลือกตัวแทน",
-                    "share_percentage.regex" => "กรุณากรอกตัวเลขระหว่าง 0 - 99.9 เท่านั้น",
+                    "share_percentage.between" => "กรุณากรอกตัวเลขระหว่าง 0 - 99.9 เท่านั้น",
+                    "share_percentage.numeric" => "กรุณากรอกเป็นตัวเลขเท่านั้น และห้ามเป็นค่าที่ติดลบ",
                 ],
             );
             $user = Admin::updateOrCreate(['id' => $request->post_id], [
@@ -95,7 +96,7 @@ class ManageAgentController extends Controller
                     "password" => "required|min:8|max:20|confirmed",
                     "telephone" => "required|numeric|digits:10|unique:users|unique:admins",
                     "credit" => "required|numeric",
-                    "share_percentage" => "required|between:0,99.99",
+                    "share_percentage" => 'required|numeric|between:0,99.99',
                 ],
                 [
                     //name
@@ -124,7 +125,8 @@ class ManageAgentController extends Controller
                     "credit.numeric" => "กรุณากรอกเป็นตัวเลข",
                     //share_percentage
                     "share_percentage.required" => "กรุณาเลือกตัวแทน",
-                    "share_percentage.regex" => "กรุณากรอกตัวเลขระหว่าง 0 - 99.9 เท่านั้น",
+                    "share_percentage.between" => "กรุณากรอกตัวเลขระหว่าง 0 - 99.9 เท่านั้น",
+                    "share_percentage.numeric" => "กรุณากรอกเป็นตัวเลขเท่านั้น และห้ามเป็นค่าที่ติดลบ",
                 ],
             );
             $user = Admin::updateOrCreate(['id' => $request->post_id], [

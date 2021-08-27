@@ -5,6 +5,7 @@
     <script>
         function addPost(event) {
             clear_ms_error();
+            $("#btn_user_status").remove();
             $("#form_first")[0].reset();
             $("#recommend_password").html("")
             $("#recommend_confirm_password").html("")
@@ -349,56 +350,56 @@
         }
     </script>
 
-<script>
-    function user_status(user_id, status_old) {
-        Swal.fire({
-            title: 'คูณแน่ใจใช่หรือไม่?',
-            text: "คุณต้องการทำรายการนี้ใช่หรือไม่?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'ตกลง',
-            cancelButtonText: 'ยกเลิก'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                console.log(user_id, status_old);
-                let _url = "{{ route('admin.owner.status_user') }}";
-                let _token = $('meta[name="csrf-token"]').attr('content');
+    <script>
+        function user_status(user_id, status_old) {
+            Swal.fire({
+                title: 'คูณแน่ใจใช่หรือไม่?',
+                text: "คุณต้องการทำรายการนี้ใช่หรือไม่?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'ตกลง',
+                cancelButtonText: 'ยกเลิก'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    console.log(user_id, status_old);
+                    let _url = "{{ route('admin.owner.status_user') }}";
+                    let _token = $('meta[name="csrf-token"]').attr('content');
 
-                $.ajax({
-                    url: _url,
-                    type: "POST",
-                    data: {
-                        user_id: user_id,
-                        status_old: status_old,
-                        _token: _token,
-                    },
-                    success: function(res) {
-                        console.log(res);
-                        Swal.fire(
-                            'สำเร็จ!',
-                            'ข้อมูลอัพเดทเรียบร้อยแล้ว',
-                            'success'
-                        )
-                        $('#post-modal').modal('hide');
+                    $.ajax({
+                        url: _url,
+                        type: "POST",
+                        data: {
+                            user_id: user_id,
+                            status_old: status_old,
+                            _token: _token,
+                        },
+                        success: function(res) {
+                            console.log(res);
+                            Swal.fire(
+                                'สำเร็จ!',
+                                'ข้อมูลอัพเดทเรียบร้อยแล้ว',
+                                'success'
+                            )
+                            $('#post-modal').modal('hide');
 
-                    },
-                    error: function(res) {
-                        Swal.fire(
-                            'ไม่สำเร็ค!',
-                            'กรุณาลองรีเฟชหน้าเว็บใหม่อีกครั้ง',
-                            'error'
-                        )
-                        $('#post-modal').modal('hide');
+                        },
+                        error: function(res) {
+                            Swal.fire(
+                                'ไม่สำเร็ค!',
+                                'กรุณาลองรีเฟชหน้าเว็บใหม่อีกครั้ง',
+                                'error'
+                            )
+                            $('#post-modal').modal('hide');
 
-                    }
+                        }
 
-                });
-            }
-        })
-    }
-</script>
+                    });
+                }
+            })
+        }
+    </script>
 
     <div class="container">
         <div class="row justify-content-center">
@@ -568,7 +569,7 @@
                         <div class="form-group">
                             <label for="credit">เครดิต (ค่าเริ่มต้น)</label>
                             <div class="col-sm-12">
-                                <input type="number" class="form-control" id="credit" name="credit"
+                                <input type="number" class="form-control" id="credit" name="credit" min="0"
                                     placeholder="กรุณากรอกจำนวนเงิน" value="0">
                                 <span id="creditError" class="alert-message text-danger"></span>
                             </div>
@@ -576,7 +577,7 @@
                         <div class="form-group">
                             <label for="share_percentage">เปอร์เซน (ค่าเริ่มต้น)</label>
                             <div class="col-sm-12">
-                                <input type="number" class="form-control" id="share_percentage" name="share_percentage"
+                                <input type="number" class="form-control" id="share_percentage" name="share_percentage" min="0"
                                     placeholder="กรุณากรอกจำนวนเงิน" value="0">
                                 <span id="share_percentageError" class="alert-message text-danger"></span>
                             </div>
@@ -590,9 +591,6 @@
         </div>
     </div>
 
-
-
-
     <script>
         $(function() {
             $('.pop').on('click', function() {
@@ -601,5 +599,28 @@
             });
         });
     </script>
+    <script>
+        // Select your input element.
+        var number = document.getElementById('credit');
 
+        // Listen for input event on numInput.
+        number.onkeydown = function(e) {
+            if (!((e.keyCode > 95 && e.keyCode < 106) ||
+                    (e.keyCode > 47 && e.keyCode < 58) ||
+                    e.keyCode == 8)) {
+                return false;
+            }
+        }
+
+        // Select your input element.
+        var share_percentage = document.getElementById('share_percentage');
+        // Listen for input event on numInput.
+        share_percentage.onkeydown = function(e) {
+            if (!((e.keyCode > 95 && e.keyCode < 106) ||
+                    (e.keyCode > 47 && e.keyCode < 58) ||
+                    e.keyCode == 8)) {
+                return false;
+            }
+        }
+    </script>
 @endsection

@@ -94,9 +94,30 @@
                     } else {
                         Swal.fire({
                             title: 'ทายเต๋า',
-                            html: 'หน้าเต๋าที่1<input type="number" id="swal-input1" class="swal2-input" placeholder="กรอกตัวเลข 1-6"><br>' +
-                                'หน้าเต๋าที่2<input type="number" id="swal-input2" class="swal2-input" placeholder="กรอกตัวเลข 1-6"><br>' +
-                                'หน้าเต๋าที่3<input type="number" id="swal-input3" class="swal2-input" placeholder="กรอกตัวเลข 1-6">',
+                            html: 'หน้าเต๋าที่1<select id="swal-input1" class="swal2-input">' +
+                                '<option value="1">1</option>' +
+                                '<option value="2">2</option>' +
+                                '<option value="3">3</option>' +
+                                '<option value="4">4</option>' +
+                                '<option value="5">5</option>' +
+                                '<option value="6">6</option>' +
+                                '</select><br>' +
+                                'หน้าเต๋าที่2<select id="swal-input2" class="swal2-input">' +
+                                '<option value="1">1</option>' +
+                                '<option value="2">2</option>' +
+                                '<option value="3">3</option>' +
+                                '<option value="4">4</option>' +
+                                '<option value="5">5</option>' +
+                                '<option value="6">6</option>' +
+                                '</select><br>' +
+                                'หน้าเต๋าที่3<select id="swal-input3" class="swal2-input">' +
+                                '<option value="1">1</option>' +
+                                '<option value="2">2</option>' +
+                                '<option value="3">3</option>' +
+                                '<option value="4">4</option>' +
+                                '<option value="5">5</option>' +
+                                '<option value="6">6</option>' +
+                                '</select><br>',
                             // allowOutsideClick: false,
 
                             preConfirm: () => {
@@ -248,6 +269,7 @@
 
         }
     </script>
+    
     <script>
         // Enable pusher logging - don't include this in production
         Pusher.logToConsole = true;

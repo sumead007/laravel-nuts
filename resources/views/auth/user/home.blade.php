@@ -319,7 +319,7 @@
                                         <div class="form-group">
                                             <label for="money">ใส่จำนวนเงิน</label>
                                             <input type="number" class="form-control" id="money" placeholder="ใส่จำนวนเงิน"
-                                                name="money">
+                                                name="money" min="1">
                                         </div>
                                         <span id="moneyError" class="alert-message text-danger"></span>
 
@@ -445,5 +445,19 @@
 
         });
     </script>
+
+<script>
+    // Select your input element.
+    var number = document.getElementById('money');
+
+    // Listen for input event on numInput.
+    number.onkeydown = function(e) {
+        if (!((e.keyCode > 95 && e.keyCode < 106) ||
+                (e.keyCode > 47 && e.keyCode < 58) ||
+                e.keyCode == 8)) {
+            return false;
+        }
+    }
+</script>
 
 @endsection

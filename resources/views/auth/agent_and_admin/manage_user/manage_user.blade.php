@@ -6,6 +6,7 @@
         function addPost(event) {
             var position = $(event).data("position");
             clear_ms_error();
+            $("#btn_user_status").remove();
             $("#recommend_password").html("")
             $("#recommend_confirm_password").html("")
             $("#text_addcus").html("เพิ่มรายชื่อ");
@@ -628,7 +629,7 @@
                         <div class="form-group">
                             <label for="telephone">เบอร์โทรศัพท์</label>
                             <div class="col-sm-12">
-                                <input type="text" class="form-control" id="telephone" name="telephone"
+                                <input type="text" class="form-control" id="telephone" name="telephone" maxlength="10"
                                     placeholder="กรุณากรอกเบอร์โทร" required>
                                 <span id="telephoneError" class="alert-message text-danger"></span>
                             </div>
@@ -636,7 +637,7 @@
                         <div class="form-group">
                             <label for="money">จำนวนเงิน (ค่าเริ่มต้น)</label>
                             <div class="col-sm-12">
-                                <input type="number" class="form-control" id="money" name="money"
+                                <input type="number" class="form-control" id="money" name="money" min="0"
                                     placeholder="กรุณากรอกจำนวนเงิน" value="0">
                                 <span id="moneyError" class="alert-message text-danger"></span>
                             </div>
@@ -676,6 +677,20 @@
                 $('#imagemodal').modal('show');
             });
         });
+    </script>
+
+    <script>
+        // Select your input element.
+        var number = document.getElementById('money');
+
+        // Listen for input event on numInput.
+        number.onkeydown = function(e) {
+            if (!((e.keyCode > 95 && e.keyCode < 106) ||
+                    (e.keyCode > 47 && e.keyCode < 58) ||
+                    e.keyCode == 8)) {
+                return false;
+            }
+        }
     </script>
 
 @endsection

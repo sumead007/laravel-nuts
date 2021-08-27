@@ -96,6 +96,7 @@
                                         $all_total = 0;
                                         $bets_id = [];
                                         $percent_money = 0;
+                                        $percent_money_owner = 0;
                                     @endphp
                                     @foreach ($users as $user)
                                         <tr align="center" id="row_{{ $user->id }}">
@@ -113,7 +114,7 @@
                                                     $bet_win = 0;
                                                 @endphp
                                                 @foreach ($user->bet_detail as $bet_detail)
-                                                    @if ($bet_detail->status == 1 && $bet_detail->clear_percent== null)
+                                                    @if ($bet_detail->status == 1 && $bet_detail->clear_percent == null)
                                                         {{-- {{ $bet_detail->money }} --}}
                                                         @php
                                                             $bet_win += $bet_detail->money;
@@ -131,12 +132,11 @@
                                                     $bet_lose = 0;
                                                 @endphp
                                                 @foreach ($user->bet_detail as $bet_detail)
-                                                    @if ($bet_detail->status == 2 && $bet_detail->clear_percent== null)
+                                                    @if ($bet_detail->status == 2 && $bet_detail->clear_percent == null)
                                                         {{-- {{ $bet_detail->money }} --}}
                                                         @php
                                                             $bet_lose += $bet_detail->money;
                                                             $bets_id[] = $bet_detail->id;
-
                                                         @endphp
                                                     @endif
                                                 @endforeach
@@ -164,7 +164,7 @@
                                         <th id="total_bet_total"></th>
                                     </tr>
                                     <tr align="center" id="tf_total">
-                                        <th colspan="3">รวมแบ่งเปอร์เซน</th>
+                                        <th colspan="3">รวมแบ่งเปอร์เซนเอเย่น</th>
                                         <th colspan="2" class="text-danger">เปอร์เซนที่ได้ :
                                             {{ $agent->share_percentage }}%</th>
                                         <th>
@@ -173,8 +173,21 @@
                                             @else
                                                 @php
                                                     $percent_money = ($agent->share_percentage / 100) * $all_total;
+                                                    $percent_money_owner = $all_total-$percent_money;
                                                 @endphp
                                                 <b class="text-success">{{ $percent_money }}</b>
+                                            @endif
+                                        </th>
+                                    </tr>
+                                    <tr align="center">
+                                        <th colspan="3">รวมแบ่งเปอร์เซนเจ้าของ</th>
+                                        <th colspan="2" class="text-danger">เปอร์เซนที่ได้ :
+                                            {{ 100-$agent->share_percentage }}%</th>
+                                        <th>
+                                            @if ($percent_money_owner >= 0)
+                                                <b class="text-danger">{{ $percent_money_owner }}</b>
+                                            @else
+                                                <b class="text-success">{{ $percent_money_owner }}</b>
                                             @endif
                                         </th>
                                     </tr>

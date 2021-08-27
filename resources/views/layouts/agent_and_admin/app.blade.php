@@ -134,7 +134,7 @@
                                 <a class="dropdown-item"
                                     href="{{ route('admin.manage_user.view') }}">จัดการสมาชิก</a>
                                 <a class="dropdown-item"
-                                    href="{{ route('admin.manage_user.link_register.view') }}">ลิงค์สมาชิก</a>
+                                    href="{{ route('admin.manage_user.link_register.view') }}">ลิงค์สมัครสมาชิก</a>
                                 @if (Auth::guard('admin')->user()->position == 0)
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item"

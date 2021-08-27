@@ -340,7 +340,7 @@
 
                                 <a href="javascript:void(0)" class="btn btn-success " id="create-new-post"
                                     data-position="{{ Auth::guard('admin')->user()->position }}"
-                                    onclick="addPost(event.target)">เพิ่มรายชื่อ</a>
+                                    onclick="addPost(event.target)">เพิ่มธนาคาร</a>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -430,10 +430,25 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="name_bank">ชื่อธนาคาร</label>
+                            <label for="name_bank">เลือกธนาคาร</label>
                             <div class="col-sm-12">
-                                <input type="text" class="form-control" id="name_bank" name="name_bank"
-                                    placeholder="กรุณากรอกชื่อธนาคาร" required>
+                                <select class="form-control" id="name_bank" name="name_bank" required>
+                                    <option value="" selected disabled>กรุณาเลือกธนาคารของท่าน</option>
+                                    <option value="ธนาคารกรุงเทพ">ธนาคารกรุงเทพ</option>
+                                    <option value="ธนาคารกรุงไทย">ธนาคารกรุงไทย</option>
+                                    <option value="ธนาคารกรุงศรีอยุธยา">ธนาคารกรุงศรีอยุธยา</option>
+                                    <option value="ธนาคารกสิกรไทย">ธนาคารกสิกรไทย</option>
+                                    <option value="ธนาคารเกียรตินาคินภัทร">ธนาคารเกียรตินาคินภัทร</option>
+                                    <option value="ธนาคารซีไอเอ็มบี">ธนาคารซีไอเอ็มบี</option>
+                                    <option value="ธนาคารทหารไทยธนชาต">ธนาคารทหารไทยธนชาต</option>
+                                    <option value="ธนาคารทิสโก้">ธนาคารทิสโก้</option>
+                                    <option value="ธนาคารไทยพาณิชย์">ธนาคารไทยพาณิชย์</option>
+                                    <option value="ธนาคารธนชาต">ธนาคารธนชาต</option>
+                                    <option value="ธนาคารยูโอบี">ธนาคารยูโอบี</option>
+                                    <option value="ธนาคารแลนด์ แอนด์ เฮ้าส์">ธนาคารแลนด์ แอนด์ เฮ้าส์</option>
+                                    <option value="ธนาคารสแตนดาร์ดชาร์เตอร์ด (ไทย)">ธนาคารสแตนดาร์ดชาร์เตอร์ด (ไทย)</option>
+                                    <option value="ธนาคารไอซีบีซี (ไทย)">ธนาคารไอซีบีซี (ไทย)</option>
+                                </select>
                                 <span id="name_bankError" class="alert-message text-danger"></span>
                             </div>
                         </div>

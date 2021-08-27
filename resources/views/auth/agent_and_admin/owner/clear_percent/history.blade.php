@@ -2,14 +2,15 @@
 
 @section('content')
     <script>
-        function createPost() {
-
+        async function createPost() {
+            var agent = 0,
+                owner = 0;
             var form = $('#form_first')[0];
             var data = new FormData(form);
             // var id = $("#post_id").val();
             let _url = "{{ route('admin.get_api.clear_percents') }}";
             let _token = $('meta[name="csrf-token"]').attr('content');
-            $.ajax({
+            await $.ajax({
                 timeout: 600000,
                 enctype: 'multipart/form-data',
                 processData: false, // Important!
@@ -23,10 +24,11 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(res) {
-                    // console.log(res)
+                    console.log(res)
                     // $("#btn-clear").attr('disabled', "true");
                     $('#table_crud tbody').empty();
                     $.each(res.data, function(key, value) {
+
                         // console.log(value);
                         $('#table_crud tbody').prepend("<tr align='center' id='row_" +
                             value.id + "'" +
@@ -41,18 +43,44 @@
                             "</div>" +
                             "</th>" +
 
-                            "<td class='align-middle'>" + value.id + "</td>" +
+                            "<td class='align-middle'>" + value.name + "</td>" +
                             "<td class='align-middle'>" + value.username +
                             "</td>" +
                             "<td class='align-middle'>" + value.telephone +
                             "</td>" +
                             "<td class='align-middle'>" + value.share_percentage +
                             "</td>" +
+                            "<td class='align-middle agent'>" + value.agent +
+                            "</td>" +
+                            "<td class='align-middle owner'>" + value.owner +
+                            "</td>" +
                             "<td class='align-middle'>" + value.created_at2 +
                             "</td>" +
                             "</tr>"
                         );
                     });
+
+                    $(".agent").each(function() {
+                        var value = $(this).text();
+                        // console.log($(".agent"));
+                        // add only if the value is number
+                        if (!isNaN(value) && value.length != 0) {
+                            agent += parseFloat(value);
+                        }
+                    });
+                    $("#total_agent").html("<b>" + agent + "</b>");
+
+                    $(".owner").each(function() {
+                        var value = $(this).text();
+                        // console.log($(".agent"));
+                        // add only if the value is number
+                        if (!isNaN(value) && value.length != 0) {
+                            owner += parseFloat(value);
+                        }
+                        // console.log(owner);
+                    });
+                    $("#total_owner").html("<b>" + owner + "</b>");
+
                     Swal.fire(
                         'สำเร็จ!',
                         'รายการของท่านสำเร็จ',
@@ -133,11 +161,21 @@
                                             <th scope="col">ชื่อผู้ใช้</th>
                                             <th scope="col">เบอร์โทร</th>
                                             <th scope="col">เปอร์เซนหุ้น</th>
+                                            <th scope="col">เอเย่น</th>
+                                            <th scope="col">เจ้าของ</th>
                                             <th scope="col">ทำรายการเมื่อ</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                     </tbody>
+                                    <tfoot class="bg-secondary" id="tf_total">
+                                        <tr align="center">
+                                            <th colspan="4">รวมทั้งหมด</th>
+                                            <th id="total_agent">0</th>
+                                            <th id="total_owner">0</th>
+                                            <th></th>
+                                        </tr>
+                                    </tfoot>
                                 </table>
                             </div>
                             {{-- <div class="d-flex justify-content-center">
