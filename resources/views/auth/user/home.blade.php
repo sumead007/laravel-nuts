@@ -461,7 +461,9 @@
                     var bet_id = "row_result_" + $(this).data('bet_id');
                     // console.log(history_bet_id, bet_id);
                     if (bet_id == history_bet_id) {
-                        $(this).find('td:nth-child(1)').html($(outerThis).find('td:nth-child(1)').html())
+                        $(this).find('td:nth-child(1)').html($(outerThis).find('td:nth-child(1)').html());
+                    }else{
+                        $(this).find('td:nth-child(1)').html("รอสักครู่");
                     }
                 });
             });
