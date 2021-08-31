@@ -9,6 +9,7 @@ use App\Models\Bet;
 use App\Models\BetDetail;
 use App\Models\ConfigTurnOnTurnOff;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -67,6 +68,7 @@ class BetController extends Controller
         ]));
         $user->money -= $request->money;
         $user->update();
+        $data2->created_at2 = Carbon::parse($data2->created_at)->locale('th')->diffForHumans();
         return response()->json(["data" => $data2, "money" => $user->money]);
     }
 }

@@ -133,9 +133,11 @@
                                 .data
                                 .bet_id + "'" +
                                 ">" +
+                                "<td>" + "รอสักครู่" + "</td>" +
                                 "<td>" + res.data.number + "</td>" +
                                 "<td>" + res.data.money + "</td>" +
                                 "<td> <b>" + string_status + "</b></td>" +
+                                "<td>" + res.data.created_at2 + "</td>" +
                                 "</tr>"
                             );
                             $("#show_money").val(res.money);
@@ -217,7 +219,7 @@
                                 $no_result = 1;
                             @endphp
                             @foreach ($results as $result)
-                                <tr align="center">
+                                <tr align="center" id="row_result_{{ $result->bet_id }}">
                                     <td>{{ $no_result++ }}</td>
                                     <td>
                                         <img src="{{ asset($result->path1) }}" alt="{{ asset($result->path1) }}"
@@ -290,8 +292,8 @@
                                     <form id="form_first">
                                         <div class="form-group">
                                             <label for="money">ใส่จำนวนเงิน</label>
-                                            <input type="number" class="form-control" id="money" placeholder="ใส่จำนวนเงิน"
-                                                name="money">
+                                            <input type="number" class="form-control" id="money"
+                                                placeholder="ใส่จำนวนเงิน" name="money">
                                         </div>
                                         <span id="moneyError" class="alert-message text-danger"></span>
 
@@ -318,8 +320,8 @@
                                     <form id="form_first">
                                         <div class="form-group">
                                             <label for="money">ใส่จำนวนเงิน</label>
-                                            <input type="number" class="form-control" id="money" placeholder="ใส่จำนวนเงิน"
-                                                name="money" min="1">
+                                            <input type="number" class="form-control" id="money"
+                                                placeholder="ใส่จำนวนเงิน" name="money" min="1">
                                         </div>
                                         <span id="moneyError" class="alert-message text-danger"></span>
 
@@ -356,14 +358,17 @@
                     <table class="table table-light table-hover table-bordered" id="tb_history_bet">
                         <thead class="thead-dark">
                             <tr align="center">
+                                <th>เปิดที่</th>
                                 <th>แทงเลข</th>
                                 <th>ราคา</th>
                                 <th>ผลได้เสีย</th>
+                                <th>ทำรายการเมื่อ</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($histories as $historie)
                                 <tr align="center" data-bet_id="{{ $historie->bet_id }}">
+                                    <td></td>
                                     <td>{{ $historie->number }}</td>
                                     <td>{{ $historie->money }}</td>
                                     <td>
@@ -377,6 +382,9 @@
                                         @else
                                             <b class="text-danger">ถูกยกเลิก</b>
                                         @endif
+                                    </td>
+                                    <td>
+                                        {{ Carbon\Carbon::parse($historie->created_at)->locale('th')->diffForHumans() }}
                                     </td>
                                 </tr>
                             @endforeach
@@ -420,7 +428,7 @@
             no_last_tr = no_last_tr || 1;
 
             $("#tb_history tbody").append(
-                "<tr align='center'>" +
+                "<tr align='center' id='row_result_" + res.data.bet_id + "'>" +
                 "<td>" + no_last_tr + "</td>" +
                 "<td>" +
                 "<img src='" + res.data.path1 + "' alt='" + res.data.path1 + "' height='50px' width='50px'>" +
@@ -430,34 +438,62 @@
                 "<td>" + res.data.result + "</td>" +
                 "</tr>");
 
-
             $('#tb_history_bet tr').each(function() {
                 var bet_id = $(this).data('bet_id');
                 if (bet_id == res.data.bet_id) {
                     if (parseInt($(this).find('td:nth-child(1)').html()) == res.data.result) {
-                        $(this).find('td:nth-child(3)').html("<b class='text-success'>ถูกรางวัล</b>")
+                        $(this).find('td:nth-child(4)').html("<b class='text-success'>ถูกรางวัล</b>");
                     } else {
-                        $(this).find('td:nth-child(3)').html("<b class='text-danger'>เสีย</b>")
-
+                        $(this).find('td:nth-child(4)').html("<b class='text-danger'>เสีย</b>");
                     }
                 }
             });
-
+            head_open()
         });
     </script>
-
-<script>
-    // Select your input element.
-    var number = document.getElementById('money');
-
-    // Listen for input event on numInput.
-    number.onkeydown = function(e) {
-        if (!((e.keyCode > 95 && e.keyCode < 106) ||
-                (e.keyCode > 47 && e.keyCode < 58) ||
-                e.keyCode == 8)) {
-            return false;
+    <script>
+        function head_open() {
+            $('#tb_history tr').each(function() {
+                var history_bet_id = $(this).attr('id');
+                // console.log(bet_id);
+                var outerThis = this;
+                $('#tb_history_bet tr').each(function() {
+                    var bet_id = "row_result_" + $(this).data('bet_id');
+                    // console.log(history_bet_id, bet_id);
+                    if (bet_id == history_bet_id) {
+                        $(this).find('td:nth-child(1)').html($(outerThis).find('td:nth-child(1)').html())
+                    }
+                });
+            });
         }
-    }
-</script>
+
+        window.onload = function() {
+            head_open();
+        };
+        // $('#tb_history_bet tr').each(function() {
+        //     var bet_id = $(this).data('bet_id');
+        //     if (bet_id == res.data.bet_id) {
+        //         if (parseInt($(this).find('td:nth-child(1)').html()) == res.data.result) {
+        //             $(this).find('td:nth-child(3)').html("<b class='text-success'>ถูกรางวัล</b>")
+        //         } else {
+        //             $(this).find('td:nth-child(3)').html("<b class='text-danger'>เสีย</b>")
+
+        //         }
+        //     }
+        // });
+    </script>
+    <script>
+        // Select your input element.
+        var number = document.getElementById('money');
+
+        // Listen for input event on numInput.
+        number.onkeydown = function(e) {
+            if (!((e.keyCode > 95 && e.keyCode < 106) ||
+                    (e.keyCode > 47 && e.keyCode < 58) ||
+                    e.keyCode == 8)) {
+                return false;
+            }
+        }
+    </script>
 
 @endsection

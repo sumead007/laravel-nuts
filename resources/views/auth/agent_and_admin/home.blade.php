@@ -262,6 +262,13 @@
                         },
                         error: function(err) {
                             console.log("ไม่สำเร็จ");
+                            console.log(err);
+                            // console.log(err.message);
+                            Swal.fire(
+                                'ไม่สำเร็จ!',
+                                err.responseJSON.message,
+                                'error'
+                            );
                         }
                     });
                 }
@@ -269,7 +276,7 @@
 
         }
     </script>
-    
+
     <script>
         // Enable pusher logging - don't include this in production
         Pusher.logToConsole = true;

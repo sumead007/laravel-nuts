@@ -64,17 +64,18 @@
                     let _url = "{{ route('admin.manage_user.store') }}";
                     let _token = $('meta[name="csrf-token"]').attr('content');
                     $.ajax({
+                        url: _url,
+                        type: "POST",
                         enctype: 'multipart/form-data',
                         processData: false, // Important!
                         contentType: false,
                         cache: false,
                         timeout: 600000,
-                        url: _url,
-                        type: "POST",
-                        data: data,
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
+                        data: data,
+
                         success: function(res) {
                             // console.log("สำเร็จ");
 

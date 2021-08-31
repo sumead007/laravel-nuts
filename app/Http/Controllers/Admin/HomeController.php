@@ -111,19 +111,23 @@ class HomeController extends Controller
     {
         $bet_details = BetDetail::where('status', 0);
         if (count($bet_details->get()) > 0 && $request->value == 0) {
-            $bet_details1 = $bet_details->get();
-            $bet_details->update(['status' => 3]);
-            // return dd($bet_details1);
-            $config_turn_on_turn_off = ConfigTurnOnTurnOff::first();
-            $bet = Bet::find($bet_details1[0]->bet_id)->update([
-                "time_off" => $config_turn_on_turn_off->updated_at
-            ]);
 
-            for ($i = 0; $i < count($bet_details1); $i++) {
-                $user = User::find($bet_details1[$i]->user_id);
-                $user->money += $bet_details1[$i]->money;
-                $user->update();
-            }
+            return response()->json(["message" => "มีผู้เล่นแทงเข้ามาแล้ว กรุณาออกผลก่อน"], 402);
+
+            //ยกเลิกและคืนเงิน
+            // $bet_details1 = $bet_details->get();
+            // $bet_details->update(['status' => 3]);
+            // // return dd($bet_details1);
+            // $config_turn_on_turn_off = ConfigTurnOnTurnOff::first();
+            // $bet = Bet::find($bet_details1[0]->bet_id)->update([
+            //     "time_off" => $config_turn_on_turn_off->updated_at
+            // ]);
+
+            // for ($i = 0; $i < count($bet_details1); $i++) {
+            //     $user = User::find($bet_details1[$i]->user_id);
+            //     $user->money += $bet_details1[$i]->money;
+            //     $user->update();
+            // }
         }
         $user = ConfigTurnOnTurnOff::updateOrCreate(['id' => 1], [
             "status" => $request->value,

@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\Owner\ClearPercent\ClearPercentController;
 use App\Http\Controllers\Admin\Owner\ClearPercent\ClearPercentDetailController;
 use App\Http\Controllers\Admin\Owner\ClearPercent\HistoryController;
 use App\Http\Controllers\Admin\Owner\ManageAgent\ManageAgentController;
+use App\Http\Controllers\HomeController as ControllersHomeController;
 use App\Http\Controllers\User\Bet\BetController;
 use App\Http\Controllers\User\ChangePassword\ChangePasswordController as ChangePasswordChangePasswordController;
 use App\Http\Controllers\User\TopUp\TopupController;
@@ -46,7 +47,14 @@ Route::middleware(['go_to_login_page'])->group(function () {
 
 
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
+// Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
+Route::get('/', function () {
+    if (Auth::guard('admin')->check()) {
+        return redirect()->route('admin.home');
+    } else {
+        return redirect()->route('user.index');
+    }
+});
 
 Route::get('/test', function () {
     // return dd(Auth::guard('user')->check());
@@ -55,6 +63,7 @@ Route::get('/test', function () {
 });
 
 Route::middleware(['auth:user'])->group(function () {
+    Route::get('user/index', [ControllersHomeController::class, 'index'])->name('user.index');
     Route::get('user/home', [TopupController::class, 'index'])->name('user.home');
     Route::post('user/top_up/store', [TopupController::class, 'store'])->name('user.top_up.store');
     Route::get('user/top_up/history', [TopupController::class, 'history'])->name('user.top_up.history');
