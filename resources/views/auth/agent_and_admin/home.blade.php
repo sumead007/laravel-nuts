@@ -72,6 +72,40 @@
             padding: 10px;
         }
 
+        iframe {
+            width: 100%;
+            height: 500px;
+        }
+
+        .imgBox {
+            width: 100%;
+            height: auto;
+        }
+
+        @media only screen and (max-width: 600px) {
+
+            iframe {
+                width: 100%;
+                height: 100vw;
+            }
+
+            .bet-sections> :nth-child(1) {
+                order: 1;
+            }
+
+            .bet-sections> :nth-child(2) {
+                order: 3;
+            }
+
+            .bet-sections> :nth-child(3) {
+                order: 4;
+            }
+
+            .bet-sections> :nth-child(4) {
+                order: 2;
+            }
+        }
+
     </style>
 
     <script>
@@ -345,11 +379,11 @@
     </script>
 
     <div class="container-fluid">
-        <div class="row justify-content-center">
+        <div class="row justify-content-center bet-sections">
             <div class="col-md-8">
                 <iframe
                     src="https://iframe.dacast.com/live/2caf41ba-8b27-6b01-8dd4-cb7836c8b139/22eb88e2-0a54-e856-abc4-18f3b86728db"
-                    width="100%" height="100%" frameborder="0" scrolling="no" allow="autoplay" allowfullscreen
+                    frameborder="0" scrolling="no" allow="autoplay" allowfullscreen
                     webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
             </div>
             <div class="col-md-4  p-4 statistics">
@@ -389,10 +423,6 @@
                     </table>
                 </div>
             </div>
-        </div>
-
-
-        <div class="row justify-content-center">
             <div class="col-md-8">
                 @if (Auth::guard('admin')->user()->position == 0)
 
@@ -403,15 +433,30 @@
                     </div>
                     <div class="row pl-3 pr-3 content-bet vertical-align" style="height:100%;border:1px solid #925415">
                         <div class="col-md-8">
-                            <div class="d-flex justify-content-between">
-                                <img src="{{ asset('images/btn/1.png') }}" alt="{{ asset('images/btn/1.png') }}"
-                                    onclick="click_select(1)" role="button" class="imgBox align-middle-center">
-                                <img src="{{ asset('images/btn/2.png') }}" alt="{{ asset('images/btn/2.png') }}"
-                                    onclick="click_select(2)" role="button" class="imgBox align-middle-center">
-                                <img src="{{ asset('images/btn/3.png') }}" alt="{{ asset('images/btn/3.png') }}"
-                                    onclick="click_select(3)" role="button" class="imgBox align-middle-center">
-                                <img src="{{ asset('images/btn/4.png') }}" alt="{{ asset('images/btn/4.png') }}"
-                                    onclick="click_select(4)" role="button" class="imgBox align-middle-center">
+                            <div class="row">
+                                <div class="col-xl-3 col-6">
+                                    <img src="{{ asset('images/btn/1.png') }}"
+                                        alt="{{ asset('images/btn/1.png') }}" onclick="click_select(1)" role="button"
+                                        class="imgBox align-middle-center">
+                                </div>
+
+                                <div class="col-xl-3 col-6">
+                                    <img src="{{ asset('images/btn/2.png') }}"
+                                        alt="{{ asset('images/btn/2.png') }}" onclick="click_select(2)" role="button"
+                                        class="imgBox align-middle-center">
+                                </div>
+
+                                <div class="col-xl-3 col-6">
+                                    <img src="{{ asset('images/btn/3.png') }}"
+                                        alt="{{ asset('images/btn/3.png') }}" onclick="click_select(3)" role="button"
+                                        class="imgBox align-middle-center">
+                                </div>
+
+                                <div class="col-xl-3 col-6">
+                                    <img src="{{ asset('images/btn/4.png') }}"
+                                        alt="{{ asset('images/btn/4.png') }}" onclick="click_select(4)" role="button"
+                                        class="imgBox align-middle-center">
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-4">

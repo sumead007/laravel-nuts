@@ -68,6 +68,40 @@
             padding: 10px;
         }
 
+        iframe {
+            width: 100%;
+            height: 500px;
+        }
+
+        .imgBox {
+            width: 100%;
+            height: auto;
+        }
+
+        @media only screen and (max-width: 600px) {
+
+            iframe {
+                width: 100%;
+                height: 100vw;
+            }
+
+            .bet-sections> :nth-child(1) {
+                order: 1;
+            }
+
+            .bet-sections> :nth-child(2) {
+                order: 3;
+            }
+
+            .bet-sections> :nth-child(3) {
+                order: 4;
+            }
+
+            .bet-sections> :nth-child(4) {
+                order: 2;
+            }
+        }
+
     </style>
 
     <script>
@@ -168,8 +202,6 @@
                                     'error'
                                 );
                             }
-
-
                         }
                     });
                 }
@@ -195,14 +227,16 @@
     </script>
 
     <div class="container-fluid">
-        <div class="row justify-content-center">
+        <div class="row justify-content-center bet-sections">
             <div class="col-md-8">
                 <iframe
                     src="https://iframe.dacast.com/live/2caf41ba-8b27-6b01-8dd4-cb7836c8b139/22eb88e2-0a54-e856-abc4-18f3b86728db"
-                    width="100%" height="100%" frameborder="0" scrolling="no" allow="autoplay" allowfullscreen
-                    webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
+                    frameborder="0" scrolling="no" allow="autoplay" allowfullscreen webkitallowfullscreen mozallowfullscreen
+                    oallowfullscreen msallowfullscreen>
+                </iframe>
             </div>
-            <div class="col-md-4  p-4 statistics">
+
+            <div class="col-md-4 p-4 statistics">
                 <h3 align="center" class="text-light">สถิติย้อนหลัง</h3>
                 <div class="table-responsive" style="height: 300px;">
                     <table class="table table-light table-hover table-bordered" id="tb_history">
@@ -231,7 +265,193 @@
                                     </td>
                                     <td>{{ $result->result }}</td>
                                     {{-- <td> {{ Carbon\Carbon::parse($result->created_at)->locale('th')->diffForHumans() }}
-                                    </td> --}}
+                                        </td> --}}
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="row pl-3 pr-3 mt-4 header-bet">
+                    <div class="col-md-12">
+                        <p class="text-white">เดิมพัน</p>
+                    </div>
+                </div>
+                <div class="row pl-3 pr-3 content-bet vertical-align" style="height:80%;border:1px solid #925415">
+                    @if ($config_turn_on_turn_off->status == 0)
+                        <div class="col-md-8" id="content-left">
+                            <div class="d-flex justify-content-between" id="img-content-bet">
+                                <div class="row">
+                                    <div class="col-xl-3 col-6">
+                                        <img src="{{ asset('images/btn/1.png') }}"
+                                            alt="{{ asset('images/btn/1.png') }}" onclick="click_select(1)" role="button"
+                                            class="imgBox align-middle-center">
+                                    </div>
+
+                                    <div class="col-xl-3 col-6">
+                                        <img src="{{ asset('images/btn/2.png') }}"
+                                            alt="{{ asset('images/btn/2.png') }}" onclick="click_select(2)" role="button"
+                                            class="imgBox align-middle-center">
+                                    </div>
+
+                                    <div class="col-xl-3 col-6">
+                                        <img src="{{ asset('images/btn/3.png') }}"
+                                            alt="{{ asset('images/btn/3.png') }}" onclick="click_select(3)" role="button"
+                                            class="imgBox align-middle-center">
+                                    </div>
+
+                                    <div class="col-xl-3 col-6">
+                                        <img src="{{ asset('images/btn/4.png') }}"
+                                            alt="{{ asset('images/btn/4.png') }}" onclick="click_select(4)" role="button"
+                                            class="imgBox align-middle-center">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                        <div class="col-md-8" id="content-left" hidden>
+                            <div class="d-flex justify-content-between" id="img-content-bet">
+                                <div class="row">
+                                    <div class="col-xl-3 col-6">
+                                        <img src="{{ asset('images/btn/1.png') }}"
+                                            alt="{{ asset('images/btn/1.png') }}" onclick="click_select(1)" role="button"
+                                            class="imgBox align-middle-center">
+                                    </div>
+
+                                    <div class="col-xl-3 col-6">
+                                        <img src="{{ asset('images/btn/2.png') }}"
+                                            alt="{{ asset('images/btn/2.png') }}" onclick="click_select(2)" role="button"
+                                            class="imgBox align-middle-center">
+                                    </div>
+
+                                    <div class="col-xl-3 col-6">
+                                        <img src="{{ asset('images/btn/3.png') }}"
+                                            alt="{{ asset('images/btn/3.png') }}" onclick="click_select(3)" role="button"
+                                            class="imgBox align-middle-center">
+                                    </div>
+
+                                    <div class="col-xl-3 col-6">
+                                        <img src="{{ asset('images/btn/4.png') }}"
+                                            alt="{{ asset('images/btn/4.png') }}" onclick="click_select(4)" role="button"
+                                            class="imgBox align-middle-center">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
+                    @if ($config_turn_on_turn_off->status == 1)
+                        <h1 align="center" id="text-turn_off" class="align-middle-center text-danger">ปิดเดิมพัน
+                            กรุณารอสักครู่.....</h1>
+                    @else
+                        <h1 align="center" id="text-turn_off" class="align-middle-center text-danger" hidden>ปิดเดิมพัน
+                            กรุณารอสักครู่.....</h1>
+                    @endif
+
+                    @if ($config_turn_on_turn_off->status == 0)
+                        <div class="col-md-4" id="content-right">
+                            <div class="card">
+                                <div class="card-body">
+                                    <form id="form_first">
+                                        <div class="form-group">
+                                            <label for="money">ใส่จำนวนเงิน</label>
+                                            <input type="number" class="form-control" id="money"
+                                                placeholder="ใส่จำนวนเงิน" name="money">
+                                        </div>
+                                        <span id="moneyError" class="alert-message text-danger"></span>
+
+                                        <div class="form-group">
+                                            <label>ตัวเลขที่คุณเลือกคือ: <b id="show_number_selected"
+                                                    class="text-danger">ยังไม่เลือก</b></label>
+                                            <input type="hidden" class="form-control" id="number"
+                                                placeholder="ยังไม่ได้เลือกตัวเลขเดิมพัน" name="number" readonly="true"
+                                                value="">
+                                        </div>
+                                        <span id="numberError" class="alert-message text-danger"></span>
+
+                                    </form>
+                                    <div align="right">
+                                        <button class="btn btn-primary" onclick="form_submit()">ยืนยัน</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                        <div class="col-md-4" id="content-right" hidden>
+                            <div class="card">
+                                <div class="card-body">
+                                    <form id="form_first">
+                                        <div class="form-group">
+                                            <label for="money">ใส่จำนวนเงิน</label>
+                                            <input type="number" class="form-control" id="money"
+                                                placeholder="ใส่จำนวนเงิน" name="money" min="1">
+                                        </div>
+                                        <span id="moneyError" class="alert-message text-danger"></span>
+
+                                        <div class="form-group">
+                                            <label>ตัวเลขที่คุณเลือกคือ: <b id="show_number_selected"
+                                                    class="text-danger">ยังไม่เลือก</b></label>
+                                            <input type="hidden" class="form-control" id="number"
+                                                placeholder="ยังไม่ได้เลือกตัวเลขเดิมพัน" name="number" readonly="true"
+                                                value="">
+                                        </div>
+                                        <span id="numberError" class="alert-message text-danger"></span>
+
+                                    </form>
+                                    <div align="right">
+                                        <button class="btn btn-primary" onclick="form_submit()">ยืนยัน</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
+                </div>
+                <div class="row pl-3 pr-3">
+                    <div class="col-md-12 footer-bet">
+                    </div>
+                </div>
+                <br>
+                <br>
+                <br>
+            </div>
+
+            <div class="col-md-4 mt-4">
+                <h3 align="center" class="text-light">ประวัติ</h3>
+                <div class="table-responsive" style="height: 200px;">
+                    <table class="table table-light table-hover table-bordered" id="tb_history_bet">
+                        <thead class="thead-dark">
+                            <tr align="center">
+                                <th>เปิดที่</th>
+                                <th>แทงเลข</th>
+                                <th>ราคา</th>
+                                <th>ผลได้เสีย</th>
+                                <th>ทำรายการเมื่อ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($histories as $historie)
+                                <tr align="center" data-bet_id="{{ $historie->bet_id }}">
+                                    <td></td>
+                                    <td>{{ $historie->number }}</td>
+                                    <td>{{ $historie->money }}</td>
+                                    <td>
+                                        @if ($historie->status == 0)
+                                            <b>รอผล</b>
+                                        @elseif ($historie->status == 1)
+                                            <b class="text-success">ถูกรางวัล</b>
+
+                                        @elseif ($historie->status == 2)
+                                            <b class="text-danger">เสีย</b>
+                                        @else
+                                            <b class="text-danger">ถูกยกเลิก</b>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        {{ Carbon\Carbon::parse($historie->created_at)->locale('th')->diffForHumans() }}
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -242,7 +462,7 @@
 
 
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            {{-- <div class="col-md-8">
                 <div class="row pl-3 pr-3 mt-4 header-bet">
                     <div class="col-md-12">
                         <p class="text-white">เดิมพัน</p>
@@ -391,7 +611,7 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 
@@ -462,7 +682,7 @@
                     // console.log(history_bet_id, bet_id);
                     if (bet_id == history_bet_id) {
                         $(this).find('td:nth-child(1)').html($(outerThis).find('td:nth-child(1)').html());
-                    }else{
+                    } else {
                         $(this).find('td:nth-child(1)').html("รอสักครู่");
                     }
                 });
