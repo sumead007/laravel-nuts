@@ -98,12 +98,13 @@
             }
 
             .bet-sections> :nth-child(3) {
-                order: 4;
+                order: 2;
             }
 
             .bet-sections> :nth-child(4) {
-                order: 2;
+                order: 4;
             }
+
         }
 
     </style>
@@ -383,9 +384,10 @@
             <div class="col-md-8">
                 <iframe
                     src="https://iframe.dacast.com/live/2caf41ba-8b27-6b01-8dd4-cb7836c8b139/22eb88e2-0a54-e856-abc4-18f3b86728db"
-                    frameborder="0" scrolling="no" allow="autoplay" allowfullscreen
-                    webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
+                    frameborder="0" scrolling="no" allow="autoplay" allowfullscreen webkitallowfullscreen mozallowfullscreen
+                    oallowfullscreen msallowfullscreen></iframe>
             </div>
+            
             <div class="col-md-4  p-4 statistics">
                 <h3 align="center" class="text-light">รายชื่อคนแทง (รอบนี้)</h3>
                 <div class="table-responsive" style="height: 300px;">
@@ -435,27 +437,23 @@
                         <div class="col-md-8">
                             <div class="row">
                                 <div class="col-xl-3 col-6">
-                                    <img src="{{ asset('images/btn/1.png') }}"
-                                        alt="{{ asset('images/btn/1.png') }}" onclick="click_select(1)" role="button"
-                                        class="imgBox align-middle-center">
+                                    <img src="{{ asset('images/btn/1.png') }}" alt="{{ asset('images/btn/1.png') }}"
+                                        onclick="click_select(1)" role="button" class="imgBox align-middle-center">
                                 </div>
 
                                 <div class="col-xl-3 col-6">
-                                    <img src="{{ asset('images/btn/2.png') }}"
-                                        alt="{{ asset('images/btn/2.png') }}" onclick="click_select(2)" role="button"
-                                        class="imgBox align-middle-center">
+                                    <img src="{{ asset('images/btn/2.png') }}" alt="{{ asset('images/btn/2.png') }}"
+                                        onclick="click_select(2)" role="button" class="imgBox align-middle-center">
                                 </div>
 
                                 <div class="col-xl-3 col-6">
-                                    <img src="{{ asset('images/btn/3.png') }}"
-                                        alt="{{ asset('images/btn/3.png') }}" onclick="click_select(3)" role="button"
-                                        class="imgBox align-middle-center">
+                                    <img src="{{ asset('images/btn/3.png') }}" alt="{{ asset('images/btn/3.png') }}"
+                                        onclick="click_select(3)" role="button" class="imgBox align-middle-center">
                                 </div>
 
                                 <div class="col-xl-3 col-6">
-                                    <img src="{{ asset('images/btn/4.png') }}"
-                                        alt="{{ asset('images/btn/4.png') }}" onclick="click_select(4)" role="button"
-                                        class="imgBox align-middle-center">
+                                    <img src="{{ asset('images/btn/4.png') }}" alt="{{ asset('images/btn/4.png') }}"
+                                        onclick="click_select(4)" role="button" class="imgBox align-middle-center">
                                 </div>
                             </div>
                         </div>

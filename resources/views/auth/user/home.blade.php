@@ -94,11 +94,11 @@
             }
 
             .bet-sections> :nth-child(3) {
-                order: 4;
+                order: 2;
             }
 
             .bet-sections> :nth-child(4) {
-                order: 2;
+                order: 4;
             }
         }
 
@@ -661,30 +661,50 @@
             $('#tb_history_bet tr').each(function() {
                 var bet_id = $(this).data('bet_id');
                 if (bet_id == res.data.bet_id) {
-                    if (parseInt($(this).find('td:nth-child(1)').html()) == res.data.result) {
+                    if (parseInt($(this).find('td:nth-child(2)').html()) == res.data.result) {
                         $(this).find('td:nth-child(4)').html("<b class='text-success'>ถูกรางวัล</b>");
                     } else {
                         $(this).find('td:nth-child(4)').html("<b class='text-danger'>เสีย</b>");
                     }
                 }
             });
-            head_open()
+
+            //เปิดหัว
+            $('#tb_history tbody tr').each(function() {
+                var history_bet_id = $(this).attr('id');
+                // console.log(history_bet_id);
+                var outerThis = this;
+                $('#tb_history_bet tr').each(function() {
+                    var bet_id = "row_result_" + $(this).data('bet_id');
+                    // console.log(history_bet_id, bet_id);
+                    if (bet_id == history_bet_id && $(this).find('td:nth-child(1)').html() ==
+                        "รอสักครู่") {
+                        $(this).find('td:nth-child(1)').html($(outerThis).find('td:nth-child(1)')
+                            .html());
+                    }
+                    // else {
+                    //     $(this).find('td:nth-child(1)').html("รอสักครู่");
+                    // }
+                });
+            });
+
         });
     </script>
     <script>
         function head_open() {
-            $('#tb_history tr').each(function() {
+            $('#tb_history tbody tr').each(function() {
                 var history_bet_id = $(this).attr('id');
-                // console.log(bet_id);
+                // console.log(history_bet_id);
                 var outerThis = this;
                 $('#tb_history_bet tr').each(function() {
                     var bet_id = "row_result_" + $(this).data('bet_id');
                     // console.log(history_bet_id, bet_id);
                     if (bet_id == history_bet_id) {
                         $(this).find('td:nth-child(1)').html($(outerThis).find('td:nth-child(1)').html());
-                    } else {
-                        $(this).find('td:nth-child(1)').html("รอสักครู่");
                     }
+                    // else {
+                    //     $(this).find('td:nth-child(1)').html("รอสักครู่");
+                    // }
                 });
             });
         }
