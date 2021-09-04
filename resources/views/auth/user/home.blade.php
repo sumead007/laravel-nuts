@@ -167,7 +167,7 @@
                                 .data
                                 .bet_id + "'" +
                                 ">" +
-                                "<td>" + "รอสักครู่" + "</td>" +
+                                "<td>" + "" + "</td>" +
                                 "<td>" + res.data.number + "</td>" +
                                 "<td>" + res.data.money + "</td>" +
                                 "<td> <b>" + string_status + "</b></td>" +
@@ -646,7 +646,7 @@
             console.log(res);
             var no_last_tr = parseInt($('#tb_history tr:last td:nth-child(1)').html()) + 1;
             no_last_tr = no_last_tr || 1;
-
+            var total = 0;
             $("#tb_history tbody").append(
                 "<tr align='center' id='row_result_" + res.data.bet_id + "'>" +
                 "<td>" + no_last_tr + "</td>" +
@@ -663,11 +663,15 @@
                 if (bet_id == res.data.bet_id) {
                     if (parseInt($(this).find('td:nth-child(2)').html()) == res.data.result) {
                         $(this).find('td:nth-child(4)').html("<b class='text-success'>ถูกรางวัล</b>");
+                        var money_col = parseInt($(this).find('td:nth-child(3)').html());
+                        total += (money_col*2);
                     } else {
                         $(this).find('td:nth-child(4)').html("<b class='text-danger'>เสีย</b>");
                     }
                 }
             });
+            var old_money = parseInt($("#show_money").val());
+            $("#show_money").val(old_money + total);
 
             //เปิดหัว
             $('#tb_history tbody tr').each(function() {
@@ -678,7 +682,7 @@
                     var bet_id = "row_result_" + $(this).data('bet_id');
                     // console.log(history_bet_id, bet_id);
                     if (bet_id == history_bet_id && $(this).find('td:nth-child(1)').html() ==
-                        "รอสักครู่") {
+                        "") {
                         $(this).find('td:nth-child(1)').html($(outerThis).find('td:nth-child(1)')
                             .html());
                     }

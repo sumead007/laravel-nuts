@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\Owner\ManageAgent\ManageAgentController;
 use App\Http\Controllers\HomeController as ControllersHomeController;
 use App\Http\Controllers\User\Bet\BetController;
 use App\Http\Controllers\User\ChangePassword\ChangePasswordController as ChangePasswordChangePasswordController;
+use App\Http\Controllers\User\HistoryBet\HistoryBetController;
 use App\Http\Controllers\User\TopUp\TopupController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -72,6 +73,10 @@ Route::middleware(['auth:user'])->group(function () {
     //เปลี่ยนรหัสผ่าน
     Route::get('user/change_password/view', [ChangePasswordChangePasswordController::class, 'index'])->name('user.change_password.view');
     Route::post('user/change_password/store', [ChangePasswordChangePasswordController::class, 'store'])->name('user.change_password.store');
+
+    //ประวัติการเล่น
+    Route::get('user/bet_history/view', [HistoryBetController::class, 'index'])->name('user.bet_history.view');
+
 });
 
 Route::middleware(['auth:admin'])->group(function () {

@@ -112,6 +112,17 @@
                                 </div>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="{{ route('user.bet_history.view') }}">
+                                <div class="box">
+                                    <img src="{{ asset('images/btn/5.png') }}" width="150px"
+                                        alt="{{ asset('images/btn/5.png') }}">
+                                    <div class="text">
+                                         <span style="color:black; font-weight: bold">{{ __('ประวัติเดิมพัน') }}</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
