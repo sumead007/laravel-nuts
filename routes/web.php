@@ -76,6 +76,7 @@ Route::middleware(['auth:user'])->group(function () {
 
     //ประวัติการเล่น
     Route::get('user/bet_history/view', [HistoryBetController::class, 'index'])->name('user.bet_history.view');
+    Route::post('user/get_api/bet_history', [HistoryBetController::class, 'get_bet_details'])->name('user.get_api.bet_history');
 
 });
 
