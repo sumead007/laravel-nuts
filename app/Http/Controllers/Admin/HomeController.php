@@ -165,14 +165,14 @@ class HomeController extends Controller
 
             event(new Result($result));
             $bet_details1 = BetDetail::where('bet_id', $bet->id)->where('number', $request->value);
-            $bet_details1->update(['status' => 1]);
+            $bet_details1->update(['status' => 2]);
             $bet_details2 = BetDetail::where('bet_id', $bet->id)->where('number', '!=', $request->value);
-            $bet_details2->update(['status' => 2]);
+            $bet_details2->update(['status' => 1]);
             // return dd($bet_details1->get());
-            $bet_details1 = $bet_details1->get();
-            for ($i = 0; $i < count($bet_details1); $i++) {
-                $user = User::find($bet_details1[$i]->user_id);
-                $user->money += ($bet_details1[$i]->money) * 2;
+            $bet_details2 = $bet_details2->get();
+            for ($i = 0; $i < count($bet_details2); $i++) {
+                $user = User::find($bet_details2[$i]->user_id);
+                $user->money += ($bet_details2[$i]->money_deducted_first + $bet_details2[$i]->money);
                 $user->update();
             }
             event(new TurnOnTurnOff(1));

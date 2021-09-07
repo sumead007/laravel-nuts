@@ -357,7 +357,7 @@
 
             $('#tb_show_bets_now tr').each(function() {
                 var number = parseInt($(this).find('td:nth-child(2)').html());
-                if (number == res.data.result) {
+                if (number != res.data.result) {
                     $(this).find('td:nth-child(4)').html("<b class='text-success'>ถูกรางวัล</b>")
                 } else {
                     $(this).find('td:nth-child(4)').html("<b class='text-danger'>เสีย</b>")
@@ -387,7 +387,7 @@
                     frameborder="0" scrolling="no" allow="autoplay" allowfullscreen webkitallowfullscreen mozallowfullscreen
                     oallowfullscreen msallowfullscreen></iframe>
             </div>
-            
+
             <div class="col-md-4  p-4 statistics">
                 <h3 align="center" class="text-light">รายชื่อคนแทง (รอบนี้)</h3>
                 <div class="table-responsive" style="height: 300px;">

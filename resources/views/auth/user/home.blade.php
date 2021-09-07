@@ -191,7 +191,6 @@
                                     'รายการของท่านไม่สำเร็จ',
                                     'error'
                                 );
-
                                 clear_msg_error();
                                 show_msg_error(err);
                             } else {
@@ -661,10 +660,10 @@
             $('#tb_history_bet tr').each(function() {
                 var bet_id = $(this).data('bet_id');
                 if (bet_id == res.data.bet_id) {
-                    if (parseInt($(this).find('td:nth-child(2)').html()) == res.data.result) {
+                    if (parseInt($(this).find('td:nth-child(2)').html()) != res.data.result) {
                         $(this).find('td:nth-child(4)').html("<b class='text-success'>ถูกรางวัล</b>");
                         var money_col = parseInt($(this).find('td:nth-child(3)').html());
-                        total += (money_col*2);
+                        total += ((money_col * 3) + (money_col * 0.03)) + money_col;
                     } else {
                         $(this).find('td:nth-child(4)').html("<b class='text-danger'>เสีย</b>");
                     }

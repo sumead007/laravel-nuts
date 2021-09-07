@@ -44,8 +44,10 @@ class BetController extends Controller
 
             ],
         );
+
         $user = User::find(Auth::guard('user')->user()->id);
-        if ($user->money < $request->money) return response()->json(['error' => 'Error msg'], 403);
+        $money_rate = ($request->money * 3) + ($request->money * 0.03);
+        if ($user->money < $money_rate) return response()->json(['error' => 'Error msg'], 403);
         // return dd($request->number);
         $time_trun_on_turn_of = ConfigTurnOnTurnOff::first()->updated_at;
         $data = Bet::updateOrCreate(['time_open' => $time_trun_on_turn_of], [
@@ -59,6 +61,7 @@ class BetController extends Controller
             "number" => $request->number,
             "money" => $request->money,
             "bet_id" => $data->id,
+            "money_deducted_first" => $money_rate,
         ]);
         event(new ShowBetsNow([
             "username" =>  $user->username,
@@ -66,7 +69,7 @@ class BetController extends Controller
             "money" => $data2->money,
             "status" => $data2->status,
         ]));
-        $user->money -= $request->money;
+        $user->money -= $money_rate;
         $user->update();
         $data2->created_at2 = Carbon::parse($data2->created_at)->locale('th')->diffForHumans();
         return response()->json(["data" => $data2, "money" => $user->money]);

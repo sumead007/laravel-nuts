@@ -20,7 +20,8 @@ class BetDetail extends Model
         'number',
         'money',
         'bet_id',
-        'clear_percent'
+        'clear_percent',
+        'money_deducted_first'
     ];
 
     public function user()
