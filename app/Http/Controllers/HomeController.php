@@ -36,7 +36,10 @@ class HomeController extends Controller
             ['created_at', '>', Carbon::now()->subHours(1)->toDateTimeString()],
             ['user_id', Auth::guard('user')->user()->id]
         ])
-            ->orWhere('status', 0)
+            ->orWhere(function ($query) {
+                $query->where('user_id', Auth::guard('user')->user()->id)
+                    ->where('status', 0);
+            })
             ->orderByDesc('created_at')
             ->get();
         for ($i = 0; $i < count($results); $i++) {
