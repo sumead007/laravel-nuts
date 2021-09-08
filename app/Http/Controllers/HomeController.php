@@ -32,9 +32,12 @@ class HomeController extends Controller
         $results = Result::where('created_at', '>', Carbon::now()->subHours(1)->toDateTimeString())
             ->orderBy('created_at', 'Asc')
             ->get();
-        $histories = BetDetail::where('created_at', '>', Carbon::now()->subHours(1)->toDateTimeString())
+        $histories = BetDetail::where([
+            ['created_at', '>', Carbon::now()->subHours(1)->toDateTimeString()],
+            ['user_id', Auth::guard('user')->user()->id]
+        ])
+            ->orWhere('status', 0)
             ->orderByDesc('created_at')
-            ->where('user_id', Auth::guard('user')->user()->id)
             ->get();
         for ($i = 0; $i < count($results); $i++) {
             $results[$i]->path1 = $this->getpath1($results[$i]->pic1);

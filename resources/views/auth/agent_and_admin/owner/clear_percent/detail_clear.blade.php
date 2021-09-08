@@ -83,11 +83,12 @@
                                         <th class="align-middle" rowspan="2">ชื่อ</th>
                                         <th class="align-middle" rowspan="2">ชื่อผู้ใช้</th>
                                         <th class="align-middle" rowspan="2">เบอร์โทร</th>
-                                        <th colspan="3">ยอดผู้เล่น</th>
+                                        <th colspan="4">ยอดผู้เล่น</th>
                                     </tr>
                                     <tr align="center">
                                         <th class="bg-danger">ยอดผู้เล่น(ได้)</th>
                                         <th class="bg-success">ยอดผู้เล่น(เสีย)</th>
+                                        <th class="bg-warning">ค่าน้ำ</th>
                                         <th class="bg-secondary">รวมยอดผู้เล่น</th>
                                     </tr>
                                 </thead>
@@ -99,6 +100,9 @@
                                         $percent_money_owner = 0;
                                     @endphp
                                     @foreach ($users as $user)
+                                        @php
+                                            $money_deducted_first = 0;
+                                        @endphp
                                         <tr align="center" id="row_{{ $user->id }}">
                                             <td class="align-middle">
                                                 {{ $user->name }}
@@ -137,12 +141,16 @@
                                                         @php
                                                             $bet_lose += $bet_detail->money;
                                                             $bets_id[] = $bet_detail->id;
+                                                            $money_deducted_first += $bet_detail->money_deducted_first;
                                                         @endphp
                                                     @endif
                                                 @endforeach
                                                 <b>
                                                     {{ $bet_lose }}
                                                 </b>
+                                            </td>
+                                            <td class="align-middle money_deducted_first">
+                                                {{ $money_deducted_first }}
                                             </td>
                                             <td class="align-middle bet_total">
                                                 @php
@@ -159,13 +167,14 @@
                                 <tfoot class="bg-warning">
                                     <tr align="center">
                                         <th colspan="3">รวมทั้งหมด</th>
-                                        <th id="total_bet_win"></th>
-                                        <th id="total_bet_lose"></th>
-                                        <th id="total_bet_total"></th>
+                                        <th id="total_bet_win">0</th>
+                                        <th id="total_bet_lose">0</th>
+                                        <th id="total_bet_money_deducted_first">0</th>
+                                        <th id="total_bet_total">0</th>
                                     </tr>
                                     <tr align="center" id="tf_total">
                                         <th colspan="3">รวมแบ่งเปอร์เซนเอเย่น</th>
-                                        <th colspan="2" class="text-danger">เปอร์เซนที่ได้ :
+                                        <th colspan="3" class="text-danger">เปอร์เซนที่ได้ :
                                             {{ $agent->share_percentage }}%</th>
                                         <th>
                                             @if ($all_total > 0)
@@ -173,7 +182,7 @@
                                             @else
                                                 @php
                                                     $percent_money = ($agent->share_percentage / 100) * $all_total;
-                                                    $percent_money_owner = $all_total-$percent_money;
+                                                    $percent_money_owner = $all_total - $percent_money;
                                                 @endphp
                                                 <b class="text-success">{{ $percent_money }}</b>
                                             @endif
@@ -181,8 +190,8 @@
                                     </tr>
                                     <tr align="center">
                                         <th colspan="3">รวมแบ่งเปอร์เซนเจ้าของ</th>
-                                        <th colspan="2" class="text-danger">เปอร์เซนที่ได้ :
-                                            {{ 100-$agent->share_percentage }}%</th>
+                                        <th colspan="3" class="text-danger">เปอร์เซนที่ได้ :
+                                            {{ 100 - $agent->share_percentage }}%</th>
                                         <th>
                                             @if ($percent_money_owner >= 0)
                                                 <b class="text-danger">{{ $percent_money_owner }}</b>
@@ -246,6 +255,18 @@
             }
         });
         $("#total_bet_total").html("<b>" + bet_total + "</b>");
+
+
+        var bet_money_deducted_first = 0;
+        // iterate through each td based on class and add the values
+        $(".money_deducted_first").each(function() {
+            var value = $(this).text();
+            // add only if the value is number
+            if (!isNaN(value) && value.length != 0) {
+                bet_money_deducted_first += parseFloat(value);
+            }
+        });
+        $("#total_bet_money_deducted_first").html("<b>" + bet_money_deducted_first + "</b>");
     </script>
 
 @endsection
